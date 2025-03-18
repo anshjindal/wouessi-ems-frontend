@@ -13,7 +13,7 @@ const EmployeeUpdateModal = ({ show, onClose, empId, authToken, onUpdate }) => {
     useEffect(() => {
         if (empId) {
             setLoading(true);
-            getEmployeeById(empId, authToken)
+            getEmployeeById(empId)
                 .then((response) => {
                     setFormData(response.employee);
                     setLoading(false);
@@ -23,12 +23,12 @@ const EmployeeUpdateModal = ({ show, onClose, empId, authToken, onUpdate }) => {
                     setLoading(false);
                 });
         }
-    }, [empId, authToken]);
+    }, [empId]);
 
     const handleUpdate = async (updatedEmployee) => {
         try {
-            const response = await updateEmployee(empId, updatedEmployee, authToken);          
-            alert(empId + "Employee Details Successfully Updated");
+            await updateEmployee(empId, updatedEmployee);
+            alert(empId + " Employee Details Successfully Updated");
             onUpdate();
             onClose();
         } catch (error) {
@@ -36,7 +36,7 @@ const EmployeeUpdateModal = ({ show, onClose, empId, authToken, onUpdate }) => {
             alert("Failed to update employee. Please try again.");
         }
     };
-    
+
     return (
         <Modal show={show} onHide={onClose} size="lg" centered>
             <Modal.Header closeButton>
@@ -62,7 +62,6 @@ EmployeeUpdateModal.propTypes = {
     show: PropTypes.bool.isRequired,
     onClose: PropTypes.func.isRequired,
     empId: PropTypes.string,
-    authToken: PropTypes.string.isRequired,
     onUpdate: PropTypes.func.isRequired,
 };
 

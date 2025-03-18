@@ -23,13 +23,11 @@ const EmployeeManagement = () => {
 
     useEffect(() => {
         fetchEmployees();
-        const storedToken = localStorage.getItem("accessToken");
-        if (storedToken) setAuthToken(storedToken);
     }, []);
 
     const fetchEmployees = async () => {
         try {
-            const res = await getAllEmployees(authToken);
+            const res = await getAllEmployees();
             setEmployees(res.employees);
         } catch (err) {
             console.error(err);
@@ -42,7 +40,7 @@ const EmployeeManagement = () => {
 
     const handleAddEmployee = async (formData) => {
         try {
-            await createEmployee(formData, authToken);
+            await createEmployee(formData);
             alert("Employee successfully added!");
             fetchEmployees();
             setActiveTab("VIEW EMPLOYEES LIST");
@@ -63,7 +61,7 @@ const EmployeeManagement = () => {
 
     const handleDeactivateEmployee = async (empId) => {
         try {
-            await updateEmployeeStatus(empId, authToken);
+            await updateEmployeeStatus(empId);
             fetchEmployees();
         } catch (error) {
             alert("Error updating employee status.");

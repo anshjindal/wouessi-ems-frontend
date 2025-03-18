@@ -18,7 +18,6 @@ const Profile = () => {
             try {
                 const response = await getEmployeeById(empId);
                 if (response && response.employee) {
-                    console.log("Employee Data:", response.employee);
                     setEmployee(response.employee);
                     setUpdatedData(response.employee);
                 }
