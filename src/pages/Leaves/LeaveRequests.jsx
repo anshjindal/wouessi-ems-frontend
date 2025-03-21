@@ -74,11 +74,11 @@ const LeaveRequests = ({empId}) => {
               {filteredRequests.map((req, index) => (
                 <tr key={index}>
                   <td>{req.leaveType}</td>
-                  <td>{req.startDate}</td>
-                  <td>{req.endDate}</td>
+                  <td>{new Date(req.startDate).toISOString().split("T")[0]}</td>
+                  <td>{new Date(req.endDate).toISOString().split("T")[0]}</td>
                   <td>{req.duration}</td>
-                  <td>{req.dateRequested}</td>
-                  <td>{req.dateApproved || "-"}</td>
+                  <td>{new Date(req.dateRequested).toISOString().split("T")[0]}</td>
+                  <td>{req.dateApproved ? new Date(req.dateApproved).toISOString().split("T")[0] : "-"}</td>
                   <td>{req.repManagerId}</td>
                   <td>
                     <Tag text={req.status} className={req.status.toLowerCase()} />
