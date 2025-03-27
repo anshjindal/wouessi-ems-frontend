@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timesheet</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            text-align: center;
+        }
+        table {
+            width: 60%;
+            margin: auto;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+        .total {
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        button {
+            margin-top: 20px;
+            padding: 10px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .success-message {
+            margin-top: 15px;
+            color: green;
+            font-weight: bold;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Timesheet</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Project/Task</th>
+                <th>Hours</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody id="timesheet-body">
+            <tr>
+                <td>03/25/2025</td>
+                <td>EMS Development</td>
+                <td class="hours">8</td>
+                <td>Pending</td>
+            </tr>
+            <tr>
+                <td>03/26/2025</td>
+                <td>API Integration</td>
+                <td class="hours">7</td>
+                <td>Completed</td>
+            </tr>
+            <tr>
+                <td>03/27/2025</td>
+                <td>Bug Fixing</td>
+                <td class="hours">9</td>
+                <td>Pending</td>
+            </tr>
+            <tr>
+                <td>03/28/2025</td>
+                <td>UI Enhancement</td>
+                <td class="hours">6</td>
+                <td>In Progress</td>
+            </tr>
+            <tr>
+                <td>03/29/2025</td>
+                <td>Code Review</td>
+                <td class="hours">10</td>
+                <td>Completed</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <p class="total" id="total-hours">Total: 0 hours</p>
+
+    <button onclick="submitTimesheet()">Submit for Approval</button>
+    <p class="success-message" id="success-message">Timesheet submitted successfully!</p>
+
+    <script>
+        function calculateTotalHours() {
+            let total = 0;
+            document.querySelectorAll('.hours').forEach(cell => {
+                total += parseInt(cell.textContent, 10);
+            });
+            document.getElementById('total-hours').textContent = `Total: ${total} hours`;
+        }
+
+        function submitTimesheet() {
+            document.getElementById('success-message').style.display = "block";
+        }
+
+        calculateTotalHours();  // Initial calculation
+    </script>
+
+</body>
+</html>
