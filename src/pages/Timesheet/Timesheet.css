@@ -1,0 +1,143 @@
+/* General wrapper styles */
+.timesheet-wrapper {
+    padding: 20px;
+    font-family: Arial, sans-serif;
+  }
+  
+  /* Container for all day cards */
+  .timesheet-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  /* Day card styling (default for mobile) */
+  .day-card {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 15px;
+  }
+  
+  /* Entry row styling */
+  .entry-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  /* Input fields */
+  .time-input {
+    width: 80px;
+    padding: 5px;
+    margin-right: 5px;
+  }
+  
+  /* Dropdown styling */
+  .type-select {
+    margin-left: 5px;
+    padding: 5px;
+  }
+  
+  /* Add button styling */
+  .add-entry-button {
+    padding: 8px 12px;
+    font-size: 14px;
+    cursor: pointer;
+  }
+  
+  /* Desktop layout: display day cards side-by-side */
+  @media (min-width: 768px) {
+    .timesheet-container {
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+    
+    .day-card {
+      flex: 1 1 calc(33.33% - 20px);
+      box-sizing: border-box;
+    }
+  }
+
+  /* Delete button styling */
+.delete-entry-button {
+    background-color: #004080; /* deep blue */
+    color: white;
+    border: none;
+    width: 28px;
+    height: 28px;
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 1;
+    text-align: center;
+    cursor: pointer;
+    margin-left: 10px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+  }
+  
+  .delete-entry-button:hover {
+    background-color: #001f3f; /* darker navy blue/blackish */
+    transform: scale(1.1);
+  }
+  
+  .weekend-toggle {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    gap: 10px;
+  }
+  
+  .toggle-label {
+    font-size: 16px;
+    font-weight: 500;
+    color: #004080;
+  }
+  
+  /* Switch styling */
+  .switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 26px;
+  }
+  
+  .switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  
+  /* Slider */
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    background-color: #ccc;
+    border-radius: 34px;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    transition: 0.4s;
+  }
+  
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    border-radius: 50%;
+    transition: 0.4s;
+  }
+  
+  /* Checked toggle */
+  input:checked + .slider {
+    background-color: #004080;
+  }
+  
+  input:checked + .slider:before {
+    transform: translateX(24px);
+  }
+  

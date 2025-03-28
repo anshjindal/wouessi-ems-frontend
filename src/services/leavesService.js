@@ -2,23 +2,28 @@ const API_URL = process.env.REACT_APP_API_URL;
 console.log("API_URL:", API_URL);
 
 //Fetch all leaves
-export const getAllLeaves = async (empID) =>{
+export const getAllLeaves = async (empID) => {
     console.log("empID from useParams:", empID);
-    try{
-        const response = await fetch(`${API_URL}/leaves/${empID}`,{
-        method:"GET",
-        credentials: "include",
-        headers: {"Content-Type":"application/json"}
-    });
+    try {
+        const authToken = localStorage.getItem("accessToken");
+        if (!authToken) throw new Error("Authentication token missing");
+
+        const response = await fetch(`${API_URL}/leaves/${empID}`, {
+            method: "GET",
+            credentials: "include",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${authToken}`
+            }
+        });
     
-    if(!response.ok){
-        throw new Error("No leaves found");
-    }
-    console.log(response);
-    return await response.json();
+        if (!response.ok) {
+            throw new Error("No leaves found");
+        }
+        return await response.json();
     } catch (error) {
         console.error("Error fetching leaves:", error);
-        return null;
+        throw error;
     }
 };
 
