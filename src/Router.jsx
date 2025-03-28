@@ -8,6 +8,7 @@ import ForgotPassword from "./pages/ForgotPassword/ForgotPassword";
 import Login from "./pages/Login/Login";
 import Leaves from "./pages/Leaves/Leaves";
 import Profile from "./pages/Profile/Profile";
+import SubmittedTimesheets from "./pages/Timesheets/SubmittedTimesheets";
 import Timesheets from "./pages/Timesheets/Timesheets";
 
 const AppRouter = () => {
@@ -24,6 +25,7 @@ const AppRouter = () => {
                 <Route path="/about" element={<AboutUs />} />
                 <Route path="/employee-management" element={<EmployeeManagement />} />
                 <Route path="/timesheets" element={<Timesheets />} />
+                <Route path="/submitted-timesheets" element={<SubmittedTimesheets />} />
             </Routes>
         </Router>
     );
