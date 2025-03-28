@@ -17,6 +17,7 @@ const EmployeeManagement = () => {
     const [employees, setEmployees] = useState([]);
     const [activeTab, setActiveTab] = useState("VIEW EMPLOYEES LIST");
     const [searchQuery, setSearchQuery] = useState("");
+    const [selectedRole, setSelectedRole] = useState("all");
     const [selectedEmployeeId, setSelectedEmployeeId] = useState(null);
     const [authToken, setAuthToken] = useState("");
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -38,6 +39,10 @@ const EmployeeManagement = () => {
 
     const handleSearch = (e) => {
         setSearchQuery(e.target.value);
+    };
+
+    const handleRoleFilter = (e) => {
+        setSelectedRole(e.target.value);
     };
 
     const handleAddEmployee = async (formData) => {
@@ -70,11 +75,15 @@ const EmployeeManagement = () => {
         }
     };
 
-    const filteredEmployees = employees.filter((emp) =>
-        `${emp.empId} ${emp.firstName} ${emp.middleName} ${emp.lastName} ${emp.email}`
+    const filteredEmployees = employees.filter((emp) => {
+        const matchesSearch = `${emp.empId} ${emp.firstName} ${emp.middleName} ${emp.lastName} ${emp.email}`
             .toLowerCase()
-            .includes(searchQuery.toLowerCase())
-    );
+            .includes(searchQuery.toLowerCase());
+        
+        const matchesRole = selectedRole === "all" || emp.employmentType === selectedRole;
+        
+        return matchesSearch && matchesRole;
+    });
 
     const exportToExcel = () => {
 
@@ -128,13 +137,27 @@ const EmployeeManagement = () => {
                 {/* Search Bar & Export Button */}
                 {activeTab === "VIEW EMPLOYEES LIST" && (
                     <div className="search-container">
-                        <input
-                            type="text"
-                            placeholder="Search employees..."
-                            className="form-control search-input"
-                            value={searchQuery}
-                            onChange={handleSearch}
-                        />
+                        <div className="search-filters">
+                            <input
+                                type="text"
+                                placeholder="Search employees..."
+                                className="form-control search-input"
+                                value={searchQuery}
+                                onChange={handleSearch}
+                            />
+                            <select
+                                className="form-control role-filter"
+                                value={selectedRole}
+                                onChange={handleRoleFilter}
+                                aria-label="Filter by role"
+                            >
+                                <option value="all">All Roles</option>
+                                <option value="Full-Time">Full-Time</option>
+                                <option value="Part-Time">Part-Time</option>
+                                <option value="Contract">Contract</option>
+                                <option value="Internship">Internship</option>
+                            </select>
+                        </div>
                         <Button text="Export to Excel" className="btn-export" onClick={exportToExcel} />
                     </div>
                 )}
