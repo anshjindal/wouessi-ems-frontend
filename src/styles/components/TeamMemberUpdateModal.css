@@ -1,0 +1,24 @@
+.team-member-update-modal .modal-content {
+    border-radius: 10px;
+    padding: 20px;
+}
+
+.team-member-update-modal .modal-header {
+    background-color: #2b03a2;
+    color: white;
+    font-weight: bold;
+}
+
+.team-member-update-modal .modal-title {
+    font-size: 1.5rem;
+}
+
+.team-member-update-modal .modal-footer {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 20px;
+}
+
+.team-member-update-modal .btn {
+    font-weight: bold;
+}

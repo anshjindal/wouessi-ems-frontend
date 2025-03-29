@@ -1,0 +1,127 @@
+.team-member-form {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 30px;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.08);
+}
+
+.team-member-form .form-title {
+    font-size: 1.5rem;
+    color: #2b03a2;
+    text-align: center;
+    margin-bottom: 35px;
+    font-weight: bold;
+}
+
+.team-member-form .section-title {
+    background-color: #2b03a2;
+    color: white;
+    font-size: 1.1rem;
+    padding: 8px 15px;
+    border-radius: 5px;
+    margin-top: 30px;
+    margin-bottom: 20px;
+}
+
+.team-member-form label {
+    font-weight: 500;
+    color: black;
+    margin-bottom: 6px;
+}
+
+.team-member-form input,
+.team-member-form select,
+.team-member-form textarea {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px 12px;
+    font-size: 0.95rem;
+    width: 100%;
+    transition: border-color 0.3s ease;
+    box-sizing: border-box;
+}
+
+.team-member-form input:focus,
+.team-member-form select:focus,
+.team-member-form textarea:focus {
+    border-color: #2b03a2;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(43, 3, 162, 0.2);
+}
+
+.team-member-form .form-control-file {
+    border: 2px dashed #ccc;
+    border-radius: 6px;
+    padding: 12px;
+    width: 100%;
+    text-align: center;
+    transition: border-color 0.3s ease;
+}
+
+.team-member-form .form-control-file:focus {
+    border-color: #2b03a2;
+}
+
+.team-member-form .row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.team-member-form .col-md-2 {
+    flex: 1 1 15%;
+    max-width: 10%;
+}
+
+.team-member-form .col-md-4 {
+    flex: 1 1 15%;
+    max-width: 10%;
+}
+
+.team-member-form .col-md-6 {
+    flex: 1 1 48%;
+    max-width: 48%;
+}
+
+.team-member-form .btn-primary {
+    background-color: #2b03a2;
+    color: #fff;
+    padding: 12px;
+    border-radius: 6px;
+    font-weight: bold;
+    width: 80%;
+    transition: background-color 0.3s ease;
+}
+
+.team-member-form .btn-primary:hover {
+    background-color: #220078;
+}
+
+@media (max-width: 1024px) {
+    .team-member-form .col-md-2,
+    .team-member-form .col-md-4,
+    .team-member-form .col-md-6 {
+        flex: 1 1 28%;
+        max-width: 28%;
+    }
+}
+
+@media (max-width: 768px) {
+    .team-member-form {
+        padding: 15px;
+    }
+
+    .team-member-form .row {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .team-member-form h2, 
+    .section-title {
+        font-size: 1.2rem;
+        text-align: center;
+    }
+}
