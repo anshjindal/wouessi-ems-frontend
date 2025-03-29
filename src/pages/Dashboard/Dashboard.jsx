@@ -76,6 +76,7 @@ const Dashboard = () => {
             ])
     ];
 
+    // 
     const dashboardCards = [
         { title: "My Profile", path: "/profile", image: MyProfile },
         { title: "Onboarding", path: "/onboarding", image: Onboarding },
