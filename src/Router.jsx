@@ -9,12 +9,14 @@ import Login from "./pages/Login/Login";
 import Profile from "./pages/Profile/Profile";
 import DocumentSubmissionForm from './components/forms/DocumentSubmissionForm';
 import TaskForm from './components/forms/TaskForm';
+import MilestoneForm from './components/MilestoneForm';
 const AppRouter = () => {
     return (
         <Router>
             <Routes>
                 <Route path="/document-submission" element={<DocumentSubmissionForm />} />
                 <Route path="/create-task" element={<TaskForm />} />
+                <Route path="/milestone" element={<MilestoneForm />} />
                 <Route path="/" element={<Login />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/forgot-password" element={<ForgotPassword />} />

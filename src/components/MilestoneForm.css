@@ -1,0 +1,88 @@
+/* Define the primary font globally */
+:root {
+    --primary-font: 'Roboto', sans-serif; /* You can change 'Roboto' to any font you prefer */
+}
+
+/* Milestone Form */
+.milestone-form {
+    font-family: var(--primary-font); /* Apply primary font family here */
+    background-color: #ffffff;
+    padding: 40px;
+    border-radius: 12px;
+    width: 600px;
+    margin: 20px auto;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1), 0 4px 6px rgba(0, 0, 0, 0.1); /* Enhanced shadow */
+    border: 3px solid #2b03a2;
+    transition: all 0.3s ease; /* Smooth transition for hover effect */
+}
+
+.milestone-form:hover {
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2), 0 6px 12px rgba(0, 0, 0, 0.15); /* Shadow effect on hover */
+    transform: translateY(-5px); /* Slight lift on hover */
+}
+
+.milestone-form h2 {
+    text-align: center;
+    color: #333;
+    font-size: 28px; /* Increased font size */
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+.milestone-form label {
+    font-weight: 500;
+    margin-bottom: 12px;
+    display: block;
+    color: #555;
+    font-size: 16px;
+}
+
+.milestone-form input,
+.milestone-form textarea {
+    width: 100%;
+    padding: 12px; /* Increased padding */
+    margin: 12px 0; /* Increased margin */
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 16px;
+    transition: all 0.3s ease; /* Smooth transition for input focus */
+}
+
+.milestone-form input:focus,
+.milestone-form textarea:focus {
+    border-color: #2b03a2; /* Focus border color */
+    outline: none;
+    box-shadow: 0 0 5px rgba(43, 3, 162, 0.5); /* Focus effect */
+}
+
+.milestone-form button {
+    background-color: #2b03a2; /* Changed button color to #2b03a2 */
+    color: white;
+    padding: 14px 20px; /* Increased padding */
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    width: 100%;
+    font-size: 18px; /* Increased font size */
+    transition: background-color 0.3s ease; /* Smooth transition */
+    margin-top: 15px; /* Added margin to separate from inputs */
+}
+
+.milestone-form button:hover {
+    background-color: #3a06d6; /* Hover effect */
+}
+
+.milestone-form .form-footer {
+    text-align: center;
+    margin-top: 25px; /* More space below the form */
+}
+
+.milestone-form .form-footer a {
+    color: #4CAF50;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.milestone-form .form-footer a:hover {
+    text-decoration: underline;
+}
