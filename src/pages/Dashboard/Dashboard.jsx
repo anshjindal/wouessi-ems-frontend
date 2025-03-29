@@ -29,9 +29,10 @@ const Dashboard = () => {
         const fetchEmployee = async () => {
             try {
                 const empId = localStorage.getItem("empId");
-                if (!empId) throw new Error("Employee ID missing");
+                const authToken = localStorage.getItem("accessToken");
+                if (!empId || !authToken) throw new Error("Authentication information missing");
 
-                const employeeData = await getEmployeeById(empId);
+                const employeeData = await getEmployeeById(empId, authToken);
                 if (!employeeData || !employeeData.employee) throw new Error("User not authenticated");
                 setEmployee(employeeData.employee);
             } catch (error) {

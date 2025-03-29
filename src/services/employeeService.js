@@ -6,7 +6,10 @@ export const getEmployeeById = async (empId, authToken) => {
         const response = await fetch(`${API_URL}/employee/${empId}`, {
             method: "GET",
             credentials: "include",
-            headers: { "Content-Type": "application/json" }
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${authToken}`
+            }
         });
 
         if (!response.ok) {
@@ -16,7 +19,7 @@ export const getEmployeeById = async (empId, authToken) => {
         return await response.json();
     } catch (error) {
         console.error("Error fetching employee details:", error);
-        return null;
+        throw error;
     }
 };
 
