@@ -9,6 +9,7 @@ import Login from "./pages/Login/Login";
 import Leaves from "./pages/Leaves/Leaves";
 import Profile from "./pages/Profile/Profile";
 import OffboardingPage from './pages/Offboarding/OffboardingPage';
+import OffboardingForm from './components/forms/OffboardingForm';
 
 
 
@@ -27,6 +28,8 @@ const AppRouter = () => {
                 <Route path="/employee-management" element={<EmployeeManagement />} />       
 
                 <Route path="/offboarding" element={<OffboardingPage />} />
+                <Route path="/offboarding/create" element={<OffboardingForm />} />
+
                                   
             </Routes>
         </Router>
