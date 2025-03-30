@@ -11,6 +11,9 @@ import Profile from "./pages/Profile/Profile";
 import OffboardingPage from './pages/Offboarding/OffboardingPage';
 import OffboardingForm from './components/forms/OffboardingForm';
 
+// editing the form not finished yet, styling is a bit off
+import EditOffboardingForm from "./components/forms/EditOffboardingForm";
+
 
 
 const AppRouter = () => {
@@ -29,6 +32,8 @@ const AppRouter = () => {
 
                 <Route path="/offboarding" element={<OffboardingPage />} />
                 <Route path="/offboarding/create" element={<OffboardingForm />} />
+                <Route path="/offboarding/edit/:id" element={<EditOffboardingForm />} 
+/>
 
                                   
             </Routes>
