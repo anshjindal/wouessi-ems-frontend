@@ -1,0 +1,63 @@
+[33m5149531[m[33m ([m[1;36mHEAD -> [m[1;32mfeat_ems_211_task_86a7j9vnt[m[33m, [m[1;32mfeat_ems_211_task_86a7h8vn0[m[33m)[m feat(teams): add team management components
+[33ma9cf4f2[m[33m ([m[1;32mfeat_ems_211[m[33m)[m fix: update packages
+[33mc2c54eb[m Merge pull request #11 from anshjindal/feat_ems_dlf
+[33m3f1aacd[m Merge pull request #10 from AnLau25/features/leavesQA&fixes
+[33mbdbc9dd[m Merge pull request #9 from ouyix/feat_ems_dlf
+[33m863af66[m Merge pull request #8 from AnLau25/features/leavesQA&fixes
+[33mfd04610[m Line alignment fix
+[33mc1df075[m Apply for leave pop up components added
+[33mcf17371[m WitingforPopUp
+[33mfcd8d2c[m IfTheyGraceMeWithTheirPresence
+[33m06bae84[m ImDonne
+[33m92406c7[m leaveServices
+[33m06aa580[m colorMatch
+[33m3e91287[m V2fixed
+[33mfceaefa[m fix
+[33m46efd40[m Merge pull request #6 from AnLau25/features/LeaveHistory
+[33m9fdfa80[m Merge branch 'feat_ems_dlf' into features/LeaveHistory
+[33m0a0edcf[m GoodToGo
+[33ma58631b[m IllFigureOnmonday
+[33m1ae7c29[m Merge pull request #5 from SaiChanduAmireddi/feature/profile
+[33m8abf538[m Added Forgot password, ContactUs, updated employee management
+[33m61ab309[m Fixed update employee
+[33md3855df[m Added EmployeeManagement Feature
+[33mcff342d[m Added the Profile Page
+[33m603c9ae[m We have a dropdown
+[33me7b62f6[m MomentoSad
+[33m733d322[m GettingStarted
+[33m86a9dce[m Merge branch 'features/LeaveHistory' of https://github.com/AnLau25/wouessi-ems-frontend into features/LeaveHistory
+[33m4dcb59e[m gonne
+[33m8a90715[m now
+[33mf55797c[m RBAC: Update DashBoard & Sidebar based on user role
+[33m16f0979[m first push
+[33m61d8436[m Updated Logic : role based
+[33m057d675[m Merge pull request #4 from SaiChanduAmireddi/feature/dashboard
+[33m3c31915[m updated gitignore
+[33m2290a59[m updated gitignore file
+[33mc94122b[m updated gitignore
+[33me39a6f7[m updated header component
+[33m7c18534[m Updated Icons & Images
+[33m08453ba[m Sample Dashboard
+[33mc51b6bb[m Connection to backend
+[33m89029e4[m Merge pull request #3 from SaiChanduAmireddi/feature/loginpageui
+[33md6c6152[m Created Reusable UI components & Static Login page
+[33mca8ec02[m Created Reusable UI components & Static Login page with css
+[33m43eacfd[m Created Reusable UI components & Static Login page
+[33mbc2e52f[m Merge Added Project Structure PR #2 from SaiChanduAmireddi/feature/projectstructure
+[33ma84d847[m ReadMe: Updated Project Structure Details
+[33m307e68d[m Added Sample Files For Login Page and Button Component
+[33mb7d5b62[m Added Sample logo and Image
+[33mc8689e0[m Added the project structure
+[33ma24fcfd[m Merge branch 'anshjindal:main' into feature/projectstructure
+[33m415273c[m EMS GItflow.drawio
+[33m4c50d31[m Git workflow
+[33m4c36f9d[m testing dev deployment
+[33m93d6d43[m Merge pull request #1 from anshjindal/dev
+[33m667255a[m Add vercel.json for preview deployments
+[33mdbea1a3[m testing dev branch deployment
+[33m53d410c[m initialisng dev branch
+[33m75bad2c[m Cleared unneccessary files
+[33m582c5ce[m Merge branch 'main' of https://github.com/anshjindal/wouessi-ems-frontend
+[33m934d58d[m initial commit
+[33m71774a3[m Update README.md
+[33m044334f[m Initialize React project

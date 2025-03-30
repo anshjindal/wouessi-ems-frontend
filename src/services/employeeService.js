@@ -1,4 +1,4 @@
-const API_URL = process.env.REACT_APP_API_URL;
+const API_URL = process.env.REACT_APP_API_URL || '/api';
 
 // Fetch Employee Details
 export const getEmployeeById = async (empId, authToken) => {

@@ -1,4 +1,4 @@
-const API_URL = process.env.REACT_APP_API_URL;
+const API_URL = process.env.REACT_APP_API_URL || '/api';
 
 // Login Request (Stores sessionId, accessToken, empId)
 export const login = async (empId, password) => {
@@ -6,21 +6,26 @@ export const login = async (empId, password) => {
         const response = await fetch(`${API_URL}/auth/authenticate`, {
             method: "POST",
             credentials: "include",
-            headers: { "Content-Type": "application/json" },
+            headers: { 
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            },
             body: JSON.stringify({ empId, password })
         });
 
-        const data = await response.json();
         if (!response.ok) {
-            throw new Error(data.message || "Login failed");
+            const data = await response.json().catch(() => null);
+            throw new Error(data?.message || "Login failed");
         }
 
+        const data = await response.json();
         localStorage.setItem("sessionId", data.sessionId);
         localStorage.setItem("accessToken", data.accessToken);
         localStorage.setItem("empId", empId);
 
         return data;
     } catch (error) {
+        console.error("Login error:", error);
         throw new Error(error.message || "Server error. Please try again.");
     }
 };
