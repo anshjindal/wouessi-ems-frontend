@@ -48,12 +48,18 @@ const Dashboard = () => {
 
     const handleLogout = async () => {
         try {
-            await logout();
-            localStorage.clear();
-            sessionStorage.clear();
-            navigate("/login");
+            const response = await logout();
+    
+            if (response.success) {
+                localStorage.clear();
+                sessionStorage.clear();
+                navigate("/login");
+            } else {
+                throw new Error(response.error);
+            }
         } catch (error) {
             console.error("Logout failed:", error.message);
+            alert(error.message);
         }
     };
 
@@ -67,6 +73,7 @@ const Dashboard = () => {
                 { name: "Settings", path: "/settings", icon: <FaCog /> }
             ]
             : [
+                { name: "Team Management", path: "/team-management", icon: <FaUserTie /> },
                 { name: "Timesheets", path: "/timesheets", icon: <FaHourglassHalf /> },
                 { name: "Leaves", path: "/leaves", icon: <FaUmbrellaBeach /> },
                 { name: "Payroll", path: "/payroll", icon: <FaMoneyBillWave /> },
@@ -82,6 +89,7 @@ const Dashboard = () => {
         { title: "Leaves", path: "/leaves", image: Leaves },
         { title: "Payroll", path: "/payroll", image: Payroll },
         { title: "Projects", path: "/projects", image: Project },
+        { title: "Team Management", path: "/team-management", image: Project },
         ...(employee.role === "admin" ? [
             { title: "Approvals", path: "/approvals", image: Approvals },
             { title: "Performance", path: "/performance", image: Performance },

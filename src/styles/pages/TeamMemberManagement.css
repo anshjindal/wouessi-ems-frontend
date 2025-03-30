@@ -1,0 +1,262 @@
+
+/* Team Member Management Page Styling */
+.team-member-management {
+    padding-top: 70px;
+    padding-bottom: 40px;
+    background-color: white;
+    max-width: 100%;
+}
+
+/* Navigation Tabs */
+.nav-tabs {
+    border-bottom: 2px solid #2b03a2;
+    margin-bottom: 20px;
+}
+
+.nav-tabs .nav-link {
+    color: #2b03a2;
+    font-weight: bold;
+}
+
+.nav-tabs .nav-link.active {
+    background-color: #2b03a2;
+    color: white;
+    border-radius: 5px;
+}
+
+/* Search Bar and Export Button */
+.search-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+.search-input {
+    width: 40%;
+    min-width: 250px;
+    max-width: 200px;
+    flex-grow: 1;
+}
+
+.btn-export {
+    background-color: #2b03a2;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    white-space: nowrap;
+}
+
+/* Table Styling */
+.table {
+    border-radius: 10px;
+    overflow: hidden;
+    background-color: #fff;
+    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1);
+    width: 100%;
+}
+
+.table thead th {
+    background-color: #2b03a2;
+    color: white;
+    text-align: left;
+    padding: 12px;
+}
+
+.table tbody tr {
+    height: 50px;
+    vertical-align: middle;
+}
+
+.table th, 
+.table td {
+    padding: 12px 10px;
+    vertical-align: middle;
+    text-align: left;
+    white-space: nowrap;
+}
+
+.table tbody td .btn {
+    padding: 6px 12px;
+    font-size: 0.9rem;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.table tbody td .btn-danger {
+    background-color: #dc3545;
+    color: white;
+    border-radius: 5px;
+    height: 38px;
+}
+
+.table tbody td .btn-warning {
+    background-color: #ffc107;
+    color: black;
+    border-radius: 5px;
+    height: 38px;
+}
+
+.table tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* ============================ */
+/* TEAM MEMBER FORM STYLING */
+/* ============================ */
+
+.team-member-form-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.team-member-form {
+    max-width: 99%;
+    margin: 0 auto;
+    padding: 30px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.team-member-form h4 {
+    text-align: center;
+    font-size: 1.6rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.team-member-form h5 {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: #2b03a2;
+    margin-bottom: 15px;
+    border-bottom: 2px solid #2b03a2;
+    display: inline-block;
+    padding-bottom: 5px;
+}
+
+.team-member-form .row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+.team-member-form .col-md-6 {
+    flex: 0 0 48%;
+    max-width: 48%;
+}
+
+.team-member-form .col-md-4 {
+    flex: 0 0 30%;
+    max-width: 30%;
+}
+
+.team-member-form .col-md-12 {
+    flex: 0 0 100%;
+    max-width: 100%;
+}
+
+.team-member-form input,
+.team-member-form select,
+.team-member-form textarea {
+    width: 100%;
+    padding: 12px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+.team-member-form input:focus,
+.team-member-form select:focus,
+.team-member-form textarea:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+.team-member-form .file-upload {
+    border: 2px dashed #007bff;
+    padding: 15px;
+    text-align: center;
+    cursor: pointer;
+    background-color: #f8f9fa;
+}
+
+.address-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.address-row input {
+    flex: 1;
+}
+
+.team-member-form .btn-primary {
+    width: 100%;
+    padding: 12px;
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.team-member-form .btn-primary:hover {
+    background-color: #0056b3;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .team-member-form {
+        max-width: 98%;
+    }
+    .team-member-form .col-md-6,
+    .team-member-form .col-md-4 {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 768px) {
+    .search-container {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+    }
+
+    .search-input {
+        width: 100%;
+    }
+
+    .btn-export {
+        width: 100%;
+        text-align: center;
+    }
+
+    .team-member-form {
+        padding: 20px;
+    }
+
+    .team-member-form h4 {
+        font-size: 1.4rem;
+    }
+
+    .team-member-form h5 {
+        font-size: 1.1rem;
+    }
+
+    .table tbody tr {
+        height: auto;
+    }
+
+    .table tbody td .btn {
+        height: auto;
+        font-size: 0.85rem;
+        padding: 5px 10px;
+    }
+}

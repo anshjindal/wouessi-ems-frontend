@@ -8,6 +8,8 @@ import ForgotPassword from "./pages/ForgotPassword/ForgotPassword";
 import Login from "./pages/Login/Login";
 import Leaves from "./pages/Leaves/Leaves";
 import Profile from "./pages/Profile/Profile";
+import Timesheet from "./pages/Timesheet/Timesheet"
+import TeamManagement from "./pages/TeamManagement/TeamManagement";
 
 const AppRouter = () => {
     return (
@@ -19,9 +21,11 @@ const AppRouter = () => {
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/leaves" element={<Leaves />} />
                 <Route path="/profile" element={<Profile />} />
+                <Route path="/timesheets" element={<Timesheet />} />
                 <Route path="/contact" element={<ContactUs />} />
                 <Route path="/about" element={<AboutUs />} />
                 <Route path="/employee-management" element={<EmployeeManagement />} />
+                <Route path="/team-management" element={<TeamManagement />} />
             </Routes>
         </Router>
     );
