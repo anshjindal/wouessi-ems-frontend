@@ -11,6 +11,7 @@ import Onboarding from "../../assets/images/Onboarding.jpg";
 import Payroll from "../../assets/images/Payroll.jpg";
 import Performance from "../../assets/images/Performance.png";
 import Project from "../../assets/images/project.jpg";
+import Certificate from "../../assets/images/certificate.png";
 import Settings from "../../assets/images/Settings.png";
 import Timesheets from "../../assets/images/Timesheets.png";
 import Footer from "../../components/layout/Footer";
@@ -81,6 +82,7 @@ const Dashboard = () => {
         { title: "Leaves", path: "/leaves", image: Leaves },
         { title: "Payroll", path: "/payroll", image: Payroll },
         { title: "Projects", path: "/projects", image: Project },
+        { title: "Certificates", path: "/certificates", image: Certificate },
         ...(employee.role === "admin" ? [
             { title: "Approvals", path: "/approvals", image: Approvals },
             { title: "Performance", path: "/performance", image: Performance },
