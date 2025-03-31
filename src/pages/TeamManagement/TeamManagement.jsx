@@ -20,32 +20,25 @@ const TeamMemberManagement = () => {
   const [authToken, setAuthToken] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  /**
-   * 1) We define `fetchTeamData` *before* the effect that calls it.
-   *    Wrap it in `useCallback` so the function identity is stable 
-   *    and doesn't cause extra re-renders.
-   */
   const fetchTeamData = useCallback(async () => {
     try {
       const res = await getAllTeams(authToken);
+      // res should have shape: { success: true, teams: [...] }
       const allTeams = res.teams || [];
       setTeams(allTeams);
 
+      // Flatten out the members array
       const flattened = allTeams.flatMap((team) =>
         team.members.map((member) => {
-          const emp = member.empId;
-          // If it's an object, use firstName + lastName; otherwise just show string
-          const fullName =
-            typeof emp === "object" && emp !== null
-              ? `${emp.firstName || ""} ${emp.lastName || ""}`.trim()
-              : emp;
+          // each aggregator entry has .fullName from the pipeline
           return {
-            empId: typeof emp === "object" ? emp.empId : emp,
-            fullName,
+            empId: member.empId,
+            fullName: member.fullName, 
             role: member.role,
             status: member.status,
             teamName: team.teamName,
             teamId: team.teamId,
+            documents: member.documents || [] 
           };
         })
       );
@@ -56,28 +49,26 @@ const TeamMemberManagement = () => {
     }
   }, [authToken]);
 
-  /**
-   * 2) Single useEffect that runs `fetchTeamData` on mount 
-   *    and whenever `fetchTeamData` changes (i.e., if authToken changes).
-   */
-  useEffect(() => {
-    // Grab token from localStorage if not already set
-    const token = localStorage.getItem("accessToken");
-    if (token) setAuthToken(token);
+  // Single useEffect that runs fetchTeamData on mount + whenever fetchTeamData changes
+useEffect(() => {
+  const token = localStorage.getItem("accessToken");
+  if (token) {
+    setAuthToken(token);
+  }
+}, []);
 
-    // Now call fetchTeamData
+// Fetch team data only once the token is ready
+useEffect(() => {
+  if (authToken) {
     fetchTeamData();
-  }, [fetchTeamData]);
+  }
+}, [authToken, fetchTeamData]);
 
-  /**
-   * 3) For adding a Team Member
-   */
+  //For adding a new team member
   const handleAddTeamMember = async (memberData) => {
     try {
-      // e.g. { empId, teamId, role, status }
       await addTeamMember(memberData.teamId, memberData, authToken);
       alert("Team member successfully added!");
-      // Refresh data
       fetchTeamData();
       setActiveTab("VIEW TEAM MEMBERS");
     } catch (error) {
@@ -86,9 +77,7 @@ const TeamMemberManagement = () => {
     }
   };
 
-  /**
-   * 4) For editing a Team Member, store in state which team + member we want
-   */
+  // pass BOTH teamId and empId to the modal
   const handleEditClick = (teamId, empId) => {
     setSelectedTeamId(teamId);
     setSelectedMemberId(empId);
@@ -101,18 +90,15 @@ const TeamMemberManagement = () => {
     setSelectedMemberId(null);
   };
 
-  /**
-   * 5) Filter logic for searching
-   */
+  // Filter logic for searching
   const filteredMembers = members.filter((m) =>
     `${m.fullName} ${m.role} ${m.status} ${m.teamName}`
       .toLowerCase()
       .includes(searchQuery.toLowerCase())
   );
 
-  /**
-   * 6) Export to Excel
-   */
+  
+  //Export to Excel
   const exportToExcel = () => {
     if (members.length === 0) {
       alert("No members to export.");
@@ -134,7 +120,6 @@ const TeamMemberManagement = () => {
     <>
       <Header />
       <div className="container team-member-management">
-        {/* Navigation Tabs */}
         <ul className="nav nav-tabs mb-3">
           {["VIEW TEAM MEMBERS", "ADD TEAM MEMBER", "UPDATE TEAM MEMBER"].map((tab) => (
             <li className="nav-item" key={tab}>
@@ -148,7 +133,6 @@ const TeamMemberManagement = () => {
           ))}
         </ul>
 
-        {/* VIEW TEAM MEMBERS */}
         {activeTab === "VIEW TEAM MEMBERS" && (
           <>
             <div className="search-container d-flex justify-content-between mb-3">
@@ -169,6 +153,7 @@ const TeamMemberManagement = () => {
                     <th>Team</th>
                     <th>Role</th>
                     <th>Status</th>
+                    <th>Document</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -178,6 +163,11 @@ const TeamMemberManagement = () => {
                       <td data-label="Team">{m.teamName}</td>
                       <td data-label="Role">{m.role}</td>
                       <td data-label="Status">{m.status}</td>
+                      <td>
+                        {m.documents?.[0]?.fileName
+                        ? m.documents[0].fileName
+                        : "No document uploaded"}
+                        </td>
                     </tr>
                   ))}
                 </tbody>
@@ -186,14 +176,12 @@ const TeamMemberManagement = () => {
           </>
         )}
 
-        {/* ADD TEAM MEMBER */}
         {activeTab === "ADD TEAM MEMBER" && (
           <div className="form-container">
             <TeamMemberForm onSubmit={handleAddTeamMember} />
           </div>
         )}
 
-        {/* UPDATE TEAM MEMBER */}
         {activeTab === "UPDATE TEAM MEMBER" && (
           <div className="table-responsive">
             <table className="table table-striped table-hover">
