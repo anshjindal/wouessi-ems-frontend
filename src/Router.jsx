@@ -10,6 +10,7 @@ import Leaves from "./pages/Leaves/Leaves";
 import Profile from "./pages/Profile/Profile";
 import TeamManagement from "./pages/TeamManagement/TeamManagement";
 import Timesheet from "./pages/Timesheet/Timesheet"
+import TeamManagement from "./pages/TeamManagement/TeamManagement";
 
 const AppRouter = () => {
     return (

@@ -48,12 +48,18 @@ const Dashboard = () => {
 
     const handleLogout = async () => {
         try {
-            await logout();
-            localStorage.clear();
-            sessionStorage.clear();
-            navigate("/login");
+            const response = await logout();
+    
+            if (response.success) {
+                localStorage.clear();
+                sessionStorage.clear();
+                navigate("/login");
+            } else {
+                throw new Error(response.error);
+            }
         } catch (error) {
             console.error("Logout failed:", error.message);
+            alert(error.message);
         }
     };
 

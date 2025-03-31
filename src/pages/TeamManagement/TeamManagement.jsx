@@ -123,11 +123,8 @@ useEffect(() => {
         <ul className="nav nav-tabs mb-3">
           {["VIEW TEAM MEMBERS", "ADD TEAM MEMBER", "UPDATE TEAM MEMBER"].map((tab) => (
             <li className="nav-item" key={tab}>
-              <button
-                className={`nav-link ${activeTab === tab ? "active" : ""}`}
-                onClick={() => setActiveTab(tab)}
-              >
-                {tab}
+              <button className={`nav-link ${activeTab === tab ? "active" : ""}`} onClick={() => setActiveTab(tab)}>
+              {tab}
               </button>
             </li>
           ))}

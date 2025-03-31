@@ -139,4 +139,3 @@ export const removeTeamMember = async (teamId, empId, authToken) => {
       throw error;
     }
   };
-  

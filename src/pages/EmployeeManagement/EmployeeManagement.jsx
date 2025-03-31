@@ -1,5 +1,5 @@
 import "bootstrap/dist/css/bootstrap.min.css";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback} from "react";
 import * as XLSX from "xlsx";
 import Button from "../../components/common/Button";
 import EmployeeForm from "../../components/forms/EmployeeForm";
@@ -14,28 +14,91 @@ import {
 import "../../styles/pages/EmployeeManagement.css";
 
 const EmployeeManagement = () => {
+    const [selectedUsers, setSelectedUsers] = useState([]);
+    const handleSelectUser = (userId) => {
+        const employee = employees.find((e) => e.empId === userId);
+        if (!employee || employee.status === "active") {
+            alert("Cannot select active employees for reactivation.");
+            return;
+        }
+    
+        setSelectedUsers((prev) =>
+            prev.includes(userId)
+                ? prev.filter((id) => id !== userId)
+                : [...prev, userId]
+        );
+    };    
+
+    const handleBulkReactivate = async () => {
+        if (selectedUsers.length === 0) return;
+    
+        const confirmReactivation = window.confirm(
+            `Are you sure you want to reactivate ${selectedUsers.length} ${selectedUsers.length === 1 ? 'employee' : 'employees'}? This will restore their access to the system.`
+        );
+    
+        if (!confirmReactivation) return;
+    
+        try {
+            for (const empId of selectedUsers) {
+                const emp = employees.find(e => e.empId === empId);
+                if (emp.status !== "inactive") {
+                    throw new Error ("VALIDATION_ERROR");
+                }
+                await updateEmployeeStatus(empId, authToken);
+            }
+    
+            await fetchEmployees();
+            setSelectedUsers([]);
+            alert("✅ Selected employees reactivated successfully.");
+        } catch (error) {
+            const errorMessage = getErrorMessage(error);
+            alert("❌ " + errorMessage);
+        }
+    };
+    
     const [employees, setEmployees] = useState([]);
     const [activeTab, setActiveTab] = useState("VIEW EMPLOYEES LIST");
     const [searchQuery, setSearchQuery] = useState("");
     const [selectedEmployeeId, setSelectedEmployeeId] = useState(null);
     const [authToken, setAuthToken] = useState("");
     const [isModalOpen, setIsModalOpen] = useState(false);
-
-    useEffect(() => {
-        fetchEmployees();
-        const storedToken = localStorage.getItem("accessToken");
-        if (storedToken) setAuthToken(storedToken);
-    }, []);
-
-    const fetchEmployees = async () => {
+    const getErrorMessage = (error) => {
+        if (!error || typeof error !== "object") return "An unexpected error occurred.";
+        
+        if (error.message?.includes("AUTH_ERROR")) {
+            return "You do not have permission to reactivate employees.";
+        }
+        if (error.message?.includes("VALIDATION_ERROR")) {
+            return "Selected employee(s) cannot be reactivated.";
+        }
+        if (error.message?.includes("NetworkError")) {
+            return "Unable to connect to the server.";
+        }
+    
+        return "An error occurred while reactivating employees.";
+    };    
+    const fetchEmployees = useCallback(async () => {
         try {
             const res = await getAllEmployees(authToken);
             setEmployees(res.employees);
         } catch (err) {
             console.error(err);
         }
-    };
+    }, [authToken]);
 
+    useEffect(() => {
+        const storedToken = localStorage.getItem("accessToken");
+        if (storedToken) {
+            setAuthToken(storedToken);
+        }
+    }, []);
+    
+    useEffect(() => {
+        if (authToken) {
+            fetchEmployees(); // ✅ this only runs when authToken is set
+        }
+    }, [authToken, fetchEmployees]);
+    
     const handleSearch = (e) => {
         setSearchQuery(e.target.value);
     };
@@ -63,13 +126,35 @@ const EmployeeManagement = () => {
 
     const handleDeactivateEmployee = async (empId) => {
         try {
-            await updateEmployeeStatus(empId, authToken);
+            const emp = employees.find(e => e.empId === empId);
+            if (!emp) return alert("Employee not found.");
+    
+            const endpoint =
+                emp.status === "active"
+                    ? `${process.env.REACT_APP_API_URL}/employee/${empId}/status`
+                    : `${process.env.REACT_APP_API_URL}/employee/reactivate/${empId}`;
+    
+            const response = await fetch(endpoint, {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${authToken}`,
+                },
+                credentials: "include",
+            });
+    
+            if (!response.ok) {
+                throw new Error("Failed to update employee status");
+            }
+    
+            const result = await response.json();
+            alert(result.message);
             fetchEmployees();
         } catch (error) {
+            console.error("Error:", error);
             alert("Error updating employee status.");
         }
-    };
-
+    };    
     const filteredEmployees = employees.filter((emp) =>
         `${emp.empId} ${emp.firstName} ${emp.middleName} ${emp.lastName} ${emp.email}`
             .toLowerCase()
@@ -142,34 +227,67 @@ const EmployeeManagement = () => {
                 {/* VIEW Employees */}
                 {activeTab === "VIEW EMPLOYEES LIST" && (
                     <div className="table-responsive">
+                    {employees.some(emp => emp.status === "inactive") && (
+                        <button
+                        onClick={handleBulkReactivate}
+                        disabled={selectedUsers.length === 0}
+                        className="btn btn-success mb-2"
+                        >
+                            Reactivate Selected ({selectedUsers.length})
+                            </button>
+                    )}
+                            {!employees.some(emp => emp.status === "inactive") && (
+                            <p className="text-muted">There are no inactive employees to reactivate.</p>
+                         )}
+                              
                         <table className="table table-striped table-hover">
-                            <thead>
-                                <tr>
-                                    <th>EmpID</th>
-                                    <th>Name</th>
-                                    <th>Email</th>
-                                    <th>Gender</th>
-                                    <th>Designation</th>
-                                    <th>EmpType</th>
-                                    <th>Status</th>
+                        <thead>
+                            <tr>
+                                {employees.some(emp => emp.status === "inactive") && <th>Select</th>}
+                                <th>EmpID</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Gender</th>
+                                <th>Designation</th>
+                                <th>EmpType</th>
+                                <th>Partner Company</th>
+                                <th>Paid Status</th>
+                                <th>Status</th>
+                                <th>Action</th>
                                 </tr>
-                            </thead>
-                            <tbody>
-                                {filteredEmployees.map((emp) => (
-                                    <tr key={emp.empId}>
-                                        <td>{emp.empId}</td>
-                                        <td>{`${emp.firstName} ${emp.middleName || ""} ${emp.lastName}`}</td>
-                                        <td>{emp.workMail}</td>
-                                        <td>{emp.gender}</td>
-                                        <td>{emp.designations}</td>
-                                        <td>{emp.employmentType}</td>
-                                        <td>{emp.status}</td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    </div>
-                )}
+</thead>
+
+<tbody>
+  {filteredEmployees.map((emp) => (
+    <tr key={emp.empId}>
+      {employees.some(e => e.status === "inactive") && (
+        <td>
+          {emp.status === "inactive" && (
+            <input
+              type="checkbox"
+              onChange={() => handleSelectUser(emp.empId)}
+              checked={selectedUsers.includes(emp.empId)}
+            />
+          )}
+        </td>
+      )}
+      <td>{emp.empId}</td>
+      <td>{`${emp.firstName} ${emp.middleName || ""} ${emp.lastName}`}</td>
+      <td>{emp.workMail}</td>
+      <td>{emp.gender}</td>
+      <td>{emp.designations}</td>
+      <td>{emp.employmentType}</td>
+      <td>ABC Corp</td>
+      <td>Unpaid</td>
+      <td>{emp.status}</td>
+      <td></td>
+    </tr>
+  ))}
+</tbody>
+
+                                            </table>
+                                            </div>
+                                        )}
 
                 {/* ADD Employee - Uses Reusable Component */}
                 {activeTab === "ADD NEW EMPLOYEE" && (
@@ -257,7 +375,7 @@ const EmployeeManagement = () => {
                                                 className={`btn ${emp.status === "active" ? "btn-danger" : "btn-success"} btn-sm`}
                                                 onClick={() => handleDeactivateEmployee(emp.empId)}
                                             >
-                                                {emp.status === "active" ? "Deactivate" : "Activate"}
+                                                {emp.status === "active" ? "Deactivate" : "Reactivate"}
                                             </button>
                                         </td>
                                     </tr>

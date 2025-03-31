@@ -1,4 +1,3 @@
-// src/components/modals/TeamMemberUpdateModal.jsx
 import PropTypes from "prop-types";
 import React, { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";

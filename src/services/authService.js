@@ -1,5 +1,14 @@
 const API_URL = process.env.REACT_APP_API_URL;
 
+// Helper function to handle API responses
+const handleResponse = async (response) => {
+    const data = await response.json();
+    if (!response.ok) {
+        throw new Error(data.message || "An error occurred while processing your request.");
+    }
+    return data;
+};
+
 // Login Request (Stores sessionId, accessToken, empId)
 export const login = async (empId, password) => {
     try {
@@ -7,25 +16,23 @@ export const login = async (empId, password) => {
             method: "POST",
             credentials: "include",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ empId, password })
+            body: JSON.stringify({ empId, password }),
         });
 
-        const data = await response.json();
-        if (!response.ok) {
-            throw new Error(data.message || "Login failed");
-        }
+        const data = await handleResponse(response);
 
         localStorage.setItem("sessionId", data.sessionId);
         localStorage.setItem("accessToken", data.accessToken);
         localStorage.setItem("empId", empId);
 
-        return data;
+        return { success: true, data };
     } catch (error) {
-        throw new Error(error.message || "Server error. Please try again.");
+        console.error("Login error:", error.message);
+        return { success: false, error: error.message || "Server error. Please try again." };
     }
 };
 
-// Logout Request (Ensure sessionId, empId and accessToken are sent)
+// Logout Request (Ensure sessionId, empId, and accessToken are sent)
 export const logout = async () => {
     try {
         const sessionId = localStorage.getItem("sessionId");
@@ -39,16 +46,14 @@ export const logout = async () => {
         const response = await fetch(`${API_URL}/auth/logout`, {
             method: "POST",
             credentials: "include",
-            headers: { 
+            headers: {
                 "Content-Type": "application/json",
-                "Authorization": `Bearer ${accessToken}`
+                "Authorization": `Bearer ${accessToken}`,
             },
-            body: JSON.stringify({ sessionId, empId })
+            body: JSON.stringify({ sessionId, empId }),
         });
 
-        if (!response.ok) {
-            throw new Error("Logout failed");
-        }
+        await handleResponse(response);
 
         localStorage.clear();
         sessionStorage.clear();
@@ -62,7 +67,9 @@ export const logout = async () => {
             window.location.replace("/");
         }, 500);
 
+        return { success: true };
     } catch (error) {
         console.error("Logout error:", error.message);
+        return { success: false, error: error.message || "Logout failed. Please try again." };
     }
 };
