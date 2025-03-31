@@ -116,5 +116,22 @@ export const updateEmployeeStatus = async (empId, authToken) => {
         console.error("Error toggling employee status:", error);
         throw error;
     }
-    
+};
+
+// ✅ NEW FUNCTION: Bulk Update Employees
+export const bulkUpdateEmployees = async (employeeList, token) => {
+    const res = await fetch(`${API_URL}/employee/bulk-update`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(employeeList),
+    });
+
+    if (!res.ok) {
+        throw new Error("Bulk update failed");
+    }
+
+    return res.json();
 };

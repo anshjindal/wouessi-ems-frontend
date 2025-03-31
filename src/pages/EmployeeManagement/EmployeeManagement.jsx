@@ -6,6 +6,7 @@ import EmployeeForm from "../../components/forms/EmployeeForm";
 import Footer from "../../components/layout/Footer";
 import Header from "../../components/layout/Header";
 import EmployeeUpdateModal from "../../components/modals/EmployeeUpdateModal";
+import { bulkUpdateEmployees } from "../../services/employeeService";
 import {
     createEmployee,
     getAllEmployees,
@@ -35,7 +36,7 @@ const EmployeeManagement = () => {
         const confirmReactivation = window.confirm(
             `Are you sure you want to reactivate ${selectedUsers.length} ${selectedUsers.length === 1 ? 'employee' : 'employees'}? This will restore their access to the system.`
         );
-    
+
         if (!confirmReactivation) return;
     
         try {
@@ -55,6 +56,49 @@ const EmployeeManagement = () => {
             alert("❌ " + errorMessage);
         }
     };
+    
+
+    const handleImportCSV = async (event) => {
+        const file = event.target.files[0];
+        if (!file) return;
+    
+        const reader = new FileReader();
+    
+        reader.onload = async (e) => {
+            const data = e.target.result;
+            const workbook = XLSX.read(data, { type: "binary" });
+            const sheetName = workbook.SheetNames[0];
+            const worksheet = workbook.Sheets[sheetName];
+            const importedData = XLSX.utils.sheet_to_json(worksheet);
+    
+            console.log("Imported Employees:", importedData);
+    
+            const updatedEmployees = [...employees];
+    
+            for (const importedEmp of importedData) {
+                const index = updatedEmployees.findIndex(emp => emp.empId === importedEmp.empId);
+                if (index !== -1) {
+                    updatedEmployees[index] = {
+                        ...updatedEmployees[index],
+                        ...importedEmp,
+                    };
+                }
+            }
+    
+            try {
+                await bulkUpdateEmployees(importedData, authToken);
+                await fetchEmployees(); // ⬅️ Refresh from DB
+                setEmployees(updatedEmployees);
+                alert("✅ Bulk update successful!");
+            } catch (error) {
+                console.error("Bulk update failed:", error);
+                alert("❌ Bulk update failed.");
+            }
+        };
+    
+        reader.readAsBinaryString(file);
+    };
+    
     
     const [employees, setEmployees] = useState([]);
     const [activeTab, setActiveTab] = useState("VIEW EMPLOYEES LIST");
@@ -221,6 +265,12 @@ const EmployeeManagement = () => {
                             onChange={handleSearch}
                         />
                         <Button text="Export to Excel" className="btn-export" onClick={exportToExcel} />
+                        <input
+                        type="file"
+                        accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+                        onChange={handleImportCSV}
+                        className="form-control mt-2"
+                        />
                     </div>
                 )}
 
