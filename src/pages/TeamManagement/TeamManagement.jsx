@@ -7,7 +7,7 @@ import TeamMemberForm from "../../components/forms/TeamMemberForm";
 import Footer from "../../components/layout/Footer";
 import Header from "../../components/layout/Header";
 import TeamMemberUpdateModal from "../../components/modals/TeamMemberUpdateModal";
-import { getAllTeams, addTeamMember } from "../../services/teamService";
+import { getAllTeams, addTeamMember, uploadTeamDocument } from "../../services/teamService";
 import "../../styles/pages/TeamMemberManagement.css";
 
 const TeamMemberManagement = () => {
@@ -66,8 +66,22 @@ useEffect(() => {
 
   //For adding a new team member
   const handleAddTeamMember = async (memberData) => {
-    try {
-      await addTeamMember(memberData.teamId, memberData, authToken);
+  try {
+    // 1. Add the member to the team
+    await addTeamMember(memberData.teamId, memberData, authToken);
+
+    // 2. Upload document if file exists
+    if (memberData.file && memberData.empId) {
+      const formData = new FormData();
+      formData.append("file", memberData.file);
+
+      await uploadTeamDocument(
+        memberData.teamId,
+        memberData.empId,
+        formData,
+        authToken
+      );
+    }
       alert("Team member successfully added!");
       fetchTeamData();
       setActiveTab("VIEW TEAM MEMBERS");
@@ -161,8 +175,8 @@ useEffect(() => {
                       <td data-label="Role">{m.role}</td>
                       <td data-label="Status">{m.status}</td>
                       <td>
-                        {m.documents?.[0]?.fileName
-                        ? m.documents[0].fileName
+                        {m.documents && m.documents.length > 0
+                        ? m.documents.map((doc) => doc.fileName).join(", ")
                         : "No document uploaded"}
                         </td>
                     </tr>
