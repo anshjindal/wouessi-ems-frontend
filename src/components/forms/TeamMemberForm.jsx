@@ -35,8 +35,11 @@ const TeamMemberForm = ({ onSubmit, initialData = {} }) => {
     }
 
     onSubmit({
-      ...formData,
-      fileData: data
+      empId: formData.empId,
+      teamId: formData.teamId,
+      role: formData.role,
+      status: formData.status,
+      file: formData.file, // send the actual file here
     });
   };
 
