@@ -7,7 +7,7 @@ import TeamMemberForm from "../../components/forms/TeamMemberForm";
 import Footer from "../../components/layout/Footer";
 import Header from "../../components/layout/Header";
 import TeamMemberUpdateModal from "../../components/modals/TeamMemberUpdateModal";
-import { getAllTeams, addTeamMember, uploadTeamDocument } from "../../services/teamService";
+import { getAllTeams, addTeamMember, uploadTeamDocument, removeTeamMember } from "../../services/teamService";
 import "../../styles/pages/TeamMemberManagement.css";
 
 const TeamMemberManagement = () => {
@@ -111,6 +111,19 @@ useEffect(() => {
       .includes(searchQuery.toLowerCase())
   );
 
+  const handleDeleteMember = async (teamId, empId) => {
+    const confirmed = window.confirm("Are you sure you want to remove this team member?");
+    if (!confirmed) return;
+  
+    try {
+      await removeTeamMember(teamId, empId, authToken);
+      alert(`Team member ${empId} removed from ${teamId}`);
+      fetchTeamData();
+    } catch (error) {
+      console.error("Error deleting team member:", error);
+      alert("Failed to remove team member.");
+    }
+  };
   
   //Export to Excel
   const exportToExcel = () => {
@@ -213,12 +226,17 @@ useEffect(() => {
                     <td>{m.role}</td>
                     <td>{m.status}</td>
                     <td>
-                      <button
-                        className="btn btn-warning btn-sm"
-                        onClick={() => handleEditClick(m.teamId, m.empId)}
-                      >
+                    <div className="d-flex gap-2">
+                      <button className="btn btn-warning btn-sm"
+                      onClick={() => handleEditClick(m.teamId, m.empId)}>
                         Edit
-                      </button>
+                        </button>
+                        <button
+                        className="btn btn-danger btn-sm"
+                        onClick={() => handleDeleteMember(m.teamId, m.empId)}>
+                          Remove
+                        </button>
+                      </div>
                     </td>
                   </tr>
                 ))}
