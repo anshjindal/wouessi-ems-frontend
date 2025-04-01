@@ -4,6 +4,8 @@ import {
     FaProjectDiagram, FaUmbrellaBeach, FaUser, FaUserTie
 } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+
+// 📦 Image imports
 import Approvals from "../../assets/images/Approvals.png";
 import Leaves from "../../assets/images/Leaves.png";
 import MyProfile from "../../assets/images/myprofile.jpg";
@@ -13,11 +15,17 @@ import Performance from "../../assets/images/Performance.png";
 import Project from "../../assets/images/project.jpg";
 import Settings from "../../assets/images/Settings.png";
 import Timesheets from "../../assets/images/Timesheets.png";
+import Milestones from "../../assets/images/Milestones.png"; // ✅ NEW import
+
+// 🧱 Layout
 import Footer from "../../components/layout/Footer";
 import Header from "../../components/layout/Header";
 import Sidebar from "../../components/layout/Sidebar";
+
+// 📡 Services
 import { logout } from "../../services/authService";
 import { getEmployeeById } from "../../services/employeeService";
+
 import "../../styles/pages/Dashboard.css";
 
 const Dashboard = () => {
@@ -81,6 +89,7 @@ const Dashboard = () => {
         { title: "Leaves", path: "/leaves", image: Leaves },
         { title: "Payroll", path: "/payroll", image: Payroll },
         { title: "Projects", path: "/projects", image: Project },
+        { title: "Milestones", path: "/milestones", image: Milestones }, // ✅ NEW card here
         ...(employee.role === "admin" ? [
             { title: "Approvals", path: "/approvals", image: Approvals },
             { title: "Performance", path: "/performance", image: Performance },
