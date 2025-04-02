@@ -1,4 +1,4 @@
-const API_URL = process.env.REACT_APP_API_URL;
+const API_URL = process.env.REACT_APP_API_URL || '/api';
 
 // Helper function to handle API responses
 const handleResponse = async (response) => {
@@ -15,12 +15,14 @@ export const login = async (empId, password) => {
         const response = await fetch(`${API_URL}/auth/authenticate`, {
             method: "POST",
             credentials: "include",
-            headers: { "Content-Type": "application/json" },
+            headers: { 
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            },
             body: JSON.stringify({ empId, password }),
         });
 
         const data = await handleResponse(response);
-
         localStorage.setItem("sessionId", data.sessionId);
         localStorage.setItem("accessToken", data.accessToken);
         localStorage.setItem("empId", empId);
