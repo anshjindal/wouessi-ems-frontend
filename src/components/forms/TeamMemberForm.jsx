@@ -1,4 +1,3 @@
-// src/components/forms/TeamMemberForm.jsx
 import PropTypes from "prop-types";
 import React, { useState } from "react";
 import "../../styles/components/TeamMemberForm.css";
@@ -9,30 +8,45 @@ const TeamMemberForm = ({ onSubmit, initialData = {} }) => {
     teamId: initialData.teamId || "",
     role: initialData.role || "",
     status: initialData.status || "active",
+    file: null,
   });
+  
+  // Called only when user picks a file
+  const handleFileChange = (e) => {
+    if (!e.target.files || e.target.files.length === 0) return;
+    const file = e.target.files[0];
+    setFormData((prev) => ({ ...prev, file }));
+  };
 
+  // Called for all text / select fields
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  // On submit, build a FormData with the file
   const handleSubmit = (e) => {
     e.preventDefault();
 
     // We'll just build a plain object, not FormData
-    const data = {
+    const data = new FormData();
+    if (formData.file) {
+      data.append("file", formData.file);
+    }
+
+    onSubmit({
       empId: formData.empId,
       teamId: formData.teamId,
       role: formData.role,
       status: formData.status,
-    };
-
-    onSubmit(data);
+      file: formData.file, // send the actual file here
+    });
   };
 
   return (
     <form className="team-member-form container" onSubmit={handleSubmit}>
       <h4 className="section-title">Team Member Details</h4>
+
       <div className="row">
         <div className="col-md-6">
           <label>Employee ID</label>
@@ -42,7 +56,6 @@ const TeamMemberForm = ({ onSubmit, initialData = {} }) => {
             className="form-control"
             value={formData.empId}
             onChange={handleChange}
-            required
           />
         </div>
 
@@ -82,6 +95,16 @@ const TeamMemberForm = ({ onSubmit, initialData = {} }) => {
             <option value="inactive">Inactive</option>
           </select>
         </div>
+      </div>
+
+      <div className="col-md-12 mt-3">
+        <label>Upload Document</label>
+        <input
+          type="file"
+          name="file"
+          className="form-control-file"
+          onChange={handleFileChange}
+        />
       </div>
 
       <button type="submit" className="btn btn-primary mt-3">

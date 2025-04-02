@@ -116,3 +116,50 @@ export const uploadTeamMembersFile = async (formData, authToken) => {
         throw error;
     }
 };
+
+// Remove a member from a team
+export const removeTeamMember = async (teamId, empId, authToken) => {
+    try {
+      const response = await fetch(`${API_URL}/teams/${teamId}/members/${empId}`, {
+        method: "DELETE",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${authToken}`
+        }
+      });
+  
+      if (!response.ok) {
+        throw new Error("Failed to remove team member");
+      }
+  
+      return await response.json();
+    } catch (error) {
+      console.error("Error removing team member:", error);
+      throw error;
+    }
+  };
+
+  // Upload a document for a specific team member
+export const uploadTeamDocument = async (teamId, empId, formData, authToken) => {
+    try {
+      const response = await fetch(`${API_URL}/teams/${teamId}/members/${empId}/documents`, {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Authorization": `Bearer ${authToken}`
+        },
+        body: formData
+      });
+  
+      if (!response.ok) {
+        throw new Error("Failed to upload document");
+      }
+  
+      return await response.json();
+    } catch (error) {
+      console.error("Error uploading document:", error);
+      throw error;
+    }
+  };
+  
