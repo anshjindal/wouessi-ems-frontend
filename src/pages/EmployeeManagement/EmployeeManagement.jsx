@@ -1,3 +1,4 @@
+import BulkCertificateSender from "./BulkCertificateSender";
 import "bootstrap/dist/css/bootstrap.min.css";
 import React, { useEffect, useState } from "react";
 import * as XLSX from "xlsx";
@@ -77,7 +78,6 @@ const EmployeeManagement = () => {
     );
 
     const exportToExcel = () => {
-
         if (employees.length === 0) {
             alert("No employees to export.");
             return;
@@ -97,10 +97,8 @@ const EmployeeManagement = () => {
         }));
 
         const worksheet = XLSX.utils.json_to_sheet(employeeData);
-
         const workbook = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(workbook, worksheet, "Employees");
-
         XLSX.writeFile(workbook, "EmployeeList.xlsx");
     };
 
@@ -111,7 +109,13 @@ const EmployeeManagement = () => {
 
                 {/* Navigation Tabs */}
                 <ul className="nav nav-tabs mb-3">
-                    {["VIEW EMPLOYEES LIST", "ADD NEW EMPLOYEE", "UPDATE EMPLOYEE", "DEACTIVATE EMPLOYEE"].map((tab) => (
+                    {[
+                        "VIEW EMPLOYEES LIST",
+                        "ADD NEW EMPLOYEE",
+                        "UPDATE EMPLOYEE",
+                        "DEACTIVATE EMPLOYEE",
+                        "SEND CERTIFICATES"
+                    ].map((tab) => (
                         <li className="nav-item" key={tab}>
                             <button
                                 className={`nav-link ${activeTab === tab ? "active" : ""}`}
@@ -171,7 +175,7 @@ const EmployeeManagement = () => {
                     </div>
                 )}
 
-                {/* ADD Employee - Uses Reusable Component */}
+                {/* ADD Employee */}
                 {activeTab === "ADD NEW EMPLOYEE" && (
                     <div className="form-container">
                         <EmployeeForm onSubmit={handleAddEmployee} />
@@ -215,7 +219,7 @@ const EmployeeManagement = () => {
                         </table>
                     </div>
                 )}
-                
+
                 <EmployeeUpdateModal
                     show={isModalOpen}
                     onClose={handleCloseModal}
@@ -224,7 +228,7 @@ const EmployeeManagement = () => {
                     onUpdate={fetchEmployees}
                 />
 
-                {/* Deactivate Employee */}
+                {/* DEACTIVATE Employee */}
                 {activeTab === "DEACTIVATE EMPLOYEE" && (
                     <div className="table-responsive">
                         <table className="table table-bordered">
@@ -264,6 +268,13 @@ const EmployeeManagement = () => {
                                 ))}
                             </tbody>
                         </table>
+                    </div>
+                )}
+
+                {/* SEND CERTIFICATES Tab */}
+                {activeTab === "SEND CERTIFICATES" && (
+                    <div className="send-certificates-tab">
+                        <BulkCertificateSender />
                     </div>
                 )}
 
