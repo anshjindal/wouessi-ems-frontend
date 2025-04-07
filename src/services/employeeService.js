@@ -80,11 +80,61 @@ export const updateEmployeeStatus = async (empId) => {
             headers: { "Content-Type": "application/json" }
         });
 
-        if (!response.ok) throw new Error("Failed to update employee status");
+        const result = await response.json();
 
-        return await response.json();
+        if (!response.ok) throw new Error(result.message || "Failed to update employee status");
+
+        return result;
     } catch (error) {
         console.error("Error updating employee status:", error);
+        throw error;
+    }
+};
+
+// Get Departments
+export const getDepartments = async () => {
+    try {
+        const response = await fetchWithAuth("/department/getDepartments", {
+            method: "GET",
+            headers: { "Content-Type": "application/json" }
+        });
+
+        if (!response.ok) throw new Error("Failed to fetch departments");
+        return await response.json();
+    } catch (error) {
+        console.error("Error fetching departments:", error);
+        throw error;
+    }
+};
+
+// Get Designations
+export const getDesignations = async () => {
+    try {
+        const response = await fetchWithAuth("/designation/getDesignations", {
+            method: "GET",
+            headers: { "Content-Type": "application/json" }
+        });
+
+        if (!response.ok) throw new Error("Failed to fetch designations");
+        return await response.json();
+    } catch (error) {
+        console.error("Error fetching designations:", error);
+        throw error;
+    }
+};
+
+// Get Roles
+export const getRoles = async () => {
+    try {
+        const response = await fetchWithAuth("/role/getRoles", {
+            method: "GET",
+            headers: { "Content-Type": "application/json" }
+        });
+
+        if (!response.ok) throw new Error("Failed to fetch roles");
+        return await response.json();
+    } catch (error) {
+        console.error("Error fetching roles:", error);
         throw error;
     }
 };

@@ -1,274 +1,298 @@
-import "bootstrap/dist/css/bootstrap.min.css";
-import React, { useEffect, useState } from "react";
-import * as XLSX from "xlsx";
-import Button from "../../components/common/Button";
-import EmployeeForm from "../../components/forms/EmployeeForm";
-import Footer from "../../components/layout/Footer";
-import Header from "../../components/layout/Header";
-import EmployeeUpdateModal from "../../components/modals/EmployeeUpdateModal";
-import {
-    createEmployee,
-    getAllEmployees,
-    updateEmployeeStatus
-} from "../../services/employeeService";
-import "../../styles/pages/EmployeeManagement.css";
+import PropTypes from "prop-types";
+import React, { useState } from "react";
+import "../../styles/components/EmployeeForm.css";
 
-const EmployeeManagement = () => {
-    const [employees, setEmployees] = useState([]);
-    const [activeTab, setActiveTab] = useState("VIEW EMPLOYEES LIST");
-    const [searchQuery, setSearchQuery] = useState("");
-    const [selectedEmployeeId, setSelectedEmployeeId] = useState(null);
-    const [authToken, setAuthToken] = useState("");
-    const [isModalOpen, setIsModalOpen] = useState(false);
+const EmployeeForm = ({ onSubmit, initialData = {}, departments = [], designations = [], roles = [] }) => {
+    const [formData, setFormData] = useState({
+        profileImage: initialData.profileImage || null,
+        firstName: initialData.firstName || "",
+        middleName: initialData.middleName || "",
+        lastName: initialData.lastName || "",
+        email: initialData.email || "",
+        workMail: initialData.workMail || "",
+        contactNumber: initialData.contactNumber || "",
+        dateOfBirth: initialData.dateOfBirth || "",
+        gender: initialData.gender || "Male",
+        bloodGroup: initialData.bloodGroup || "",
+        dateOfJoin: initialData.dateOfJoin || "",
+        imageFolder: initialData.imageFolder || "",
+        dateofExit: initialData.dateofExit || null,
+        departmentId: initialData.departmentId || "",
+        designations: initialData.designations || "",
+        employmentType: initialData.employmentType || "Full-Time",
+        workLocation: initialData.workLocation || "On-Site",
+        roleRef: initialData.roleRef || "",
+        status: initialData.status || "active",
+        accountNumber: initialData.accountNumber || "",
+        transitNumber: initialData.transitNumber || "",
+        institutionNumber: initialData.institutionNumber || "",
+        bankName: initialData.bankName || "",
+        interacId: initialData.interacId || "",
+        sin: initialData.sin || "",
+        taxCode: initialData.taxCode || "",
+        workPermitDetails: initialData.workPermitDetails || "",
+        prDetails: initialData.prDetails || "",
+        citizenshipId: initialData.citizenshipId || "",
+        maritalStatus: initialData.maritalStatus || "Single",
+        emergencyContactName: initialData.emergencyContactName || "",
+        emergencyContactNumber: initialData.emergencyContactNumber || "",
+        emergencyContactRelation: initialData.emergencyContactRelation || "",
+        repManagerRef: initialData.repManagerRef || null,
+        healthCardNo: initialData.healthCardNo || "",
+        familyPractitionerName: initialData.familyPractitionerName || "",
+        practitionerClinicName: initialData.practitionerClinicName || "",
+        practitionerName: initialData.practitionerName || "",
+        logId: initialData.logId || "LOG456789",
+        addresses: initialData.addresses || [
+            { type: "permanent", houseNo: "", street: "", city: "", province: "", country: "", pincode: "" },
+            { type: "temporary", houseNo: "", street: "", city: "", province: "", country: "", pincode: "" }
+        ],
+        resume: initialData.resume || null,
+    });
 
-    useEffect(() => {
-        fetchEmployees();
-    }, []);
-
-    const fetchEmployees = async () => {
-        try {
-            const res = await getAllEmployees();
-            setEmployees(res.employees);
-        } catch (err) {
-            console.error(err);
-        }
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData((prev) => ({ ...prev, [name]: value }));
     };
 
-    const handleSearch = (e) => {
-        setSearchQuery(e.target.value);
+    const handleAddressChange = (index, e) => {
+        const { name, value } = e.target;
+        setFormData(prev => {
+            const updatedAddresses = [...prev.addresses];
+            updatedAddresses[index][name] = value;
+            return { ...prev, addresses: updatedAddresses };
+        });
     };
 
-    const handleAddEmployee = async (formData) => {
-        try {
-            await createEmployee(formData);
-            alert("Employee successfully added!");
-            fetchEmployees();
-            setActiveTab("VIEW EMPLOYEES LIST");
-        } catch (error) {
-            alert("Error adding employee.");
-        }
+    const handleFileChange = (e) => {
+        const { name, files } = e.target;
+        setFormData(prev => ({ ...prev, [name]: files[0] }));
     };
 
-    const handleEditClick = (empId) => {
-        setSelectedEmployeeId(empId);
-        setIsModalOpen(true);
-    };
+    const handleSubmit = (e) => {
+        e.preventDefault();
 
-    const handleCloseModal = () => {
-        setIsModalOpen(false);
-        setSelectedEmployeeId(null);
-    };
+        const data = new FormData();
+        if (formData.profileImage) data.append('profileImage', formData.profileImage);
+        if (formData.resume) data.append('resume', formData.resume);
 
-    const handleDeactivateEmployee = async (empId) => {
-        try {
-            await updateEmployeeStatus(empId);
-            fetchEmployees();
-        } catch (error) {
-            alert("Error updating employee status.");
-        }
-    };
+        const fields = [
+            'firstName', 'middleName', 'lastName', 'email', 'workMail', 'contactNumber',
+            'dateOfBirth', 'gender', 'bloodGroup', 'dateOfJoin', 'departmentId',
+            'employmentType', 'workLocation', 'roleRef', 'status', 'accountNumber',
+            'transitNumber', 'institutionNumber', 'bankName', 'interacId', 'sin',
+            'taxCode', 'workPermitDetails', 'prDetails', 'citizenshipId', 'maritalStatus',
+            'emergencyContactName', 'emergencyContactNumber', 'emergencyContactRelation',
+            'repManagerRef', 'healthCardNo', 'familyPractitionerName',
+            'practitionerClinicName', 'practitionerName', 'logId', 'designations', 'dateOfExit'
+        ];
 
-    const filteredEmployees = employees.filter((emp) =>
-        `${emp.empId} ${emp.firstName} ${emp.middleName} ${emp.lastName} ${emp.email}`
-            .toLowerCase()
-            .includes(searchQuery.toLowerCase())
-    );
+        fields.forEach(key => {
+            if (formData[key]) data.append(key, formData[key]);
+        });
 
-    const exportToExcel = () => {
-
-        if (employees.length === 0) {
-            alert("No employees to export.");
-            return;
-        }
-
-        const employeeData = employees.map((emp) => ({
-            "Emp ID": emp.empId,
-            "Name": `${emp.firstName} ${emp.middleName || ""} ${emp.lastName}`,
-            "Email": emp.email,
-            "Work Email": emp.workMail,
-            "Gender": emp.gender,
-            "Employment Type": emp.employmentType,
-            "Status": emp.status,
-            "Contact Number": emp.contactNumber,
-            "Date of Join": emp.dateOfJoin ? new Date(emp.dateOfJoin).toLocaleDateString() : "N/A",
-            "Work Location": emp.workLocation,
+        const addressesWithType = formData.addresses.map((address, index) => ({
+            type: index === 0 ? "permanent" : "temporary",
+            ...address
         }));
 
-        const worksheet = XLSX.utils.json_to_sheet(employeeData);
-
-        const workbook = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(workbook, worksheet, "Employees");
-
-        XLSX.writeFile(workbook, "EmployeeList.xlsx");
+        data.append('addresses', JSON.stringify(addressesWithType));
+        onSubmit(data);
     };
 
     return (
-        <>
-            <Header />
-            <div className="container employee-management">
-
-                {/* Navigation Tabs */}
-                <ul className="nav nav-tabs mb-3">
-                    {["VIEW EMPLOYEES LIST", "ADD NEW EMPLOYEE", "UPDATE EMPLOYEE", "DEACTIVATE EMPLOYEE"].map((tab) => (
-                        <li className="nav-item" key={tab}>
-                            <button
-                                className={`nav-link ${activeTab === tab ? "active" : ""}`}
-                                onClick={() => {
-                                    setActiveTab(tab);
-                                }}
-                            >
-                                {tab.charAt(0).toUpperCase() + tab.slice(1)}
-                            </button>
-                        </li>
-                    ))}
-                </ul>
-
-                {/* Search Bar & Export Button */}
-                {activeTab === "VIEW EMPLOYEES LIST" && (
-                    <div className="search-container">
-                        <input
-                            type="text"
-                            placeholder="Search employees..."
-                            className="form-control search-input"
-                            value={searchQuery}
-                            onChange={handleSearch}
-                        />
-                        <Button text="Export to Excel" className="btn-export" onClick={exportToExcel} />
-                    </div>
-                )}
-
-                {/* VIEW Employees */}
-                {activeTab === "VIEW EMPLOYEES LIST" && (
-                    <div className="table-responsive">
-                        <table className="table table-striped table-hover">
-                            <thead>
-                                <tr>
-                                    <th>EmpID</th>
-                                    <th>Name</th>
-                                    <th>Email</th>
-                                    <th>Gender</th>
-                                    <th>Designation</th>
-                                    <th>EmpType</th>
-                                    <th>Status</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {filteredEmployees.map((emp) => (
-                                    <tr key={emp.empId}>
-                                        <td>{emp.empId}</td>
-                                        <td>{`${emp.firstName} ${emp.middleName || ""} ${emp.lastName}`}</td>
-                                        <td>{emp.workMail}</td>
-                                        <td>{emp.gender}</td>
-                                        <td>{emp.designations}</td>
-                                        <td>{emp.employmentType}</td>
-                                        <td>{emp.status}</td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    </div>
-                )}
-
-                {/* ADD Employee - Uses Reusable Component */}
-                {activeTab === "ADD NEW EMPLOYEE" && (
-                    <div className="form-container">
-                        <EmployeeForm onSubmit={handleAddEmployee} />
-                    </div>
-                )}
-
-                {/* UPDATE Employee */}
-                {activeTab === "UPDATE EMPLOYEE" && (
-                    <div className="table-responsive">
-                        <table className="table table-striped table-hover">
-                            <thead>
-                                <tr>
-                                    <th>EmpID</th>
-                                    <th>Name</th>
-                                    <th>Email</th>
-                                    <th>Gender</th>
-                                    <th>Designation</th>
-                                    <th>EmpType</th>
-                                    <th>Status</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {filteredEmployees.map((emp) => (
-                                    <tr key={emp.empId}>
-                                        <td>{emp.empId}</td>
-                                        <td>{`${emp.firstName} ${emp.middleName || ""} ${emp.lastName}`}</td>
-                                        <td>{emp.workMail}</td>
-                                        <td>{emp.gender}</td>
-                                        <td>{emp.designations}</td>
-                                        <td>{emp.employmentType}</td>
-                                        <td>{emp.status}</td>
-                                        <td>
-                                            <button className="btn btn-warning btn-sm" onClick={() => handleEditClick(emp.empId)}>
-                                                Edit
-                                            </button>
-                                        </td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    </div>
-                )}
-                
-                <EmployeeUpdateModal
-                    show={isModalOpen}
-                    onClose={handleCloseModal}
-                    empId={selectedEmployeeId}
-                    authToken={authToken}
-                    onUpdate={fetchEmployees}
-                />
-
-                {/* Deactivate Employee */}
-                {activeTab === "DEACTIVATE EMPLOYEE" && (
-                    <div className="table-responsive">
-                        <table className="table table-bordered">
-                            <thead className="table-danger">
-                                <tr>
-                                    <th>Emp ID</th>
-                                    <th>Name</th>
-                                    <th>Email</th>
-                                    <th>Gender</th>
-                                    <th>Designation</th>
-                                    <th>Emp Type</th>
-                                    <th>Status</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {employees.map((emp) => (
-                                    <tr key={emp.empId}>
-                                        <td>{emp.empId}</td>
-                                        <td>{`${emp.firstName} ${emp.middleName || ""} ${emp.lastName}`}</td>
-                                        <td>{emp.email}</td>
-                                        <td>{emp.gender}</td>
-                                        <td>{emp.designations}</td>
-                                        <td>{emp.employmentType}</td>
-                                        <td className={emp.status === "active" ? "text-success" : "text-danger"}>
-                                            {emp.status}
-                                        </td>
-                                        <td>
-                                            <button
-                                                className={`btn ${emp.status === "active" ? "btn-danger" : "btn-success"} btn-sm`}
-                                                onClick={() => handleDeactivateEmployee(emp.empId)}
-                                            >
-                                                {emp.status === "active" ? "Deactivate" : "Activate"}
-                                            </button>
-                                        </td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    </div>
-                )}
-
+        <form className="employee-form container" onSubmit={handleSubmit}>
+            <h4 className="section-title">Employee Image</h4>
+            {/* Upload Employee Picture */}
+            <div className="form-group">
+                <label>Employee Picture</label>
+                <input type="file" name="profileImage" className="form-control-file" onChange={handleFileChange} />
             </div>
-            <Footer />
-        </>
+
+            {/* Name Fields */}
+            <h4 className="section-title">Personal Details</h4>
+            <div className="row">
+                <div className="col-md-4"><label>First Name</label><input name="firstName" className="form-control" onChange={handleChange} value={formData.firstName} required /></div>
+                <div className="col-md-4"><label>Middle Name</label><input name="middleName" className="form-control" onChange={handleChange} value={formData.middleName} /></div>
+                <div className="col-md-4"><label>Last Name</label><input name="lastName" className="form-control" onChange={handleChange} value={formData.lastName} required /></div>
+                <div className="col-md-4"><label>Date of Birth</label><input type="date" name="dateOfBirth" className="form-control" onChange={handleChange} value={formData.dateOfBirth} required /></div>
+                <div className="col-md-4"><label>Gender</label><select name="gender" className="form-control" onChange={handleChange} value={formData.gender}><option value="Male">Male</option><option value="Female">Female</option><option value="Other">Other</option></select></div>
+                <div className="col-md-4"><label>Marital Status</label><select name="maritalStatus" className="form-control" onChange={handleChange} value={formData.maritalStatus}><option value="Single">Single</option><option value="Married">Married</option><option value="Divorced">Divorced</option><option value="Widowed">Widowed</option></select></div>
+                <div className="col-md-4"><label>Contact</label><input name="contactNumber" className="form-control" onChange={handleChange} value={formData.contactNumber} required /></div>
+                <div className="col-md-4"><label>Personal Email</label><input type="email" name="email" className="form-control" onChange={handleChange} value={formData.email} /></div>
+                <div className="col-md-4"><label>Blood Group</label><input name="bloodGroup" className="form-control" onChange={handleChange} value={formData.bloodGroup} /></div>
+            </div>
+
+            {/* Address Details */}
+            <h4 className="section-title">Address Details</h4>
+            {formData.addresses.map((address, index) => (
+                <div key={index} className="row address-row">
+                    <div className="section-title">
+                        <label className="address-label">{address.type.charAt(0).toUpperCase() + address.type.slice(1)} Address</label>
+                    </div>
+                    <div className="col-md-4">
+                        <label>House No.</label>
+                        <input name="houseNo" placeholder="House No." className="form-control" value={address.houseNo}
+                            onChange={(e) => handleAddressChange(index, e)} required />
+                    </div>
+                    <div className="col-md-4">
+                        <label>Street</label>
+                        <input name="street" placeholder="Street" className="form-control" value={address.street}
+                            onChange={(e) => handleAddressChange(index, e)} required />
+                    </div>
+                    <div className="col-md-4">
+                        <label>City</label>
+                        <input name="city" placeholder="City" className="form-control" value={address.city}
+                            onChange={(e) => handleAddressChange(index, e)} required />
+                    </div>
+                    <div className="col-md-4">
+                        <label>Province</label>
+                        <input name="province" placeholder="Province" className="form-control" value={address.province}
+                            onChange={(e) => handleAddressChange(index, e)} required />
+                    </div>
+                    <div className="col-md-4">
+                        <label>Country</label>
+                        <input name="country" placeholder="Country" className="form-control" value={address.country}
+                            onChange={(e) => handleAddressChange(index, e)} required />
+                    </div>
+                    <div className="col-md-4">
+                        <label>Pincode</label>
+                        <input name="pincode" placeholder="12345" className="form-control" value={address.pincode}
+                            onChange={(e) => handleAddressChange(index, e)} required pattern="\d{5,6}" />
+                    </div>
+                </div>
+            ))}
+
+            {/* Work Information */}
+            <h4 className="section-title">Work Information</h4>
+            <div className="row">
+                <div className="col-md-4"><label>Employment Type</label><select name="employmentType" className="form-control" onChange={handleChange} value={formData.employmentType}>
+                    <option value="Full-Time">Full-Time</option>
+                    <option value="Part-Time">Part-Time</option>
+                    <option value="Contract">Contract</option>
+                    <option value="Internship">Internship</option>
+                </select>
+                </div>
+                <div className="col-md-4"><label>Work Email</label><input name="workMail" className="form-control" onChange={handleChange} value={formData.workMail} required /></div>
+                <div className="col-md-4">
+                    <label>Designation</label>
+                    <select
+                        name="designations"
+                        className="form-control"
+                        onChange={handleChange}
+                        value={formData.designations}
+                        required
+                    >
+                        <option value="">Select Designation</option>
+                        {designations.map((desig) => (
+                            <option key={desig._id} value={desig.title}>
+                                {desig.title}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+                <div className="col-md-4">
+                    <label>Department</label>
+                    <select
+                        name="departmentId"
+                        className="form-control"
+                        onChange={handleChange}
+                        value={formData.departmentId}
+                        required
+                    >
+                        <option value="">Select Department</option>
+                        {departments.map((dept) => (
+                            <option key={dept._id} value={dept._id}>
+                                {dept.departmentName}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+                <div className="col-md-4"><label>Date of Joining</label><input type="date" name="dateOfJoin" className="form-control" onChange={handleChange} value={formData.dateOfJoin} required /></div>
+                <div className="col-md-4"><label>Work Location</label><input name="workLocation" className="form-control" onChange={handleChange} value={formData.workLocation} /></div>
+                <div className="col-md-4"><label>Employment Status</label><select name="status" className="form-control" onChange={handleChange} value={formData.status}><option value="active">Active</option><option value="inactive">Inactive</option></select></div>
+            </div>
+
+            {/* Banking Information */}
+            <h4 className="section-title">Banking Details</h4>
+            <div className="row">
+                <div className="col-md-4"><label>Bank Name</label><input name="bankName" className="form-control" onChange={handleChange} value={formData.bankName} /></div>
+                <div className="col-md-4"><label>Account Number</label><input name="accountNumber" className="form-control" onChange={handleChange} value={formData.accountNumber} /></div>
+                <div className="col-md-4"><label>Transit Number</label><input name="transitNumber" className="form-control" onChange={handleChange} value={formData.transitNumber} /></div>
+                <div className="col-md-4"><label>Institution Number</label><input name="institutionNumber" className="form-control" onChange={handleChange} value={formData.institutionNumber} /></div>
+                <div className="col-md-4"><label>Interac ID</label><input name="interacId" className="form-control" onChange={handleChange} value={formData.interacId} /></div>
+            </div>
+
+            {/* Health Details */}
+            <h4 className="section-title">Health Details</h4>
+            <div className="row">
+                <div className="col-md-4"><label>Health Card No.</label><input name="healthCardNo" className="form-control" onChange={handleChange} value={formData.healthCardNo} /></div>
+                <div className="col-md-4"><label>Family Practitioner</label><input name="familyPractitionerName" className="form-control" onChange={handleChange} value={formData.familyPractitionerName} /></div>
+                <div className="col-md-4"><label>Clinic Name</label><input name="practitionerClinicName" className="form-control" onChange={handleChange} value={formData.practitionerClinicName} /></div>
+                <div className="col-md-4"><label>Practitioner Name</label><input name="practitionerName" className="form-control" onChange={handleChange} value={formData.practitionerName} /></div>
+            </div>
+
+            {/* Emergency Contact */}
+            <h4 className="section-title">Emergency Contact</h4>
+            <div className="row">
+                <div className="col-md-4"><label>Contact Name</label><input name="emergencyContactName" className="form-control" onChange={handleChange} value={formData.emergencyContactName} /></div>
+                <div className="col-md-4"><label>Contact Number</label><input name="emergencyContactNumber" className="form-control" onChange={handleChange} value={formData.emergencyContactNumber} /></div>
+                <div className="col-md-4"><label>Relation</label><input name="emergencyContactRelation" className="form-control" onChange={handleChange} value={formData.emergencyContactRelation} /></div>
+            </div>
+
+            {/* Other Details Section */}
+            <h4 className="section-title">Other Details</h4>
+            <div className="row">
+                <div className="col-md-4">
+                    <label>Role</label>
+                    <select
+                        name="roleRef"
+                        className="form-control"
+                        onChange={handleChange}
+                        value={formData.roleRef}
+                        required
+                    >
+                        <option value="">Select Role</option>
+                        {roles.map((role) => (
+                            <option key={role._id} value={role._id}>
+                                {role.roleName}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+                <div className="col-md-4">
+                    <label>Role Manager Reference</label>
+                    <input name="repManagerRef" className="form-control" onChange={handleChange} value={formData.repManagerRef} required />
+                </div>
+                <div className="col-md-4">
+                    <label>SIN</label>
+                    <input name="sin" placeholder="123-456-789" className="form-control"
+                        onChange={handleChange} value={formData.sin} required pattern="\d{3}-\d{3}-\d{3}" />
+                </div>
+                <div className="col-md-4"><label>Work Permit Number</label><input name="workPermitDetails" className="form-control" onChange={handleChange} value={formData.workPermitDetails} /></div>
+                <div className="col-md-4"><label>Tax Code</label><input name="taxCode" className="form-control" onChange={handleChange} value={formData.taxCode} /></div>
+                <div className="col-md-4"><label>PR Details</label><input name="prDetails" className="form-control" onChange={handleChange} value={formData.prDetails} /></div>
+                <div className="col-md-4"><label>Citizenship ID</label><input name="citizenshipId" className="form-control" onChange={handleChange} value={formData.citizenshipId} /></div>
+            </div>
+
+            {/* Upload Docs */}
+            <h4 className="section-title">Upload Resume</h4>
+            <div className="form-group">
+                <input type="file" name="resume" className="form-control-file" onChange={handleFileChange} />
+            </div>
+
+            {/* Submit Button */}
+            <button type="submit" className="btn btn-primary btn-block">Submit</button>
+        </form>
     );
 };
 
-export default EmployeeManagement;
+EmployeeForm.propTypes = {
+    onSubmit: PropTypes.func.isRequired,
+    initialData: PropTypes.object,
+    departments: PropTypes.array,
+    designations: PropTypes.array,
+    roles: PropTypes.array,
+};
+
+export default EmployeeForm;
