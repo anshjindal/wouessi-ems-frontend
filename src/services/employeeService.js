@@ -75,21 +75,18 @@ export const updateEmployee = async (empId, updatedData) => {
 // Deactivate Employee
 export const updateEmployeeStatus = async (empId) => {
     try {
-        const response = await fetchWithAuth(`/employee/${empId}/updateEmployeeStatus`, {
-            method: "PATCH",
-            headers: { "Content-Type": "application/json" }
-        });
-
-        const result = await response.json();
-
-        if (!response.ok) throw new Error(result.message || "Failed to update employee status");
-
-        return result;
+      const response = await fetchWithAuth(`/employee/${empId}/updateEmployeeStatus`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+      });
+  
+      if (!response.ok) throw new Error("Failed to update employee status");
+      return await response.json();
     } catch (error) {
-        console.error("Error updating employee status:", error);
-        throw error;
+      console.error("Error updating employee status:", error);
+      throw error;
     }
-};
+  };  
 
 // Get Departments
 export const getDepartments = async () => {

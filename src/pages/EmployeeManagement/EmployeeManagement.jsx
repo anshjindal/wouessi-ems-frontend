@@ -1,5 +1,7 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import React, { useEffect, useState } from "react";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import * as XLSX from "xlsx";
 import Button from "../../components/common/Button";
 import EmployeeForm from "../../components/forms/EmployeeForm";
@@ -62,11 +64,11 @@ const EmployeeManagement = () => {
     const handleAddEmployee = async (formData) => {
         try {
             await createEmployee(formData);
-            alert("Employee successfully added!");
+            toast.success("Employee successfully added!");
             fetchEmployees();
             setActiveTab("VIEW EMPLOYEES LIST");
         } catch (error) {
-            alert("Error adding employee.");
+            toast.error("Error adding employee.");
         }
     };
 
@@ -82,10 +84,13 @@ const EmployeeManagement = () => {
 
     const handleDeactivateEmployee = async (empId) => {
         try {
-            await updateEmployeeStatus(empId);
+            const employee = employees.find(e => e.empId === empId);
+            const newStatus = employee.status === "active" ? "inactive" : "active";
+            await updateEmployeeStatus(empId, newStatus);
             fetchEmployees();
+            toast.success(`Employee ${newStatus === "active" ? "activated" : "deactivated"} successfully`);
         } catch (error) {
-            alert("Error updating employee status.");
+            toast.error("Failed to update employee status");
         }
     };
 
