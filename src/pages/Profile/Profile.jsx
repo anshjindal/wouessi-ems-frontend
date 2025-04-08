@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { FaBuilding, FaCheck, FaEdit, FaEnvelope, FaPhone, FaTimes, FaVenusMars } from "react-icons/fa";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import profile from "../../assets/icons/profile.jpg";
 import Footer from "../../components/layout/Footer";
 import Header from "../../components/layout/Header";
@@ -43,12 +45,43 @@ const Profile = () => {
     };
 
     const handleSave = async (section) => {
+        const sectionFields = {
+            personal: [
+                "firstName", "middleName", "lastName", "dateOfBirth",
+                "gender", "contactNumber", "email", "maritalStatus", "bloodGroup"
+            ],
+            work: [
+                "departmentId", "workLocation", "dateOfJoin",
+                "dateOfExit", "repManagerRef"
+            ],
+            banking: [
+                "bankName", "accountNumber", "transitNumber", "institutionNumber", "interacId"
+            ],
+            Others: [
+                "workPermitDetails", "prDetails", "sin",
+                "citizenshipId", "taxCode"
+            ],
+            emergency: [
+                "emergencyContactName", "emergencyContactNumber", "emergencyContactRelation"
+            ],
+            health: [
+                "healthCardNo", "practitionerClinicName", "practitionerName", "familyPractitionerName"
+            ]
+        };
+
+        const filteredData = {};
+        sectionFields[section]?.forEach((field) => {
+            filteredData[field] = updatedData[field];
+        });
+
         try {
-            await updateEmployee(employee.empId, updatedData);
-            setEmployee(updatedData);
+            await updateEmployee(employee.empId, filteredData);
+            setEmployee((prev) => ({ ...prev, ...filteredData }));
             setIsEditing({ ...isEditing, [section]: false });
+            toast.success(`${section.charAt(0).toUpperCase() + section.slice(1)} details updated successfully!`);
         } catch (error) {
             console.error("Error updating profile:", error);
+            toast.error("Failed to update profile.");
         }
     };
 
@@ -62,7 +95,11 @@ const Profile = () => {
                 <div className="profile-sidebar">
                     <div className="profile-image-container">
                         <img
-                            src={profile || employee.imageFolder}
+                            src={`http://localhost:5000/uploads/${employee.empId}/profileimage.jpg`}
+                            onError={(e) => {
+                                e.target.onerror = null;
+                                e.target.src = profile;
+                            }}
                             alt="Profile"
                             className="profile-image"
                         />
@@ -122,6 +159,10 @@ const Profile = () => {
                                 <label>Marital Status</label>
                                 <input type="text" name="maritalStatus" value={updatedData.maritalStatus} onChange={handleInputChange} disabled={!isEditing.personal} />
                             </div>
+                            <div>
+                                <label>Blood Group</label>
+                                <input type="text" name="bloodGroup" value={updatedData.bloodGroup} onChange={handleInputChange} disabled={!isEditing.personal} />
+                            </div>
                         </div>
                         {isEditing.personal && (
                             <div className="button-group">
@@ -135,7 +176,6 @@ const Profile = () => {
                     <div className="card">
                         <div className="card-header">
                             <span>Work Information</span>
-                            <FaEdit onClick={() => handleEdit("work")} />
                         </div>
                         <div className="info-row">
                             <div>
@@ -152,23 +192,39 @@ const Profile = () => {
                             </div>
                             <div>
                                 <label>Department:</label>
-                                <input type="text" name="departmentId" value={updatedData.departmentId} onChange={handleInputChange} disabled={!isEditing.work} />
+                                <input type="text" name="departmentId" value={updatedData.departmentId} onChange={handleInputChange} disabled />
                             </div>
                             <div>
                                 <label>Work Location:</label>
-                                <input type="text" name="workLocation" value={updatedData.workLocation} onChange={handleInputChange} disabled={!isEditing.work} />
+                                <input type="text" name="workLocation" value={updatedData.workLocation} onChange={handleInputChange} disabled />
                             </div>
                             <div>
                                 <label>Employment Status:</label>
                                 <input type="text" name="workLocation" value={updatedData.status} disabled />
                             </div>
-                        </div>
-                        {isEditing.work && (
-                            <div className="button-group">
-                                <button className="btn btn-save" onClick={() => handleSave("work")}><FaCheck /> Save</button>
-                                <button className="btn btn-cancel" onClick={() => handleCancel("work")}><FaTimes /> Cancel</button>
+                            <div>
+                                <label>Date of Join:</label>
+                                <input type="date" name="dateOfJoin" value={updatedData.dateOfJoin?.split("T")[0]} onChange={handleInputChange} disabled />
                             </div>
-                        )}
+                            <div>
+                                <label>Date of Exit:</label>
+                                <input type="date" name="dateOfExit" value={updatedData.dateOfExit?.split("T")[0]} onChange={handleInputChange} disabled />
+                            </div>
+                            <div>
+                                <label>Role</label>
+                                <input
+                                    type="text"
+                                    name="roleRef"
+                                    value={updatedData.roleRef?.roleName || ""}
+                                    onChange={handleInputChange}
+                                    disabled
+                                />
+                            </div>
+                            <div>
+                                <label>Reporting Manager:</label>
+                                <input type="text" name="repManagerRef" value={updatedData.repManagerRef} onChange={handleInputChange} disabled />
+                            </div>
+                        </div>
                     </div>
 
                     {/* Banking Information */}
@@ -180,25 +236,31 @@ const Profile = () => {
                         <div className="info-row">
                             <div>
                                 <label>Bank Name:</label>
-                                <input type="text" value={employee.bankName} disabled />
+                                <input type="text" name="bankName" value={updatedData.bankName} onChange={handleInputChange} disabled={!isEditing.banking} />
                             </div>
                             <div>
                                 <label>Account Number:</label>
-                                <input type="text" value={employee.accountNumber} disabled />
+                                <input type="text" name="accountNumber" value={updatedData.accountNumber} onChange={handleInputChange} disabled={!isEditing.banking} />
                             </div>
                             <div>
                                 <label>Transit Number:</label>
-                                <input type="text" value={employee.transitNumber} disabled />
+                                <input type="text" name="transitNumber" value={updatedData.transitNumber} onChange={handleInputChange} disabled={!isEditing.banking} />
                             </div>
                             <div>
                                 <label>Institution Number:</label>
-                                <input type="text" value={employee.institutionNumber} disabled />
+                                <input type="text" name="institutionNumber" value={updatedData.institutionNumber} onChange={handleInputChange} disabled={!isEditing.banking} />
                             </div>
                             <div>
                                 <label>Interac ID:</label>
-                                <input type="text" value={employee.interacId} disabled />
+                                <input type="text" name="interacId" value={updatedData.interacId} onChange={handleInputChange} disabled={!isEditing.banking} />
                             </div>
                         </div>
+                        {isEditing.banking && (
+                            <div className="button-group">
+                                <button className="btn btn-save" onClick={() => handleSave("banking")}><FaCheck /> Save</button>
+                                <button className="btn btn-cancel" onClick={() => handleCancel("banking")}><FaTimes /> Cancel</button>
+                            </div>
+                        )}
                     </div>
 
                     {/* Emergency Contact */}
@@ -210,43 +272,97 @@ const Profile = () => {
                         <div className="info-row">
                             <div>
                                 <label>Full Name:</label>
-                                <input type="text" value={employee.emergencyContactName} disabled />
+                                <input
+                                    type="text"
+                                    name="emergencyContactName"
+                                    value={updatedData.emergencyContactName}
+                                    onChange={handleInputChange}
+                                    disabled={!isEditing.emergency}
+                                />
                             </div>
                             <div>
                                 <label>Contact Number:</label>
-                                <input type="text" value={employee.emergencyContactNumber} disabled />
+                                <input
+                                    type="text"
+                                    name="emergencyContactNumber"
+                                    value={updatedData.emergencyContactNumber}
+                                    onChange={handleInputChange}
+                                    disabled={!isEditing.emergency}
+                                />
                             </div>
                             <div>
-                                <label>RelationShip:</label>
-                                <input type="text" value={employee.emergencyContactRelation} disabled />
+                                <label>Relationship:</label>
+                                <input
+                                    type="text"
+                                    name="emergencyContactRelation"
+                                    value={updatedData.emergencyContactRelation}
+                                    onChange={handleInputChange}
+                                    disabled={!isEditing.emergency}
+                                />
                             </div>
                         </div>
+                        {isEditing.emergency && (
+                            <div className="button-group">
+                                <button className="btn btn-save" onClick={() => handleSave("emergency")}><FaCheck /> Save</button>
+                                <button className="btn btn-cancel" onClick={() => handleCancel("emergency")}><FaTimes /> Cancel</button>
+                            </div>
+                        )}
                     </div>
 
                     {/* Health */}
                     <div className="card">
                         <div className="card-header">
                             <span>Health Information</span>
-                            <FaEdit onClick={() => handleEdit("emergency")} />
+                            <FaEdit onClick={() => handleEdit("health")} />
                         </div>
                         <div className="info-row">
                             <div>
                                 <label>Health Card No:</label>
-                                <input type="text" name="healthCardNo" value={updatedData.healthCardNo} onChange={handleInputChange} disabled={!isEditing.work} />
+                                <input
+                                    type="text"
+                                    name="healthCardNo"
+                                    value={updatedData.healthCardNo}
+                                    onChange={handleInputChange}
+                                    disabled={!isEditing.health}
+                                />
                             </div>
                             <div>
                                 <label>Practitioner Clinic:</label>
-                                <input type="text" name="practitionerClinicName" value={updatedData.practitionerClinicName} onChange={handleInputChange} disabled={!isEditing.work} />
+                                <input
+                                    type="text"
+                                    name="practitionerClinicName"
+                                    value={updatedData.practitionerClinicName}
+                                    onChange={handleInputChange}
+                                    disabled={!isEditing.health}
+                                />
                             </div>
                             <div>
                                 <label>Practitioner Name:</label>
-                                <input type="text" name="practitionerName" value={updatedData.practitionerName} onChange={handleInputChange} disabled={!isEditing.work} />
+                                <input
+                                    type="text"
+                                    name="practitionerName"
+                                    value={updatedData.practitionerName}
+                                    onChange={handleInputChange}
+                                    disabled={!isEditing.health}
+                                />
                             </div>
                             <div>
                                 <label>Family Practitioner Name:</label>
-                                <input type="text" name="familyPractitionerName" value={updatedData.familyPractitionerName} onChange={handleInputChange} disabled={!isEditing.work} />
+                                <input
+                                    type="text"
+                                    name="familyPractitionerName"
+                                    value={updatedData.familyPractitionerName}
+                                    onChange={handleInputChange}
+                                    disabled={!isEditing.health}
+                                />
                             </div>
                         </div>
+                        {isEditing.health && (
+                            <div className="button-group">
+                                <button className="btn btn-save" onClick={() => handleSave("health")}><FaCheck /> Save</button>
+                                <button className="btn btn-cancel" onClick={() => handleCancel("health")}><FaTimes /> Cancel</button>
+                            </div>
+                        )}
                     </div>
 
                     {/* Other Information */}
@@ -258,25 +374,72 @@ const Profile = () => {
                         <div className="info-row">
                             <div>
                                 <label>Work Permit ID</label>
-                                <input type="text" name="workPermitDetails" value={employee.workPermitDetails} onChange={handleInputChange} disabled={!isEditing.Others} />
+                                <input
+                                    type="text"
+                                    name="workPermitDetails"
+                                    value={updatedData.workPermitDetails}
+                                    onChange={handleInputChange}
+                                    disabled={!isEditing.Others}
+                                />
                             </div>
                             <div>
                                 <label>PR Card Number:</label>
-                                <input type="text" name="prDetails" value={employee.prDetails} onChange={handleInputChange} disabled={!isEditing.Others} />
+                                <input
+                                    type="text"
+                                    name="prDetails"
+                                    value={updatedData.prDetails}
+                                    onChange={handleInputChange}
+                                    disabled={!isEditing.Others}
+                                />
                             </div>
                             <div>
                                 <label>SIN:</label>
-                                <input type="text" name="sin" value={employee.sin} onChange={handleInputChange} disabled={!isEditing.Others} />
+                                <input
+                                    type="text"
+                                    name="sin"
+                                    value={updatedData.sin}
+                                    onChange={handleInputChange}
+                                    disabled={!isEditing.Others}
+                                />
                             </div>
                             <div>
                                 <label>Citizenship ID:</label>
-                                <input type="text" name="citizenshipId" value={employee.citizenshipId} onChange={handleInputChange} disabled={!isEditing.Others} />
+                                <input
+                                    type="text"
+                                    name="citizenshipId"
+                                    value={updatedData.citizenshipId}
+                                    onChange={handleInputChange}
+                                    disabled={!isEditing.Others}
+                                />
                             </div>
                             <div>
                                 <label>Tax Code:</label>
-                                <input type="text" name="taxCode" value={employee.taxCode} onChange={handleInputChange} disabled={!isEditing.Others} />
+                                <input
+                                    type="text"
+                                    name="taxCode"
+                                    value={updatedData.taxCode}
+                                    onChange={handleInputChange}
+                                    disabled={!isEditing.Others}
+                                />
+                            </div>
+                            <div>
+                                <label>Resume:</label>
+                                <a
+                                    href={`http://localhost:5000/uploads/${employee.empId}/resume.pdf`}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="btn btn-outline-secondary"
+                                >
+                                    📄 View Resume
+                                </a>
                             </div>
                         </div>
+                        {isEditing.Others && (
+                            <div className="button-group">
+                                <button className="btn btn-save" onClick={() => handleSave("Others")}><FaCheck /> Save</button>
+                                <button className="btn btn-cancel" onClick={() => handleCancel("Others")}><FaTimes /> Cancel</button>
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>
