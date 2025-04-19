@@ -1,5 +1,7 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import React, { useEffect, useState } from "react";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import * as XLSX from "xlsx";
 import Button from "../../components/common/Button";
 import EmployeeForm from "../../components/forms/EmployeeForm";
@@ -9,7 +11,10 @@ import EmployeeUpdateModal from "../../components/modals/EmployeeUpdateModal";
 import {
     createEmployee,
     getAllEmployees,
-    updateEmployeeStatus
+    getDepartments,
+    getDesignations,
+    getRoles,
+    updateEmployeeStatus,
 } from "../../services/employeeService";
 import "../../styles/pages/EmployeeManagement.css";
 
@@ -20,19 +25,35 @@ const EmployeeManagement = () => {
     const [selectedEmployeeId, setSelectedEmployeeId] = useState(null);
     const [authToken, setAuthToken] = useState("");
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [departments, setDepartments] = useState([]);
+    const [designations, setDesignations] = useState([]);
+    const [roles, setRoles] = useState([]);
 
     useEffect(() => {
         fetchEmployees();
-        const storedToken = localStorage.getItem("accessToken");
-        if (storedToken) setAuthToken(storedToken);
+        fetchDropdownData();
     }, []);
 
     const fetchEmployees = async () => {
         try {
-            const res = await getAllEmployees(authToken);
+            const res = await getAllEmployees();
             setEmployees(res.employees);
         } catch (err) {
             console.error(err);
+        }
+    };
+
+    const fetchDropdownData = async () => {
+        try {
+            const deptRes = await getDepartments();
+            const desigRes = await getDesignations();
+            const rolesRes = await getRoles();
+
+            setDepartments(deptRes.departments);
+            setDesignations(desigRes.designations);
+            setRoles(rolesRes.roles);
+        } catch (error) {
+            console.error("Error fetching dropdown data:", error);
         }
     };
 
@@ -42,12 +63,12 @@ const EmployeeManagement = () => {
 
     const handleAddEmployee = async (formData) => {
         try {
-            await createEmployee(formData, authToken);
-            alert("Employee successfully added!");
+            await createEmployee(formData);
+            toast.success("Employee successfully added!");
             fetchEmployees();
             setActiveTab("VIEW EMPLOYEES LIST");
         } catch (error) {
-            alert("Error adding employee.");
+            toast.error("Error adding employee.");
         }
     };
 
@@ -63,10 +84,13 @@ const EmployeeManagement = () => {
 
     const handleDeactivateEmployee = async (empId) => {
         try {
-            await updateEmployeeStatus(empId, authToken);
+            const employee = employees.find(e => e.empId === empId);
+            const newStatus = employee.status === "active" ? "inactive" : "active";
+            await updateEmployeeStatus(empId, newStatus);
             fetchEmployees();
+            toast.success(`Employee ${newStatus === "active" ? "activated" : "deactivated"} successfully`);
         } catch (error) {
-            alert("Error updating employee status.");
+            toast.error("Failed to update employee status");
         }
     };
 
@@ -77,7 +101,6 @@ const EmployeeManagement = () => {
     );
 
     const exportToExcel = () => {
-
         if (employees.length === 0) {
             alert("No employees to export.");
             return;
@@ -97,10 +120,8 @@ const EmployeeManagement = () => {
         }));
 
         const worksheet = XLSX.utils.json_to_sheet(employeeData);
-
         const workbook = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(workbook, worksheet, "Employees");
-
         XLSX.writeFile(workbook, "EmployeeList.xlsx");
     };
 
@@ -108,16 +129,13 @@ const EmployeeManagement = () => {
         <>
             <Header />
             <div className="container employee-management">
-
                 {/* Navigation Tabs */}
                 <ul className="nav nav-tabs mb-3">
                     {["VIEW EMPLOYEES LIST", "ADD NEW EMPLOYEE", "UPDATE EMPLOYEE", "DEACTIVATE EMPLOYEE"].map((tab) => (
                         <li className="nav-item" key={tab}>
                             <button
                                 className={`nav-link ${activeTab === tab ? "active" : ""}`}
-                                onClick={() => {
-                                    setActiveTab(tab);
-                                }}
+                                onClick={() => setActiveTab(tab)}
                             >
                                 {tab.charAt(0).toUpperCase() + tab.slice(1)}
                             </button>
@@ -125,7 +143,7 @@ const EmployeeManagement = () => {
                     ))}
                 </ul>
 
-                {/* Search Bar & Export Button */}
+                {/* Search & Export */}
                 {activeTab === "VIEW EMPLOYEES LIST" && (
                     <div className="search-container">
                         <input
@@ -139,7 +157,7 @@ const EmployeeManagement = () => {
                     </div>
                 )}
 
-                {/* VIEW Employees */}
+                {/* View Employees */}
                 {activeTab === "VIEW EMPLOYEES LIST" && (
                     <div className="table-responsive">
                         <table className="table table-striped table-hover">
@@ -171,14 +189,19 @@ const EmployeeManagement = () => {
                     </div>
                 )}
 
-                {/* ADD Employee - Uses Reusable Component */}
+                {/* Add Employee */}
                 {activeTab === "ADD NEW EMPLOYEE" && (
                     <div className="form-container">
-                        <EmployeeForm onSubmit={handleAddEmployee} />
+                        <EmployeeForm
+                            onSubmit={handleAddEmployee}
+                            departments={departments}
+                            designations={designations}
+                            roles={roles}
+                        />
                     </div>
                 )}
 
-                {/* UPDATE Employee */}
+                {/* Update Employee */}
                 {activeTab === "UPDATE EMPLOYEE" && (
                     <div className="table-responsive">
                         <table className="table table-striped table-hover">
@@ -205,7 +228,10 @@ const EmployeeManagement = () => {
                                         <td>{emp.employmentType}</td>
                                         <td>{emp.status}</td>
                                         <td>
-                                            <button className="btn btn-warning btn-sm" onClick={() => handleEditClick(emp.empId)}>
+                                            <button
+                                                className="btn btn-warning btn-sm"
+                                                onClick={() => handleEditClick(emp.empId)}
+                                            >
                                                 Edit
                                             </button>
                                         </td>
@@ -215,7 +241,7 @@ const EmployeeManagement = () => {
                         </table>
                     </div>
                 )}
-                
+
                 <EmployeeUpdateModal
                     show={isModalOpen}
                     onClose={handleCloseModal}
@@ -266,7 +292,6 @@ const EmployeeManagement = () => {
                         </table>
                     </div>
                 )}
-
             </div>
             <Footer />
         </>

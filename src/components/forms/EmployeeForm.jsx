@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import React, { useState } from "react";
 import "../../styles/components/EmployeeForm.css";
 
-const EmployeeForm = ({ onSubmit, initialData = {} }) => {
+const EmployeeForm = ({ onSubmit, initialData = {}, departments = [], designations = [], roles = [] }) => {
     const [formData, setFormData] = useState({
         profileImage: initialData.profileImage || null,
         firstName: initialData.firstName || "",
@@ -71,11 +71,11 @@ const EmployeeForm = ({ onSubmit, initialData = {} }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-    
+
         const data = new FormData();
         if (formData.profileImage) data.append('profileImage', formData.profileImage);
         if (formData.resume) data.append('resume', formData.resume);
-    
+
         const fields = [
             'firstName', 'middleName', 'lastName', 'email', 'workMail', 'contactNumber',
             'dateOfBirth', 'gender', 'bloodGroup', 'dateOfJoin', 'departmentId',
@@ -86,20 +86,20 @@ const EmployeeForm = ({ onSubmit, initialData = {} }) => {
             'repManagerRef', 'healthCardNo', 'familyPractitionerName',
             'practitionerClinicName', 'practitionerName', 'logId', 'designations', 'dateOfExit'
         ];
-    
+
         fields.forEach(key => {
             if (formData[key]) data.append(key, formData[key]);
         });
-    
+
         const addressesWithType = formData.addresses.map((address, index) => ({
             type: index === 0 ? "permanent" : "temporary",
             ...address
         }));
-    
+
         data.append('addresses', JSON.stringify(addressesWithType));
         onSubmit(data);
     };
-    
+
     return (
         <form className="employee-form container" onSubmit={handleSubmit}>
             <h4 className="section-title">Employee Image</h4>
@@ -174,8 +174,40 @@ const EmployeeForm = ({ onSubmit, initialData = {} }) => {
                 </select>
                 </div>
                 <div className="col-md-4"><label>Work Email</label><input name="workMail" className="form-control" onChange={handleChange} value={formData.workMail} required /></div>
-                <div className="col-md-4"><label>Designation</label><input name="designations" className="form-control" onChange={handleChange} value={formData.designations} /></div>
-                <div className="col-md-4"><label>Department</label><input name="departmentId" className="form-control" onChange={handleChange} value={formData.departmentId} /></div>
+                <div className="col-md-4">
+                    <label>Designation</label>
+                    <select
+                        name="designations"
+                        className="form-control"
+                        onChange={handleChange}
+                        value={formData.designations}
+                        required
+                    >
+                        <option value="">Select Designation</option>
+                        {designations.map((desig) => (
+                            <option key={desig._id} value={desig.title}>
+                                {desig.title}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+                <div className="col-md-4">
+                    <label>Department</label>
+                    <select
+                        name="departmentId"
+                        className="form-control"
+                        onChange={handleChange}
+                        value={formData.departmentId}
+                        required
+                    >
+                        <option value="">Select Department</option>
+                        {departments.map((dept) => (
+                            <option key={dept._id} value={dept._id}>
+                                {dept.departmentName}
+                            </option>
+                        ))}
+                    </select>
+                </div>
                 <div className="col-md-4"><label>Date of Joining</label><input type="date" name="dateOfJoin" className="form-control" onChange={handleChange} value={formData.dateOfJoin} required /></div>
                 <div className="col-md-4"><label>Work Location</label><input name="workLocation" className="form-control" onChange={handleChange} value={formData.workLocation} /></div>
                 <div className="col-md-4"><label>Employment Status</label><select name="status" className="form-control" onChange={handleChange} value={formData.status}><option value="active">Active</option><option value="inactive">Inactive</option></select></div>
@@ -212,8 +244,21 @@ const EmployeeForm = ({ onSubmit, initialData = {} }) => {
             <h4 className="section-title">Other Details</h4>
             <div className="row">
                 <div className="col-md-4">
-                    <label>Role Reference</label>
-                    <input name="roleRef" className="form-control" onChange={handleChange} value={formData.roleRef} required />
+                    <label>Role</label>
+                    <select
+                        name="roleRef"
+                        className="form-control"
+                        onChange={handleChange}
+                        value={formData.roleRef}
+                        required
+                    >
+                        <option value="">Select Role</option>
+                        {roles.map((role) => (
+                            <option key={role._id} value={role._id}>
+                                {role.roleName}
+                            </option>
+                        ))}
+                    </select>
                 </div>
                 <div className="col-md-4">
                     <label>Role Manager Reference</label>
@@ -245,6 +290,9 @@ const EmployeeForm = ({ onSubmit, initialData = {} }) => {
 EmployeeForm.propTypes = {
     onSubmit: PropTypes.func.isRequired,
     initialData: PropTypes.object,
+    departments: PropTypes.array,
+    designations: PropTypes.array,
+    roles: PropTypes.array,
 };
 
 export default EmployeeForm;

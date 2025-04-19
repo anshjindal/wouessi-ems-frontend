@@ -6,6 +6,7 @@ import Dashboard from "./pages/Dashboard/Dashboard";
 import EmployeeManagement from "./pages/EmployeeManagement/EmployeeManagement";
 import ForgotPassword from "./pages/ForgotPassword/ForgotPassword";
 import Login from "./pages/Login/Login";
+import Onboarding from "./pages/Onboarding/Onboarding";
 import Profile from "./pages/Profile/Profile";
 
 const AppRouter = () => {
@@ -20,6 +21,7 @@ const AppRouter = () => {
                 <Route path="/contact" element={<ContactUs />} />
                 <Route path="/about" element={<AboutUs />} />
                 <Route path="/employee-management" element={<EmployeeManagement />} />
+                <Route path="/onboarding" element={<Onboarding />} />
             </Routes>
         </Router>
     );
