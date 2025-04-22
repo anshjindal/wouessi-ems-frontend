@@ -18,26 +18,35 @@ submission and role orientation.
 deductions, taxes, and reporting.
 
 # PROJECT STRUCTURE ::
+
 ## Folder Details In Project
+
 ## assets/
+
 - Contains all static assets like images, fonts, and icons used throughout the application.
 
 ## components/
+
 - Reusable components shared across multiple pages (e.g., Header, Footer, Button).
 
 ## pages/
+
 - Page-specific components for individual routes (e.g., Home, About, Contact, NotFound).
 
 ## context/
+
 - Manages global application state using React's Context API.
 
 ## hooks/
+
 - Custom hooks that encapsulate reusable logic for cleaner components.
 
 ## services/
+
 - Contains API service logic and helper functions for data fetching and utility operations.
 
 ## styles/
+
 - All styles are organized in one place, with subfolders for:
 - components/: Component-specific styles.
 - pages/: Page-specific styles.
