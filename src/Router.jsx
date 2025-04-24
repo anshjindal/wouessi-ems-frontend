@@ -8,6 +8,11 @@ import ForgotPassword from "./pages/ForgotPassword/ForgotPassword";
 import Login from "./pages/Login/Login";
 import Onboarding from "./pages/Onboarding/Onboarding";
 import Profile from "./pages/Profile/Profile";
+import TraineeRegistration from "./pages/TraineeRegistration/TraineeRegistration";
+import TraineeLogin from './pages/TraineeLogin/TraineeLogin';
+import DtsDashboardLayout from './pages/DtsDashboard/DtsDashboardLayout';
+import DashboardHome from './pages/DtsDashboard/Home';
+import Vetting from './pages/DtsDashboard/Vetting/Vetting';
 
 const AppRouter = () => {
     return (
@@ -22,6 +27,12 @@ const AppRouter = () => {
                 <Route path="/about" element={<AboutUs />} />
                 <Route path="/employee-management" element={<EmployeeManagement />} />
                 <Route path="/onboarding" element={<Onboarding />} />
+                <Route path="/trainee_registration" element={<TraineeRegistration />} />
+                <Route path="/trainee_login" element={<TraineeLogin />} />
+                <Route path="/dts_dashboard" element={<DtsDashboardLayout />}>
+                    <Route index element={<DashboardHome />} />
+                    <Route path="vetting" element={<Vetting />} />
+                </Route>
             </Routes>
         </Router>
     );
