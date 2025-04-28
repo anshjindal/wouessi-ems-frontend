@@ -51,3 +51,5 @@ deductions, taxes, and reporting.
 - components/: Component-specific styles.
 - pages/: Page-specific styles.
 - global.css: Global styles shared across the app.
+
+*NOTE: When running this make sure you add a  task folder for the jsx files on the file part wouessi-ems-frontend/src/components

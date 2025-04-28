@@ -8,13 +8,15 @@ import ForgotPassword from "./pages/ForgotPassword/ForgotPassword";
 import Login from "./pages/Login/Login";
 import Onboarding from "./pages/Onboarding/Onboarding";
 import Profile from "./pages/Profile/Profile";
-import SubmittedTimesheets from "./pages/Timesheets/SubmittedTimesheets";
-import Timesheets from "./pages/Timesheets/Timesheets";
+import DocumentSubmissionForm from "./components/forms/DocumentSubmissionForm";
+import TaskForm from "./components/forms/TaskForm";
 
 const AppRouter = () => {
     return (
         <Router>
             <Routes>
+                <Route path="/document-submission" element={<DocumentSubmissionForm />} />
+                <Route path="/create-task" element={<TaskForm />} />
                 <Route path="/" element={<Login />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/forgot-password" element={<ForgotPassword />} />
