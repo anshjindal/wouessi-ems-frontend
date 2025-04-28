@@ -85,26 +85,26 @@ const Profile = () => {
         }
     };
 
-    const handleProfilePictureChange = async (e) => {
-        const file = e.target.files[0];
-        if (!file) return;
+//     const handleProfilePictureChange = async (e) => {
+//         const file = e.target.files[0];
+//         if (!file) return;
       
-        const formData = new FormData();
-        formData.append("profilePicture", file);
+//         const formData = new FormData();
+//         formData.append("profilePicture", file);
       
-        try {
-          const response = await uploadProfilePicture(employee.empId, formData);
-          if (response && response.filePath) {
+//         try {
+//           const response = await uploadProfilePicture(employee.empId, formData);
+//           if (response && response.filePath) {
 
-            setEmployee((prev) => ({ ...prev, imageFolder: response.filePath }));
-          }
-          alert("Profile picture updated successfully. Please refresh the page to see changes.");
-        } catch (error) {
-          console.error("Error uploading profile picture:", error);
-        }
-      };
+//             setEmployee((prev) => ({ ...prev, imageFolder: response.filePath }));
+//           }
+//           alert("Profile picture updated successfully. Please refresh the page to see changes.");
+//         } catch (error) {
+//           console.error("Error uploading profile picture:", error);
+//         }
+//       };
 
-  if (!employee) return <LoadingSpinner message="Loading profile..." />;
+//   if (!employee) return <LoadingSpinner message="Loading profile..." />;
 
     return (
         <>

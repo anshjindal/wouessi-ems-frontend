@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timesheet</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+       .timesheet-container {
+            width: 90%;
+            max-width: 700px; 
+            margin: 30px auto;
+            padding: 30px;
+            border: 1px solid #d1c4e9;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(123, 31, 162, 0.1);
+            background-color: #f3e5f5;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .timesheet-container h2 {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #673ab7;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        th, td {
+            border: 1px solid #b39ddb;
+            padding: 12px 15px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #e1bee7; /* Light purple for table headers */
+            color: #673ab7;
+            font-weight: 600;
+        }
+
+        .status {
+            font-weight: bold;
+        }
+
+        button {
+            background-color: #9c27b0;
+            color: white;
+            padding: 8px 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s ease;
+            margin: 5px;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        button:hover {
+            background-color: #7b1fa2;
+        }
+
+        .reject-comment {
+            display: none;
+            margin-top: 10px;
+        }
+
+        .reject-comment textarea {
+            width: calc(100% - 16px);
+            padding: 8px;
+            border: 1px solid #b39ddb;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 14px;
+            line-height: 1.5;
+            transition: border-color 0.3s ease;
+        }
+
+        .reject-comment textarea:focus {
+            border-color: #9c27b0;
+            outline: none;
+        }
+
+        .total {
+            font-weight: bold;
+            text-align: right;
+            margin-top: 10px;
+            color: #7e57c2;
+        }
+
+        /* Media queries */
+        @media (max-width: 600px) {
+            .timesheet-container {
+                padding: 20px;
+                margin: 20px auto;
+            }
+
+            th, td {
+                padding: 8px 10px;
+                font-size: 12px;
+            }
+
+            button {
+                font-size: 12px;
+                padding: 6px 10px;
+            }
+        }
+
+        @media (min-width: 601px) and (max-width: 1024px) {
+            .timesheet-container {
+                padding: 25px;
+            }
+
+            th, td {
+                padding: 10px 12px;
+                font-size: 13px;
+            }
+
+            button {
+                font-size: 13px;
+                padding: 7px 11px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Timesheet Management</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Project/Task</th>
+                <th>Hours</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody id="timesheet-body">
+            <tr>
+                <td>03/24/2025</td>
+                <td>Database Migration</td>
+                <td class="hours">7</td>
+                <td class="status">Pending</td>
+                <td>
+                    <button onclick="approveTimesheet(this)">Approve</button>
+                    <button onclick="rejectTimesheet(this)">Reject</button>
+                    <div class="reject-comment">
+                        <textarea placeholder="Enter rejection comment"></textarea>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>03/26/2025</td>
+                <td>Backend Refactoring</td>
+                <td class="hours">8</td>
+                <td class="status">Completed</td>
+                <td>
+                    <button onclick="approveTimesheet(this)">Approve</button>
+                    <button onclick="rejectTimesheet(this)">Reject</button>
+                    <div class="reject-comment">
+                        <textarea placeholder="Enter rejection comment"></textarea>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>03/28/2025</td>
+                <td>Frontend Development</td>
+                <td class="hours">6</td>
+                <td class="status">Pending</td>
+                <td>
+                    <button onclick="approveTimesheet(this)">Approve</button>
+                    <button onclick="rejectTimesheet(this)">Reject</button>
+                    <div class="reject-comment">
+                        <textarea placeholder="Enter rejection comment"></textarea>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>03/29/2025</td>
+                <td>Testing and Debugging</td>
+                <td class="hours">9</td>
+                <td class="status">In Progress</td>
+                <td>
+                    <button onclick="approveTimesheet(this)">Approve</button>
+                    <button onclick="rejectTimesheet(this)">Reject</button>
+                    <div class="reject-comment">
+                        <textarea placeholder="Enter rejection comment"></textarea>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>03/30/2025</td>
+                <td>Documentation</td>
+                <td class="hours">5</td>
+                <td class="status">Completed</td>
+                <td>
+                    <button onclick="approveTimesheet(this)">Approve</button>
+                    <button onclick="rejectTimesheet(this)">Reject</button>
+                    <div class="reject-comment">
+                        <textarea placeholder="Enter rejection comment"></textarea>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <p class="total" id="total-hours">Total: 0 hours</p>
+
+    <script>
+        function calculateTotalHours() {
+            let total = 0;
+            document.querySelectorAll('.hours').forEach(cell => {
+                total += parseInt(cell.textContent, 10);
+            });
+            document.getElementById('total-hours').textContent = `Total: ${total} hours`;
+        }
+
+        function approveTimesheet(button) {
+            let row = button.parentNode.parentNode; // Get the parent row
+            row.querySelector('.status').textContent = "Approved"; // Update the status cell
+        }
+
+        function rejectTimesheet(button) {
+            let commentDiv = button.nextElementSibling; // Get the comment div
+            commentDiv.style.display = "block"; // Show the comment div
+            button.onclick = function() { // Change the button's onclick function
+                let row = button.parentNode.parentNode; //get row
+                let comment = commentDiv.querySelector('textarea').value; //get text area value
+                row.querySelector('.status').textContent = "Rejected"; //set status to rejected
+                alert("Timesheet Rejected. Comment: " + comment); //display comment in alert box
+                commentDiv.style.display = "none"; // Hide comment div
+                button.onclick = function(){ //reset reject button functionality
+                    rejectTimesheet(button);
+                }
+            };
+        }
+
+        calculateTotalHours(); // Calculate total hours on page load
+    </script>
+
+</body>
+</html>

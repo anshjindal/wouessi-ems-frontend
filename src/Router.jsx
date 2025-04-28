@@ -8,6 +8,8 @@ import ForgotPassword from "./pages/ForgotPassword/ForgotPassword";
 import Login from "./pages/Login/Login";
 import Onboarding from "./pages/Onboarding/Onboarding";
 import Profile from "./pages/Profile/Profile";
+import SubmittedTimesheets from "./pages/Timesheets/SubmittedTimesheets";
+import Timesheets from "./pages/Timesheets/Timesheets";
 
 const AppRouter = () => {
     return (
@@ -21,10 +23,10 @@ const AppRouter = () => {
                 <Route path="/contact" element={<ContactUs />} />
                 <Route path="/about" element={<AboutUs />} />
                 <Route path="/employee-management" element={<EmployeeManagement />} />
-                <Route path="/onboarding" element={<Onboarding />} />
             </Routes>
         </Router>
     );
+
 };
 
 export default AppRouter;
