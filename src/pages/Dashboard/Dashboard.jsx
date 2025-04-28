@@ -10,6 +10,8 @@ import {
   FaUserTie,
 } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+
+// 📦 Image imports
 import Approvals from "../../assets/images/Approvals.png";
 import Leaves from "../../assets/images/Leaves.png";
 import MyProfile from "../../assets/images/myprofile.jpg";
@@ -19,11 +21,17 @@ import Performance from "../../assets/images/Performance.png";
 import Project from "../../assets/images/project.jpg";
 import Settings from "../../assets/images/Settings.png";
 import Timesheets from "../../assets/images/Timesheets.png";
+import Milestones from "../../assets/images/Milestones.png"; // ✅ NEW import
+
+// 🧱 Layout
 import Footer from "../../components/layout/Footer";
 import Header from "../../components/layout/Header";
 import Sidebar from "../../components/layout/Sidebar";
+
+// 📡 Services
 import { logout } from "../../services/authService";
 import { getEmployeeById } from "../../services/employeeService";
+
 import "../../styles/pages/Dashboard.css";
 import LoadingSpinner from "../../components/common/LoadingSpinner.jsx";
 
@@ -90,21 +98,19 @@ const Dashboard = () => {
         ]),
   ];
 
-  const dashboardCards = [
-    { title: "My Profile", path: "/profile", image: MyProfile },
-    { title: "Onboarding", path: "/onboarding", image: Onboarding },
-    { title: "Timesheets", path: "/timesheets", image: Timesheets },
-    { title: "Leaves", path: "/leaves", image: Leaves },
-    { title: "Payroll", path: "/payroll", image: Payroll },
-    { title: "Projects", path: "/projects", image: Project },
-    ...(employee.role === "admin"
-      ? [
-          { title: "Approvals", path: "/approvals", image: Approvals },
-          { title: "Performance", path: "/performance", image: Performance },
-          { title: "Settings", path: "/settings", image: Settings },
-        ]
-      : []),
-  ];
+    const dashboardCards = [
+        { title: "My Profile", path: "/profile", image: MyProfile },
+        { title: "Onboarding", path: "/onboarding", image: Onboarding },
+        { title: "Timesheets", path: "/timesheets", image: Timesheets },
+        { title: "Leaves", path: "/leaves", image: Leaves },
+        { title: "Payroll", path: "/payroll", image: Payroll },
+        { title: "Projects", path: "/projects", image: Project },
+        ...(employee.role === "admin" ? [
+            { title: "Approvals", path: "/approvals", image: Approvals },
+            { title: "Performance", path: "/performance", image: Performance },
+            { title: "Settings", path: "/settings", image: Settings }
+        ] : [])
+    ];
 
   return (
     <div className="dashboard-wrapper">

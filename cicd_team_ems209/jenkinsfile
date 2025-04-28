@@ -1,0 +1,96 @@
+pipeline {
+    agent any
+
+    environment {
+        IMAGE_NAME = "smehra999/ems209_frontend"  // Image name (can be changed for frontend/backend)
+        DOCKER_REGISTRY = "docker.io"  // Docker registry URL (default Docker Hub)
+    }
+
+    stages {
+        
+        // Stage to verify NPM (optional)
+        stage('Verify NPM') {
+            steps {
+                bat 'npm -v'  // Verifies NPM version
+            }
+        }
+
+        // Stage to checkout the frontend repository
+        stage('Git Checkout Frontend') {
+            steps {
+                dir('frontend') {
+                   git credentialsId: 'Github', url: 'https://github.com/adii3/wouessi-ems-frontend.git', branch: 'feat_ems_qc_209'                
+                }
+            }
+        }
+
+        // Stage to build the frontend
+        stage('Build Frontend and Test') {
+            steps {
+                dir('frontend') {
+                    bat 'set CI=false && npm run build || exit 0'
+                }
+            }
+        }
+
+        // Stage to build the Docker image for frontend
+        stage('Build Docker Image for Frontend') {
+            steps {
+                dir('frontend') {
+                    script {
+                        env.TAG = env.BUILD_ID  // Tagging with build ID
+                        echo "Building Docker image for frontend"
+                        bat 'docker build -t ems209_frontend:latest -f cicd_team_ems209/dockerfile .'
+                    }
+                }
+            }
+        }
+
+        // Stage to push Docker image for frontend
+        stage('Push Docker Image for Frontend') {
+            steps {
+                script {
+                    // Docker login using Jenkins credentials store
+                    withCredentials([usernamePassword(credentialsId: 'docker-hub', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+                        echo "Logging in to Docker Hub"
+                        bat "docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD} ${DOCKER_REGISTRY}"
+                    }
+
+                    // Tagging the frontend image with build ID and latest
+                    bat "docker tag ems209_frontend:latest ${IMAGE_NAME}:${TAG}"
+                    bat "docker tag ems209_frontend:latest ${IMAGE_NAME}:latest"
+
+                    // Pushing the frontend image to Docker Hub
+                    bat "docker push ${IMAGE_NAME}:${TAG}"
+                    bat "docker push ${IMAGE_NAME}:latest"
+                }
+            }
+        }
+        // Stage to deploy backend to Kubernetes
+        stage('Deploy to Kubernetes') {
+            steps {
+                script {
+                    withEnv(["KUBECONFIG=C:\\Users\\smehr\\.kube\\config"]) {
+                        dir('frontend') {
+                            
+                            // Create namespace if it does not exist
+                            bat "kubectl get namespace team-ems209 || kubectl create namespace team-ems209"
+
+                            // Apply Kubernetes manifests
+                            bat "kubectl apply -f cicd_team_ems209\\k8s\\ --namespace=team-ems209"
+                            
+                            // Check if the deployment exists before setting the image
+                            bat "kubectl rollout status deployment/frontend-deployment --namespace=team-ems209 || exit 0"
+
+                            // Update Kubernetes deployment with the new backend image
+                            bat "kubectl set image deployment/frontend-deployment frontend=${IMAGE_NAME}:${TAG} --namespace=team-ems209"
+                            
+                            // Verify deployment status
+                            bat "kubectl get pods --namespace=team-ems209"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}  

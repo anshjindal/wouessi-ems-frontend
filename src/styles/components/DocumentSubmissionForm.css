@@ -1,0 +1,56 @@
+.doc-upload-container {
+    max-width: 500px;
+    margin: 30px auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}
+
+.doc-upload-container h2 {
+    margin-bottom: 15px;
+}
+
+.file-input-section {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.file-input-section input[type="file"] {
+    border: 1px solid #ccc;
+    padding: 6px;
+}
+
+.file-input-section button {
+    padding: 8px 16px;
+    background: #2e6df6;
+    color: white;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background 0.3s ease;
+}
+
+.file-input-section button:hover {
+    background: #1e50d6;
+}
+
+.selected-files,
+.uploaded-docs {
+    margin-top: 20px;
+    background: #f9f9f9;
+    padding: 10px;
+    border-radius: 4px;
+}
+
+.selected-files h4,
+.uploaded-docs h4 {
+    margin-top: 0;
+}
+
+.selected-files ul,
+.uploaded-docs ul {
+    list-style: none;
+    padding: 0;
+}

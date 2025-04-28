@@ -1,0 +1,282 @@
+/* Timesheets Page Styles */
+
+/* General page container */
+.timesheets-wrapper {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    width: 100%;
+    overflow: hidden;
+}
+
+/*header*/
+.timesheets-header {
+    background: linear-gradient(180deg, #2b03a2, #3a06d6); 
+    color: white;
+    text-align: center;
+    padding: 0 15px; 
+    font-size: 1.5rem; 
+    font-weight: bold;
+    height: 55px; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000; 
+}
+
+/*footer*/
+.timesheets-footer {
+    background: linear-gradient(180deg, #2b03a2, #3a06d6); 
+    color: white;
+    text-align: center;
+    padding: 0 15px;
+    font-size: 14px;
+    height: 55px; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000; 
+}
+
+/* General page content */
+.timesheets-container {
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - 110px);
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border: 4px solid #2b03a2; 
+    overflow: hidden; 
+    margin-top: 55px; 
+    margin-bottom: 55px; 
+}
+
+/* Heading Style */
+.timesheets-container h2 {
+    text-align: center;
+    color: #333;
+    font-size: 2rem;
+    margin-bottom: 20px;
+}
+
+/* Form container */
+.timesheets-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 10px; 
+}
+
+/* Form label styles */
+.timesheets-form label {
+    font-size: 1rem;
+    color: #333;
+    font-weight: bold;
+}
+
+/* Input field styles */
+.timesheets-form input {
+    padding: 12px;
+    font-size: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+.timesheets-form input:focus {
+    border-color: #2b03a2;
+    box-shadow: 0 0 5px rgba(43, 3, 162, 0.2);
+}
+
+/* Button style */
+.timesheets-form button {
+    background-color: #2b03a2;
+    color: white;
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+/* Button colour*/
+.timesheets-form button:hover {
+    background-color: #3a06d6;
+}
+
+/* Entries list styling */
+.entries-list {
+    flex-grow: 1; 
+    max-height: 300px; 
+    overflow-y: auto; 
+    margin-top: 20px;
+    padding-right: 10px; 
+}
+
+/* Entries list heading */
+.entries-list h3 {
+    font-size: 1.5rem;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+/* Styling for list */
+.entries-list ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* Individual entry styles */
+.entries-list ul li {
+    padding: 12px;
+    background-color: white;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1rem;
+    word-wrap: break-word;
+}
+
+/* Entry details */
+.entries-list ul li .entry-details {
+    font-size: 1rem;
+    color: #555;
+}
+
+.entries-list ul li .entry-date,
+.entries-list ul li .entry-task {
+    font-weight: bold;
+    color: #333;
+}
+
+/* Styled Date Picker */
+.styled-date-picker, 
+.styled-input {
+    padding: 12px;
+    font-size: 1rem;
+    border: 2px solid #d1d5db;
+    border-radius: 8px;
+    outline: none;
+    transition: all 0.3s ease;
+    background-color: white;
+    width: 100%;
+    max-width: 300px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.styled-date-picker:hover,
+.styled-date-picker:focus,
+.styled-input:hover,
+.styled-input:focus {
+    border-color: #2b03a2;
+    box-shadow: 0 0 6px rgba(43, 3, 162, 0.2);
+}
+
+/* Save Button */
+.styled-button {
+    background-color: #2b03a2;
+    color: white;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.styled-button:hover {
+    background-color: #3a06d6;
+}
+
+/* Delete Button */
+.delete-button {
+    background-color: #ff4d4d;
+    color: white;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.delete-button:hover {
+    background-color: #cc0000;
+}
+
+/* Entries List */
+.entries-list ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.entries-list ul li {
+    padding: 12px;
+    background-color: white;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1rem;
+    word-wrap: break-word;
+}
+
+/* No Entries Message */
+.no-entries {
+    text-align: center;
+    color: #777;
+    font-size: 1rem;
+    margin-top: 10px;
+}
+
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+    .timesheets-container {
+        padding: 20px;
+    }
+
+    .timesheets-form input,
+    .timesheets-form button {
+        font-size: 0.9rem;
+    }
+
+    .entries-list ul li {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+@media (max-width: 768px) {
+    .timesheets-container {
+        padding: 15px;
+    }
+
+    .timesheets-form input,
+    .timesheets-form button {
+        font-size: 0.85rem;
+    }
+
+    .entries-list ul li {
+        padding: 10px;
+        font-size: 0.9rem;
+    }
+}
