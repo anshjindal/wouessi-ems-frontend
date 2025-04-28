@@ -5,17 +5,13 @@ import "react-toastify/dist/ReactToastify.css";
 import profile from "../../assets/icons/profile.jpg";
 import Footer from "../../components/layout/Footer";
 import Header from "../../components/layout/Header";
-import {
-  getEmployeeById,
-  updateEmployee,
-} from "../../services/employeeService";
+import { getEmployeeById, updateEmployee } from "../../services/employeeService";
 import "../../styles/pages/Profile.css";
-import LoadingSpinner from "../../components/common/LoadingSpinner.jsx";
 
 const Profile = () => {
-  const [employee, setEmployee] = useState(null);
-  const [isEditing, setIsEditing] = useState({});
-  const [updatedData, setUpdatedData] = useState({});
+    const [employee, setEmployee] = useState(null);
+    const [isEditing, setIsEditing] = useState({});
+    const [updatedData, setUpdatedData] = useState({});
 
     useEffect(() => {
         const fetchEmployee = async () => {
@@ -89,6 +85,25 @@ const Profile = () => {
         }
     };
 
+    const handleProfilePictureChange = async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+      
+        const formData = new FormData();
+        formData.append("profilePicture", file);
+      
+        try {
+          const response = await uploadProfilePicture(employee.empId, formData);
+          if (response && response.filePath) {
+
+            setEmployee((prev) => ({ ...prev, imageFolder: response.filePath }));
+          }
+          alert("Profile picture updated successfully. Please refresh the page to see changes.");
+        } catch (error) {
+          console.error("Error uploading profile picture:", error);
+        }
+      };
+
   if (!employee) return <LoadingSpinner message="Loading profile..." />;
 
     return (
@@ -99,11 +114,7 @@ const Profile = () => {
                 <div className="profile-sidebar">
                     <div className="profile-image-container">
                         <img
-                            src={`http://localhost:5000/uploads/${employee.empId}/profileimage.jpg`}
-                            onError={(e) => {
-                                e.target.onerror = null;
-                                e.target.src = profile;
-                            }}
+                            src={profile || employee.imageFolder}
                             alt="Profile"
                             className="profile-image"
                         />
@@ -195,7 +206,7 @@ const Profile = () => {
                                 <input type="text" value={employee.empId} disabled />
                             </div>
                             <div>
-                                <label>Employement Type:</label>
+                                <label>Employment Type:</label>
                                 <input type="text" value={employee.employmentType} disabled />
                             </div>
                             <div>
@@ -238,9 +249,8 @@ const Profile = () => {
                             </div>
                         </div>
                     </div>
-
-                    {/* Banking Information */}
-                    <div className="card">
+                     {/* Banking Information */}
+                     <div className="card">
                         <div className="card-header">
                             <span>Banking Details</span>
                             <FaEdit onClick={() => handleEdit("banking")} />
@@ -320,9 +330,8 @@ const Profile = () => {
                             </div>
                         )}
                     </div>
-
-                    {/* Health */}
-                    <div className="card">
+                     {/* Health */}
+                     <div className="card">
                         <div className="card-header">
                             <span>Health Information</span>
                             <FaEdit onClick={() => handleEdit("health")} />
