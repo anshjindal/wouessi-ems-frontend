@@ -40,63 +40,54 @@ const Dashboard = () => {
   const [employee, setEmployee] = useState(null);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchEmployee = async () => {
-      try {
-        const empId = localStorage.getItem("empId");
-        if (!empId) throw new Error("Employee ID missing");
+    useEffect(() => {
+        const fetchEmployee = async () => {
+            try {
+                const empId = localStorage.getItem("empId");
+                if (!empId) throw new Error("Employee ID missing");
 
-        const employeeData = await getEmployeeById(empId);
-        if (!employeeData || !employeeData.employee)
-          throw new Error("User not authenticated");
-        setEmployee(employeeData.employee);
-      } catch (error) {
-        console.error("User not authenticated, redirecting...");
-        localStorage.clear();
-        sessionStorage.clear();
-        navigate("/login");
-      }
-    };
+                const employeeData = await getEmployeeById(empId);
+                if (!employeeData || !employeeData.employee) throw new Error("User not authenticated");
+                setEmployee(employeeData.employee);
+            } catch (error) {
+                console.error("User not authenticated, redirecting...");
+                localStorage.clear();
+                sessionStorage.clear();
+                navigate("/login");
+            }
+        };
 
     fetchEmployee();
   }, [navigate]);
 
-  const handleLogout = async () => {
-    try {
-      await logout();
-      localStorage.clear();
-      sessionStorage.clear();
-      navigate("/login");
-    } catch (error) {
-      console.error("Logout failed:", error.message);
-    }
-  };
+    const handleLogout = async () => {
+        try {
+            await logout();
+            localStorage.clear();
+            sessionStorage.clear();
+            navigate("/login");
+        } catch (error) {
+            console.error("Logout failed:", error.message);
+        }
+    };
 
   if (!employee) return <LoadingSpinner />;
 
-  const menuItems = [
-    { name: "My Profile", path: "/profile", icon: <FaUser /> },
-    ...(employee.role === "admin"
-      ? [
-          {
-            name: "Manage Employees",
-            path: "/employee-management",
-            icon: <FaUserTie />,
-          },
-          { name: "Settings", path: "/settings", icon: <FaCog /> },
-        ]
-      : [
-          {
-            name: "Timesheets",
-            path: "/timesheets",
-            icon: <FaHourglassHalf />,
-          },
-          { name: "Leaves", path: "/leaves", icon: <FaUmbrellaBeach /> },
-          { name: "Payroll", path: "/payroll", icon: <FaMoneyBillWave /> },
-          { name: "Projects", path: "/projects", icon: <FaProjectDiagram /> },
-          { name: "Performance", path: "/performance", icon: <FaChartLine /> },
-        ]),
-  ];
+    const menuItems = [
+        { name: "My Profile", path: "/profile", icon: <FaUser /> },
+        ...(employee.role === "admin"
+            ? [
+                { name: "Manage Employees", path: "/employee-management", icon: <FaUserTie /> },
+                { name: "Settings", path: "/settings", icon: <FaCog /> }
+            ]
+            : [
+                { name: "Timesheets", path: "/timesheets", icon: <FaHourglassHalf /> },
+                { name: "Leaves", path: "/leaves", icon: <FaUmbrellaBeach /> },
+                { name: "Payroll", path: "/payroll", icon: <FaMoneyBillWave /> },
+                { name: "Projects", path: "/projects", icon: <FaProjectDiagram /> },
+                { name: "Performance", path: "/performance", icon: <FaChartLine /> }
+            ])
+    ];
 
     const dashboardCards = [
         { title: "My Profile", path: "/profile", image: MyProfile },
@@ -105,6 +96,7 @@ const Dashboard = () => {
         { title: "Leaves", path: "/leaves", image: Leaves },
         { title: "Payroll", path: "/payroll", image: Payroll },
         { title: "Projects", path: "/projects", image: Project },
+        { title: "Team Management", path: "/team-management", image: Project },
         ...(employee.role === "admin" ? [
             { title: "Approvals", path: "/approvals", image: Approvals },
             { title: "Performance", path: "/performance", image: Performance },

@@ -1,4 +1,4 @@
-import { fetchWithAuth } from "./authService";
+import { fetchWithAuth } from "./authService.js";
 const API_URL = process.env.REACT_APP_API_URL;
 
 export const submitOnboardingDocuments = async (empId, uploadedDocs) => {
@@ -16,10 +16,13 @@ export const submitOnboardingDocuments = async (empId, uploadedDocs) => {
       }
     });
 
-    const response = await fetchWithAuth(`${API_URL}/onboarding/submit/${empId}`, {
-      method: "POST",
-      body: formData,
-    });
+    const response = await fetchWithAuth(
+      `${API_URL}/onboarding/submit/${empId}`,
+      {
+        method: "POST",
+        body: formData,
+      }
+    );
 
     const contentType = response.headers.get("content-type") || "";
     if (!response.ok) {

@@ -10,6 +10,8 @@ import Onboarding from "./pages/Onboarding/Onboarding";
 import Profile from "./pages/Profile/Profile";
 import DocumentSubmissionForm from "./components/forms/DocumentSubmissionForm";
 import TaskForm from "./components/forms/TaskForm";
+import Timesheet from "./pages/Timesheet/Timesheet";
+import TeamManagement from "./pages/TeamManagement/TeamManagement";
 
 const AppRouter = () => {
     return (
@@ -22,9 +24,11 @@ const AppRouter = () => {
                 <Route path="/forgot-password" element={<ForgotPassword />} />
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/profile" element={<Profile />} />
+                <Route path="/timesheets" element={<Timesheet />} />
                 <Route path="/contact" element={<ContactUs />} />
                 <Route path="/about" element={<AboutUs />} />
                 <Route path="/employee-management" element={<EmployeeManagement />} />
+                <Route path="/team-management" element={<TeamManagement />} />
             </Routes>
         </Router>
     );

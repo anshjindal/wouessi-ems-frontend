@@ -8,6 +8,7 @@ import "../../styles/pages/Leaves.css";
 import Sidebar from "./LeavesSidebar.jsx";
 
 const Leaves = () => {
+  //const empId = localStorage.getItem("empId");
   const [showPopup, setShowPopup] = useState(false);
 
   const handleOpenPopup = () => {
@@ -35,7 +36,7 @@ const Leaves = () => {
           <Col xs={10}>
             <Row className="head-row">
               <Col xs={2}>
-                <h5>Leave Availability</h5>
+                <h5>Leave avalability</h5>
               </Col>
               <Col xs={2}>
                 <Button 
@@ -48,22 +49,21 @@ const Leaves = () => {
               </Col>
             </Row>
             <Row>
-              <div className="card-row">
-                {leaveCards.map((card, index) => (
-                  <CardV2
-                    key={index}
-                    leaveType={card.leaveType}
-                    remaining={card.remaining}
-                    total={card.total}
-                    color={card.color}
-                    aria-label={`${card.leaveType} balance, ${card.remaining} out of ${card.total} days remaining`}
-                  />
-                ))}
-              </div>
+            <div className="card-row">
+              {leaveCards.map((card, index) => (
+                <CardV2
+                  key={index}
+                  leaveType={card.leaveType}
+                  remaining={card.remaining}
+                  total={card.total}
+                  color={card.color}
+                />
+              ))}
+            </div>
             </Row> 
             <Row>
-              <div className="container-fluid" aria-live="polite">
-                <LeaveRequests empId={"EMP1001"} />
+              <div className="container-fluid">
+              <LeaveRequests empId={"EMP1001"}/>
               </div>
             </Row>
           </Col>

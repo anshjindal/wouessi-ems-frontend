@@ -16,9 +16,10 @@ const Profile = () => {
     useEffect(() => {
         const fetchEmployee = async () => {
             const empId = localStorage.getItem("empId");
-            if (!empId) return;
+            const authToken = localStorage.getItem("accessToken");
+            if (!empId || !authToken) return;
             try {
-                const response = await getEmployeeById(empId);
+                const response = await getEmployeeById(empId, authToken);
                 if (response && response.employee) {
                     setEmployee(response.employee);
                     setUpdatedData(response.employee);

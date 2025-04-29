@@ -2,9 +2,9 @@ const API_URL = process.env.REACT_APP_API_URL;
 
 // Helper to get cookie value
 const getCookie = (name) => {
-    const value = `; ${document.cookie}`;
-    const parts = value.split(`; ${name}=`);
-    if (parts.length === 2) return parts.pop().split(";").shift();
+  const value = `; ${document.cookie}`;
+  const parts = value.split(`; ${name}=`);
+  if (parts.length === 2) return parts.pop().split(";").shift();
 };
 
 // Login Request (Stores sessionId, accessToken, empId)
@@ -32,7 +32,7 @@ export const login = async (empId, password) => {
   }
 };
 
-// Logout Request
+// Logout Request (Ensure sessionId, empId and accessToken are sent)
 export const logout = async () => {
   try {
     const sessionId = localStorage.getItem("sessionId");
@@ -77,60 +77,59 @@ export const logout = async () => {
 
 // Refresh Token Logic
 export const refreshAccessToken = async () => {
-    try {
-        const refreshToken = getCookie("refreshToken");
-        if (!refreshToken) throw new Error("Refresh token missing.");
+  try {
+    const refreshToken = getCookie("refreshToken");
+    if (!refreshToken) throw new Error("Refresh token missing.");
 
-        const response = await fetch(`${API_URL}/auth/refreshToken`, {
-            method: "POST",
-            credentials: "include",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ refreshToken })
-        });
+    const response = await fetch(`${API_URL}/auth/refreshToken`, {
+      method: "POST",
+      credentials: "include",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ refreshToken }),
+    });
 
-        const data = await response.json();
-        if (!response.ok) throw new Error(data.message || "Token refresh failed");
+    const data = await response.json();
+    if (!response.ok) throw new Error(data.message || "Token refresh failed");
 
-        localStorage.setItem("accessToken", data.accessToken);
-        return data.accessToken;
+    localStorage.setItem("accessToken", data.accessToken);
+    return data.accessToken;
 
-    } catch (error) {
-        console.error("Error refreshing token:", error.message);
-        throw error;
-    }
+    return { success: true };
+  } catch (error) {
+    console.error("Logout error:", error.message);
+  }
 };
 
 // fetch wrapper with automatic refresh logic
 export const fetchWithAuth = async (url, options = {}) => {
-    let accessToken = localStorage.getItem("accessToken");
+  let accessToken = localStorage.getItem("accessToken");
 
-    let response = await fetch(`${API_URL}${url}`, {
+  let response = await fetch(`${API_URL}${url}`, {
+    ...options,
+    credentials: "include",
+    headers: {
+      ...options.headers,
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+
+  if (response.status === 401) {
+    try {
+      accessToken = await refreshAccessToken();
+      const retryResponse = await fetch(`${API_URL}${url}`, {
         ...options,
         credentials: "include",
         headers: {
-            ...options.headers,
-            Authorization: `Bearer ${accessToken}`,
+          ...options.headers,
+          Authorization: `Bearer ${accessToken}`,
         },
-    });
+      });
 
-    if (response.status === 401) {
-        try {
-            accessToken = await refreshAccessToken();
-            const retryResponse = await fetch(`${API_URL}${url}`, {
-                ...options,
-                credentials: "include",
-                headers: {
-                    ...options.headers,
-                    Authorization: `Bearer ${accessToken}`,
-                },
-            });
-
-            return retryResponse;
-
-        } catch (refreshError) {
-            console.error("Unable to refresh token:", refreshError);
-            throw refreshError;
-        }
+      return retryResponse;
+    } catch (refreshError) {
+      console.error("Unable to refresh token:", refreshError);
+      throw refreshError;
     }
-    return response;
+  }
+  return response;
 };

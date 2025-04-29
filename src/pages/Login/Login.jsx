@@ -20,17 +20,17 @@ const Login = () => {
     const handleLogin = async (e) => {
         e.preventDefault();
         setError("");
-        setLoading(true);
 
         try {
             const data = await login(empId, password);
-            localStorage.setItem("sessionId", data.sessionId);
-            localStorage.setItem("accessToken", data.accessToken);
-            navigate("/dashboard");
+    
+            if (data.success) {
+                navigate("/dashboard");
+            } else {
+                throw new Error(data.error);
+            }
         } catch (err) {
             setError(err.message);
-        } finally {
-            setLoading(false);
         }
     };
 

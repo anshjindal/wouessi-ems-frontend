@@ -1,13 +1,12 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import React, { useEffect, useState } from "react";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import * as XLSX from "xlsx";
 import Button from "../../components/common/Button";
 import EmployeeForm from "../../components/forms/EmployeeForm";
 import Footer from "../../components/layout/Footer";
 import Header from "../../components/layout/Header";
 import EmployeeUpdateModal from "../../components/modals/EmployeeUpdateModal";
+
 import {
     createEmployee,
     getAllEmployees,
@@ -18,21 +17,62 @@ import {
 } from "../../services/employeeService";
 import "../../styles/pages/EmployeeManagement.css";
 import LoadingSpinner from "../../components/common/LoadingSpinner.jsx";
+import { toast } from "react-toastify";
+const newStatus = "Active"; 
 
 const EmployeeManagement = () => {
+    const [selectedUsers, setSelectedUsers] = useState([]);
+    const handleSelectUser = (userId) => {
+        const employee = employees.find((e) => e.empId === userId);
+        if (!employee || employee.status === "active") {
+            alert("Cannot select active employees for reactivation.");
+            return;
+        }
+    
+        setSelectedUsers((prev) =>
+            prev.includes(userId)
+                ? prev.filter((id) => id !== userId)
+                : [...prev, userId]
+        );
+    };    
+
+    const handleBulkReactivate = async () => {
+        if (selectedUsers.length === 0) return;
+    
+        const confirmReactivation = window.confirm(
+            `Are you sure you want to reactivate ${selectedUsers.length} ${selectedUsers.length === 1 ? 'employee' : 'employees'}? This will restore their access to the system.`
+        );
+    
+        if (!confirmReactivation) return;
+    
+        try {
+            for (const empId of selectedUsers) {
+                const emp = employees.find(e => e.empId === empId);
+                if (emp.status !== "inactive") {
+                    throw new Error ("VALIDATION_ERROR");
+                }
+                await updateEmployeeStatus(empId, authToken);
+            }
+    
+            await fetchEmployees();
+            setSelectedUsers([]);
+            alert("✅ Selected employees reactivated successfully.");
+        } catch (error) {
+            alert("❌ " + (error.message || "Something went wrong."));
+        }
+    };
+    
     const [employees, setEmployees] = useState([]);
     const [activeTab, setActiveTab] = useState("VIEW EMPLOYEES LIST");
     const [searchQuery, setSearchQuery] = useState("");
     const [selectedEmployeeId, setSelectedEmployeeId] = useState(null);
     const [authToken, setAuthToken] = useState("");
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [departments, setDepartments] = useState([]);
-    const [designations, setDesignations] = useState([]);
-    const [roles, setRoles] = useState([]);
 
     useEffect(() => {
         fetchEmployees();
-        fetchDropdownData();
+        const storedToken = localStorage.getItem("accessToken");
+        if (storedToken) setAuthToken(storedToken);
     }, []);
 
     const fetchEmployees = async () => {
@@ -44,23 +84,9 @@ const EmployeeManagement = () => {
         }
     };
 
-    const fetchDropdownData = async () => {
-        try {
-            const deptRes = await getDepartments();
-            const desigRes = await getDesignations();
-            const rolesRes = await getRoles();
-
-            setDepartments(deptRes.departments);
-            setDesignations(desigRes.designations);
-            setRoles(rolesRes.roles);
-        } catch (error) {
-            console.error("Error fetching dropdown data:", error);
-        }
+    const handleSearch = (e) => {
+        setSearchQuery(e.target.value);
     };
-
-  const handleSearch = (e) => {
-    setSearchQuery(e.target.value);
-  };
 
     const handleAddEmployee = async (formData) => {
         try {
@@ -85,21 +111,19 @@ const EmployeeManagement = () => {
 
     const handleDeactivateEmployee = async (empId) => {
         try {
-            const employee = employees.find(e => e.empId === empId);
-            const newStatus = employee.status === "active" ? "inactive" : "active";
-            await updateEmployeeStatus(empId, newStatus);
+            await updateEmployeeStatus(empId, authToken);
             fetchEmployees();
             toast.success(`Employee ${newStatus === "active" ? "activated" : "deactivated"} successfully`);
         } catch (error) {
-            toast.error("Failed to update employee status");
+            alert("Error updating employee status.");
         }
     };
 
-  const filteredEmployees = employees.filter((emp) =>
-    `${emp.empId} ${emp.firstName} ${emp.middleName} ${emp.lastName} ${emp.email}`
-      .toLowerCase()
-      .includes(searchQuery.toLowerCase())
-  );
+    const filteredEmployees = employees.filter((emp) =>
+        `${emp.empId} ${emp.firstName} ${emp.middleName} ${emp.lastName} ${emp.email}`
+            .toLowerCase()
+            .includes(searchQuery.toLowerCase())
+    );
 
     const exportToExcel = () => {
         if (employees.length === 0) {
@@ -163,43 +187,76 @@ const EmployeeManagement = () => {
                 {/* View Employees */}
                 {activeTab === "VIEW EMPLOYEES LIST" && (
                     <div className="table-responsive">
+                    {employees.some(emp => emp.status === "inactive") && (
+                        <button
+                        onClick={handleBulkReactivate}
+                        disabled={selectedUsers.length === 0}
+                        className="btn btn-success mb-2"
+                        >
+                            Reactivate Selected ({selectedUsers.length})
+                            </button>
+                    )}
+                            {!employees.some(emp => emp.status === "inactive") && (
+                            <p className="text-muted">There are no inactive employees to reactivate.</p>
+                         )}
+                              
                         <table className="table table-striped table-hover">
-                            <thead>
-                                <tr>
-                                    <th>EmpID</th>
-                                    <th>Name</th>
-                                    <th>Email</th>
-                                    <th>Gender</th>
-                                    <th>Designation</th>
-                                    <th>EmpType</th>
-                                    <th>Status</th>
+                        <thead>
+                            <tr>
+                                {employees.some(emp => emp.status === "inactive") && <th>Select</th>}
+                                <th>EmpID</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Gender</th>
+                                <th>Designation</th>
+                                <th>EmpType</th>
+                                <th>Partner Company</th>
+                                <th>Paid Status</th>
+                                <th>Status</th>
+                                <th>Action</th>
                                 </tr>
-                            </thead>
-                            <tbody>
-                                {filteredEmployees.map((emp) => (
-                                    <tr key={emp.empId}>
-                                        <td>{emp.empId}</td>
-                                        <td>{`${emp.firstName} ${emp.middleName || ""} ${emp.lastName}`}</td>
-                                        <td>{emp.workMail}</td>
-                                        <td>{emp.gender}</td>
-                                        <td>{emp.designations}</td>
-                                        <td>{emp.employmentType}</td>
-                                        <td>{emp.status}</td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    </div>
-                )}
+</thead>
+
+<tbody>
+  {filteredEmployees.map((emp) => (
+    <tr key={emp.empId}>
+      {employees.some(e => e.status === "inactive") && (
+        <td>
+          {emp.status === "inactive" && (
+            <input
+              type="checkbox"
+              onChange={() => handleSelectUser(emp.empId)}
+              checked={selectedUsers.includes(emp.empId)}
+            />
+          )}
+        </td>
+      )}
+      <td>{emp.empId}</td>
+      <td>{`${emp.firstName} ${emp.middleName || ""} ${emp.lastName}`}</td>
+      <td>{emp.workMail}</td>
+      <td>{emp.gender}</td>
+      <td>{emp.designations}</td>
+      <td>{emp.employmentType}</td>
+      <td>ABC Corp</td>
+      <td>Unpaid</td>
+      <td>{emp.status}</td>
+      <td></td>
+    </tr>
+  ))}
+</tbody>
+
+                                            </table>
+                                            </div>
+                                        )}
 
                 {/* Add Employee */}
                 {activeTab === "ADD NEW EMPLOYEE" && (
                     <div className="form-container">
                         <EmployeeForm
                             onSubmit={handleAddEmployee}
-                            departments={departments}
-                            designations={designations}
-                            roles={roles}
+                            departments={getDepartments}
+                            designations={getDesignations}
+                            roles={getRoles}
                         />
                     </div>
                 )}
@@ -286,7 +343,7 @@ const EmployeeManagement = () => {
                                                 className={`btn ${emp.status === "active" ? "btn-danger" : "btn-success"} btn-sm`}
                                                 onClick={() => handleDeactivateEmployee(emp.empId)}
                                             >
-                                                {emp.status === "active" ? "Deactivate" : "Activate"}
+                                                {emp.status === "active" ? "Deactivate" : "Reactivate"}
                                             </button>
                                         </td>
                                     </tr>

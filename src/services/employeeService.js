@@ -2,18 +2,22 @@ import { fetchWithAuth } from "./authService";
 const API_URL = process.env.REACT_APP_API_URL;
 
 // Fetch Employee Details
-export const getEmployeeById = async (empId) => {
+export const getEmployeeById = async (empId, authToken) => {
   try {
-    const response = await fetchWithAuth(`/employee/${empId}`, {
+    const response = await fetch(`${API_URL}/employee/${empId}`, {
       method: "GET",
+      credentials: "include",
       headers: { "Content-Type": "application/json" },
     });
 
-    if (!response.ok) throw new Error("Failed to get employee details");
+    if (!response.ok) {
+      throw new Error("Failed to get employee details");
+    }
+
     return await response.json();
   } catch (error) {
     console.error("Error fetching employee details:", error);
-    throw error;
+    return null;
   }
 };
 
@@ -73,21 +77,28 @@ export const updateEmployee = async (empId, updatedData) => {
   }
 };
 
-// Deactivate Employee
-export const updateEmployeeStatus = async (empId) => {
+//Deactivate Employee
+export const updateEmployeeStatus = async (empId, authToken) => {
   try {
-    const response = await fetchWithAuth(
-      `/employee/${empId}/updateEmployeeStatus`,
+    const response = await fetch(
+      `${API_URL}/employee/${empId}/updateEmployeeStatus`,
       {
         method: "PATCH",
-        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${authToken}`,
+        },
       }
     );
 
-    if (!response.ok) throw new Error("Failed to update employee status");
+    if (!response.ok) {
+      throw new Error("Failed to update employee status");
+    }
+
     return await response.json();
   } catch (error) {
-    console.error("Error updating employee status:", error);
+    console.error("Error toggling employee status:", error);
     throw error;
   }
 };
