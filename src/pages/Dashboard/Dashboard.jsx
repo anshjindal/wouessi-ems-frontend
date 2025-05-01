@@ -1,9 +1,17 @@
 import React, { useEffect, useState } from "react";
 import {
-    FaChartLine, FaCog, FaHourglassHalf, FaMoneyBillWave,
-    FaProjectDiagram, FaUmbrellaBeach, FaUser, FaUserTie
+  FaChartLine,
+  FaCog,
+  FaHourglassHalf,
+  FaMoneyBillWave,
+  FaProjectDiagram,
+  FaUmbrellaBeach,
+  FaUser,
+  FaUserTie,
 } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+
+// 📦 Image imports
 import Approvals from "../../assets/images/Approvals.png";
 import Leaves from "../../assets/images/Leaves.png";
 import MyProfile from "../../assets/images/myprofile.jpg";
@@ -13,17 +21,24 @@ import Performance from "../../assets/images/Performance.png";
 import Project from "../../assets/images/project.jpg";
 import Settings from "../../assets/images/Settings.png";
 import Timesheets from "../../assets/images/Timesheets.png";
+import Milestones from "../../assets/images/Milestones.png"; // ✅ NEW import
+
+// 🧱 Layout
 import Footer from "../../components/layout/Footer";
 import Header from "../../components/layout/Header";
 import Sidebar from "../../components/layout/Sidebar";
+
+// 📡 Services
 import { logout } from "../../services/authService";
 import { getEmployeeById } from "../../services/employeeService";
+
 import "../../styles/pages/Dashboard.css";
+import LoadingSpinner from "../../components/common/LoadingSpinner.jsx";
 
 const Dashboard = () => {
-    const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-    const [employee, setEmployee] = useState(null);
-    const navigate = useNavigate();
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [employee, setEmployee] = useState(null);
+  const navigate = useNavigate();
 
     useEffect(() => {
         const fetchEmployee = async () => {
@@ -42,8 +57,8 @@ const Dashboard = () => {
             }
         };
 
-        fetchEmployee();
-    }, [navigate]);
+    fetchEmployee();
+  }, [navigate]);
 
     const handleLogout = async () => {
         try {
@@ -56,7 +71,7 @@ const Dashboard = () => {
         }
     };
 
-    if (!employee) return <p>Loading...</p>;
+  if (!employee) return <LoadingSpinner />;
 
     const menuItems = [
         { name: "My Profile", path: "/profile", icon: <FaUser /> },
@@ -81,6 +96,7 @@ const Dashboard = () => {
         { title: "Leaves", path: "/leaves", image: Leaves },
         { title: "Payroll", path: "/payroll", image: Payroll },
         { title: "Projects", path: "/projects", image: Project },
+        { title: "Team Management", path: "/team-management", image: Project },
         ...(employee.role === "admin" ? [
             { title: "Approvals", path: "/approvals", image: Approvals },
             { title: "Performance", path: "/performance", image: Performance },
@@ -88,25 +104,49 @@ const Dashboard = () => {
         ] : [])
     ];
 
-    return (
-        <div className="dashboard-wrapper">
-            <Header toggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)} isSidebarOpen={isSidebarOpen} />
-            <div className="dashboard-body">
-                <Sidebar user={employee} navLinks={menuItems} isOpen={isSidebarOpen} onLogout={handleLogout} />
-                <div className={`dashboard-content ${isSidebarOpen ? "sidebar-open" : "sidebar-closed"}`}>
-                    <div className="dashboard-cards">
-                        {dashboardCards.map((card, index) => (
-                            <div key={index} className="dashboard-card" onClick={() => navigate(card.path)}>
-                                <img src={card.image} alt={card.title} />
-                                <p>{card.title}</p>
-                            </div>
-                        ))}
-                    </div>
+  return (
+    <div className="dashboard-wrapper">
+      <Header
+        toggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)}
+        isSidebarOpen={isSidebarOpen}
+      />
+      <main role="main" aria-label="Dashboard Main Content">
+        <div className="dashboard-body">
+          <Sidebar
+            user={employee}
+            navLinks={menuItems}
+            isOpen={isSidebarOpen}
+            onLogout={handleLogout}
+          />
+          <div
+            className={`dashboard-content ${
+              isSidebarOpen ? "sidebar-open" : "sidebar-closed"
+            }`}
+          >
+            <div className="dashboard-cards">
+              {dashboardCards.map((card, index) => (
+                <div
+                  key={index}
+                  className="dashboard-card"
+                  role="button"
+                  tabIndex="0"
+                  aria-label={`Navigate to ${card.title}`}
+                  onClick={() => navigate(card.path)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") navigate(card.path);
+                  }}
+                >
+                  <img src={card.image} alt={`${card.title} icon`} />
+                  <p>{card.title}</p>
                 </div>
+              ))}
             </div>
-            <Footer />
+          </div>
         </div>
-    );
+      </main>
+      <Footer />
+    </div>
+  );
 };
 
 export default Dashboard;

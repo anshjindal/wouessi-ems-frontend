@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Row, Col} from "react-bootstrap";
+import { Row, Col } from "react-bootstrap";
 import LeaveRequestPopup from "./LeaveRequestPopup.jsx";
 import Button from "../../components/common/Button.jsx";
 import CardV2 from "../../components/common/CardV2.jsx";
@@ -28,7 +28,7 @@ const Leaves = () => {
 
   return (
     <>
-      <div class="container-fluid">
+      <div className="container-fluid">
         <Row>
           <Col xs={2}>
             <Sidebar />
@@ -39,10 +39,15 @@ const Leaves = () => {
                 <h5>Leave avalability</h5>
               </Col>
               <Col xs={2}>
-                <Button onClick={handleOpenPopup} className={'purplebtn'} text={"Apply for leave"} />
+                <Button 
+                  onClick={handleOpenPopup} 
+                  className={'purplebtn'} 
+                  text={"Apply for leave"}
+                  aria-label="Open leave request form"
+                />
                 {showPopup && <LeaveRequestPopup onClose={handleClosePopup} />}
               </Col>
-            </Row>  
+            </Row>
             <Row>
             <div className="card-row">
               {leaveCards.map((card, index) => (
@@ -60,7 +65,7 @@ const Leaves = () => {
               <div className="container-fluid">
               <LeaveRequests empId={"EMP1001"}/>
               </div>
-            </Row>        
+            </Row>
           </Col>
         </Row>
       </div>

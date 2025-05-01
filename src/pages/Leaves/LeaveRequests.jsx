@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from "react";
 import "../../styles/pages/Leaves.css";
-import Dropdown from "../../components/common/DropDown.jsx";  
-import Tag from "../../components/common/Tag";  
-import { getAllLeaves } from "../../services/leavesService.js";  
+import Dropdown from "../../components/common/DropDown.jsx";
+import Tag from "../../components/common/Tag";
+import { getAllLeaves } from "../../services/leavesService.js";
+import LoadingSpinner from "../../components/common/LoadingSpinner.jsx";
 
-const LeaveRequests = ({empId}) => {
+const LeaveRequests = ({ empId }) => {
   const [requests, setRequests] = useState([]);
   const [selectedStatus, setSelectedStatus] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  
+
   useEffect(() => {
     console.log("Fetching leaves for empId:", empId);
     const fetchLeaves = async () => {
@@ -24,7 +25,7 @@ const LeaveRequests = ({empId}) => {
         setLoading(false);
       }
     };
-  
+
     fetchLeaves();
   }, [empId]);
 
@@ -36,27 +37,28 @@ const LeaveRequests = ({empId}) => {
     ? requests.filter((req) => req.status === selectedStatus)
     : requests;
 
-
   return (
     <div className="requests-container">
       <div className="table-header">
         <h5>Time off requests summary</h5>
-        <Dropdown 
-          label="" 
-          alt="Status" 
-          options={["Status", "Pending", "Accepted", "Rejected"]} 
-          onSelect={handleStatusChange} 
+        <Dropdown
+          id="status-dropdown"
+          label=""
+          alt="Status"
+          options={["Status", "Pending", "Accepted", "Rejected"]}
+          onSelect={handleStatusChange}
+          aria-label="Select status to filter leave requests"
         />
       </div>
       <div className="table-wrap">
         {loading ? (
-          <p>Loading leave requests...</p>
+          <LoadingSpinner />
         ) : error ? (
           <p className="error">{error}</p>
         ) : filteredRequests.length === 0 ? (
           <p className="no-data">No leave requests found</p>
         ) : (
-          <table className="leaves-table">
+          <table className="leaves-table" aria-labelledby="status-dropdown">
             <thead>
               <tr>
                 <th>Type</th>
@@ -77,14 +79,26 @@ const LeaveRequests = ({empId}) => {
                   <td>{new Date(req.startDate).toISOString().split("T")[0]}</td>
                   <td>{new Date(req.endDate).toISOString().split("T")[0]}</td>
                   <td>{req.duration}</td>
-                  <td>{new Date(req.dateRequested).toISOString().split("T")[0]}</td>
-                  <td>{req.dateApproved ? new Date(req.dateApproved).toISOString().split("T")[0] : "-"}</td>
+                  <td>
+                    {new Date(req.dateRequested).toISOString().split("T")[0]}
+                  </td>
+                  <td>
+                    {req.dateApproved
+                      ? new Date(req.dateApproved).toISOString().split("T")[0]
+                      : "-"}
+                  </td>
                   <td>{req.repManagerId}</td>
                   <td>
-                    <Tag text={req.status} className={req.status.toLowerCase()} />
+                    <Tag
+                      text={req.status}
+                      className={req.status.toLowerCase()}
+                    />
                   </td>
                   <td className="actions">
-                    <button className="action-btn">
+                    <button
+                      className="action-btn"
+                      aria-label="More options for this leave request"
+                    >
                       <span className="dots">⋮</span>
                     </button>
                   </td>
@@ -93,7 +107,7 @@ const LeaveRequests = ({empId}) => {
             </tbody>
           </table>
         )}
-      </div>    
+      </div>
     </div>
   );
 };
