@@ -1,15 +1,15 @@
-import React from "react"; 
-import Sidebar from "../components/Sidebar/Sidebar";
+import React from "react";  
+import Sidebar from "../../components/Sidebar";
 import { Outlet } from "react-router-dom";  
 
 const GlobalWrapper = () => {
   return (
     <div className="global-layout"> 
       <Sidebar></Sidebar> 
-      <section className="section1"> 
+      <main className="main-content"> 
         {/** The Outlet component will render the children routes */}
         <Outlet />
-      </section>
+      </main>
     </div> 
   );
 };
