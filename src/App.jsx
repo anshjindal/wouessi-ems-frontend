@@ -6,7 +6,7 @@ import AppRouter from "./Router";
 
 const App = () => {
     return (
-        <div className="app-container">
+        <div className="App">
             <AppRouter />
             <ToastContainer
                 position="top-right"
