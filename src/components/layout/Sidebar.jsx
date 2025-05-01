@@ -13,13 +13,13 @@ const Sidebar = ({ user, navLinks, onLogout, isOpen }) => {
       <nav>
         <ul>
           <li>
-            <NavLink to="/student-list">Trainees</NavLink>
+            <NavLink to="/trainees-list">Trainees</NavLink>
           </li>
           <li>
-            <NavLink to="/vetting-process">Vetting system</NavLink>
+            <NavLink to="/vetting-system">Vetting</NavLink>
           </li>
           <li>
-            <NavLink to="/cohort-management">Cohorts</NavLink>
+            <NavLink to="/cohorts-management">Cohorts</NavLink>
           </li>
         </ul>
       </nav>
@@ -41,7 +41,7 @@ const Sidebar = ({ user, navLinks, onLogout, isOpen }) => {
         </div> */}
 
       {/* 
-            ---- vetting-process ----
+            ---- vetting-system ----
 
         <div className="vetting-sidebar">
                 <div className="vetting-sidebar-header">

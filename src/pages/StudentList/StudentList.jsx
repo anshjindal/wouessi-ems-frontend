@@ -18,7 +18,7 @@ const StudentProcess = () => {
 
   return (
     <div className="student-main-content">
-      <TitleWithCohort title="Students list " cohort={cohort} />
+      <TitleWithCohort title="Tainees list " cohort={cohort} />
     </div>
   );
 };

@@ -1,10 +1,10 @@
-.cohort-management-app-container { 
+.cohorts-management-app-container { 
     display: flex;
     height: 100vh;
     background-color: #f8f9fa;
 }
 
-.cohort-management-main-content {
+.cohorts-management-main-content {
     width: 881px;
     height: 220px;
     position: absolute;
@@ -16,7 +16,7 @@
     box-sizing: border-box;
 }
 
-.cohort-management-sidebar {
+.cohorts-management-sidebar {
     width: 220px;
     padding: 74px 30px 10px 30px;
     display: flex;
@@ -25,7 +25,7 @@
     box-sizing: border-box;
 }
 
-.cohort-management-sidebar-header {
+.cohorts-management-sidebar-header {
     padding: 20px 15px;
     border-bottom: 1px solid #e9ecef;
     width: 148px;
@@ -36,14 +36,14 @@
     padding: 1px 0 1px 9px;
 }
 
-.cohort-management-sidebar-title {
+.cohorts-management-sidebar-title {
     font-size: 20px;
     font-weight: bold;
     color: #6c757d;
     margin-top: 0;
 }
 
-.cohort-management-sidebar-subtitle {
+.cohorts-management-sidebar-subtitle {
     font-family: 'Poppins', sans-serif;
     font-weight: 400;
     font-size: 11px;
@@ -52,7 +52,7 @@
     vertical-align: middle;
 }
 
-.cohort-management-sidebar-nav {
+.cohorts-management-sidebar-nav {
     width: 100%;
     max-width: 160px;
     height: 889px;
@@ -63,7 +63,7 @@
     background-color: #f8f8f8;
 }
 
-.cohort-management-nav-item {
+.cohorts-management-nav-item {
     padding: 10px 15px;
     display: flex;
     align-items: center;
@@ -74,7 +74,7 @@
     text-overflow: ellipsis; 
 }
 
-.cohort-management-nav-text {
+.cohorts-management-nav-text {
     font-family: 'Poppins', sans-serif;
     font-weight: 500;
     font-size: 14px;
@@ -85,14 +85,14 @@
     padding-right: 10px;
 }
 
-.cohort-management-nav-icon {
+.cohorts-management-nav-icon {
     width: 24px;
     height: 24px;
     object-fit: contain;
     margin-right: 10px;
 }
 
-.cohort-management-sidebar-footer {
+.cohorts-management-sidebar-footer {
     position: absolute;
     bottom: 0;
     width: 100%;
@@ -102,20 +102,20 @@
     color: #6c757d;
 }
 
-.cohort-management-title-row {
+.cohorts-management-title-row {
     display: flex;
     align-items: center;
     gap: 0.5rem;
 }
 
-.cohort-management-form-title {
+.cohorts-management-form-title {
     font-family: 'Poppins', sans-serif;
     font-weight: 600;
     font-size: 32px;
     color: #42505C;
 }
 
-.cohort-management-cohort-tag {
+.cohorts-management-cohort-tag {
     background-color: #E8E2FC;
     color: #0b0b0b;
     font-weight: 400;
@@ -130,7 +130,7 @@
     gap: 10px;
 }
 
-.cohort-management-nav-item.active {
+.cohorts-management-nav-item.active {
     width: 160px;
     height: auto;
     padding: 10px;
