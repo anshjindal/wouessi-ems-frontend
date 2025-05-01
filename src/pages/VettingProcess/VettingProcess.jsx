@@ -12,7 +12,6 @@ const VettingProcess = () => {
     const [registeredStudents, setRegisteredStudents] = useState(450);
     const [selectedCriteriaCount, setSelectedCriteriaCount] = useState(0);
 
-    // Setup React Hook Form
     const { register, handleSubmit, watch, formState: { errors } } = useForm({
         defaultValues: {
             ageMin: "18",
@@ -145,7 +144,7 @@ const VettingProcess = () => {
             <div className="vetting-main-content">
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <div className="vetting-title-row">
-                        <h1 className="vetting-form-title">Registration</h1>
+                        <h1 className="vetting-form-title">Vetting process</h1>
                         <span className="vetting-cohort-tag">{cohort}</span>
                     </div>
                     <p className="vetting-page-subtitle">
