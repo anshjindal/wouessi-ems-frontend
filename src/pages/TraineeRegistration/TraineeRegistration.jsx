@@ -1,10 +1,4 @@
 import { useForm } from "react-hook-form";
-import { useState } from "react";
-import student from "../../assets/icons/student.png";
-import vettingSystem from "../../assets/icons/vettingSytem.png";
-import cohorts from "../../assets/icons/cohorts.png";
-import EMS from "../../assets/icons/EMS.png";
-import wouessiVettingLogo from "../../assets/icons/wouessiVettingLogo.png";
 import "../../styles/pages/TraineeRegistration.css";
 
 const traineeCohorts = ["Cohort 1", "Cohort 2", "Cohort 3", "Cohort 4"];
@@ -66,7 +60,7 @@ export default function TraineeRegistration() {
         <div className="two-column">
           {/* Left side: Government ID and Names */}
           <div className="left-column">
-            <h className="section-title">Gouvernement ID and Names</h>
+            <h3 className="section-title">Gouvernement ID and Names</h3>
 
             <div className="field-group ">
               <label>First Name</label>
@@ -96,7 +90,7 @@ export default function TraineeRegistration() {
             </div>
 
             <div className="field-group">
-              <h className="section-title">Where you live in Ontario</h>
+              <h3 className="section-title">Where you live in Ontario</h3>
               <label>Select a location</label>
               <select {...register("city")} className="input custom-select">
                 <option value="">Select a city</option>
@@ -111,7 +105,7 @@ export default function TraineeRegistration() {
 
           {/* Right side: Contact Information */}
           <div className="right-column">
-            <h className="section-title">Contact Information</h>
+            <h3 className="section-title">Contact Information</h3>
 
             <div className="field-group">
               <label>Email</label>
@@ -133,7 +127,7 @@ export default function TraineeRegistration() {
             </div>
 
             <div className="field-group last-field-group">
-              <h className="section-title">When where you born?</h>
+              <h3 className="section-title">When where you born?</h3>
               <label>Select your date of birth</label>
               <input
                 type="date"
@@ -145,7 +139,7 @@ export default function TraineeRegistration() {
         </div>
 
         {/* Social Medias*/}
-        <h className="mini-title">Social Media</h>
+        <h3 className="mini-title">Social Media</h3>
         <hr />
 
         <div className="two-column">
@@ -190,7 +184,7 @@ export default function TraineeRegistration() {
         </div>
 
         {/* Identity and Demographics */}
-        <h className="mini-title">Identity and Demographics</h>
+        <h3 className="mini-title">Identity and Demographics</h3>
         <hr />
 
         <div className="two-column">
@@ -241,12 +235,12 @@ export default function TraineeRegistration() {
         </div>
 
         {/* Justice System and Program History */}
-        <h className="mini-title">Justice System & Program History</h>
+        <h3 className="mini-title">Justice System & Program History</h3>
         <hr />
 
         <div className="two-column">
           <div className="left-column">
-            <h className="section-title">Ontario Programs</h>
+            <h3 className="section-title">Ontario Programs</h3>
             <label className="checkbox-label">
               <input type="checkbox" {...register("ontarioProgram")} />
               <span className="check-text">
@@ -271,7 +265,7 @@ export default function TraineeRegistration() {
           </div>
 
           <div className="right-column">
-            <h className="next-line">Justice System</h>
+            <h3 className="next-line">Justice System</h3>
             <div className="checkbox-wrapper">
               <input type="checkbox" {...register("justiceSystem")} />
               <label className="justice-label">
@@ -282,7 +276,7 @@ export default function TraineeRegistration() {
         </div>
 
         {/* Financial and Employment Information */}
-        <h className="mini-title">Financial and Employment Information</h>
+        <h3 className="mini-title">Financial and Employment Information</h3>
         <hr />
 
         <div className="two-column">
@@ -304,7 +298,7 @@ export default function TraineeRegistration() {
           </div>
 
           <div className="right-column">
-            <h className="section-title">SIN Declaration</h>
+            <h3 className="section-title">SIN Declaration</h3>
             <div className="checkbox-wrapper">
               <input type="checkbox" {...register("sinDeclaration")} />
               <label className="justice-label">

@@ -160,7 +160,7 @@ const VettingProcess = () => {
         <div className="vetting-criteria-grid">
           {/* Gender */}
           <div className="vetting-criteria-section">
-            <h className="vetting-criteria-title">Gender/ Identify</h>
+            <h3 className="vetting-criteria-title">Gender/ Identify</h3>
             <div className="vetting-checkbox-group">
               <label className="vetting-checkbox-label">
                 <input
@@ -191,7 +191,7 @@ const VettingProcess = () => {
 
           {/* Ethnicity */}
           <div className="vetting-criteria-section">
-            <h className="vetting-criteria-title">Ethnicity</h>
+            <h3 className="vetting-criteria-title">Ethnicity</h3>
             <div className="vetting-checkbox-group">
               <label className="vetting-checkbox-label">
                 <input
@@ -222,7 +222,7 @@ const VettingProcess = () => {
 
           {/* Demographics */}
           <div className="vetting-criteria-section">
-            <h className="vetting-criteria-title">Demographics</h>
+            <h3 className="vetting-criteria-title">Demographics</h3>
             <div className="vetting-checkbox-group">
               <label className="vetting-checkbox-label">
                 <input
@@ -255,7 +255,7 @@ const VettingProcess = () => {
 
           {/* Training */}
           <div className="vetting-criteria-section">
-            <h className="vetting-criteria-title">Completed training</h>
+            <h3 className="vetting-criteria-title">Completed training</h3>
             <div className="vetting-checkbox-group">
               <label className="vetting-checkbox-label">
                 <input
@@ -291,7 +291,7 @@ const VettingProcess = () => {
 
           {/* Location */}
           <div className="vetting-criteria-section">
-            <h className="vetting-criteria-title">Location in Ontario</h>
+            <h3 className="vetting-criteria-title">Location in Ontario</h3>
             <div className="vetting-checkbox-group">
               <label className="vetting-checkbox-label">
                 <input
@@ -322,7 +322,7 @@ const VettingProcess = () => {
 
           {/* Immigration Status */}
           <div className="vetting-criteria-section">
-            <h className="vetting-criteria-title">Immigration status</h>
+            <h3 className="vetting-criteria-title">Immigration status</h3>
             <div className="vetting-checkbox-group">
               <label className="vetting-checkbox-label">
                 <input
@@ -359,7 +359,7 @@ const VettingProcess = () => {
 
           {/* Justice System */}
           <div className="vetting-criteria-section">
-            <h className="vetting-criteria-title">Justice system</h>
+            <h3 className="vetting-criteria-title">Justice system</h3>
             <div className="vetting-checkbox-group">
               <label className="vetting-checkbox-label">
                 <input
@@ -390,7 +390,7 @@ const VettingProcess = () => {
 
           {/* Employment Status */}
           <div className="vetting-criteria-section">
-            <h className="vetting-criteria-title">Employment status</h>
+            <h3 className="vetting-criteria-title">Employment status</h3>
             <div className="vetting-checkbox-group">
               <label className="vetting-checkbox-label">
                 <input
@@ -417,7 +417,7 @@ const VettingProcess = () => {
 
           {/* SIN Number Series */}
           <div className="vetting-criteria-section">
-            <h className="vetting-criteria-title">SIN Number series</h>
+            <h3 className="vetting-criteria-title">SIN Number series</h3>
             <div className="vetting-sin-grid">
               <label className="vetting-checkbox-label">
                 <input
@@ -464,10 +464,10 @@ const VettingProcess = () => {
 
           {/* Not Participated */}
           <div className="vetting-criteria-section">
-            <h className="vetting-criteria-title">
+            <h3 className="vetting-criteria-title">
               Have NOT participated in another Ontario Skill Development program
               in
-            </h>
+            </h3>
             <div className="vetting-checkbox-group">
               <label className="vetting-checkbox-label">
                 <input
@@ -506,9 +506,9 @@ const VettingProcess = () => {
 
           {/* Participated */}
           <div className="vetting-criteria-section">
-            <h className="vetting-criteria-title">
+            <h3 className="vetting-criteria-title">
               Have participated in another Ontario Skill Development program in
-            </h>
+            </h3>
             <div className="vetting-checkbox-group">
               <label className="vetting-checkbox-label">
                 <input
