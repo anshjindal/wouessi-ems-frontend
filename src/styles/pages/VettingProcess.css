@@ -1,0 +1,325 @@
+.vetting-app-container {
+    display: flex;
+    height: 100vh;
+    background-color: #f8f9fa;
+}
+
+.vetting-title-nav-icon {
+    width: 51px;
+    height: 23.08px;
+    padding-top: 74px;
+}
+
+.vetting-sidebar {
+    padding: 74px 30px 10px 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    box-sizing: border-box;
+}
+
+.vetting-sidebar-header {
+    border-bottom: 1px solid #e9ecef;
+    width: 148px;
+    height: 53px;
+    gap: 10px;
+    box-sizing: border-box;
+    align-items: center;
+    padding: 1px 0 1px 9px;
+}
+
+.vetting-sidebar-title {
+    font-size: 20px;
+    font-weight: bold;
+    color: #6c757d;
+    margin-top: 0;
+}
+
+.vetting-sidebar-subtitle {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+    font-size: 11px;
+    line-height: 110%;
+    letter-spacing: 0;
+    vertical-align: middle;
+}
+
+.vetting-sidebar-nav {
+    width: 100%;
+    max-width: 160px;
+    height: 889px;
+    padding-top: 32px;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    background-color: #f8f8f8;
+    /* optional */
+}
+
+.vetting-nav-item {
+    padding: 10px 15px;
+    display: flex;
+    align-items: center;
+    color: #495057;
+    cursor: pointer;
+    white-space: nowrap; 
+    overflow: hidden;   
+    text-overflow: ellipsis; 
+}
+
+.vetting-nav-item:hover {
+    background-color: #f1f3f5;
+}
+
+.vetting-nav-item.active {
+    width: 160px;
+    height: auto;
+    padding: 10px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-sizing: border-box;
+    background-color: #DEDEDE;
+
+}
+
+.vetting-nav-icon {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+    margin-right: 10px;
+}
+
+
+.vetting-nav-text {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 20px;
+    gap:8px;
+    vertical-align: middle;
+    color: rgba(0, 0, 0, 0.8);
+    padding-right: 10px;
+}
+
+.vetting-sidebar-footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    padding: 15px;
+    border-top: 1px solid #e9ecef;
+    font-size: 12px;
+    color: #6c757d;
+}
+
+/* Main content area */
+.vetting-main-content {
+    width: 881px;
+    height: 220px;
+    position: absolute;
+    top: 65px;
+    left: 292px;
+    display: flex;
+    flex-direction: column;
+    gap: 185px;
+    box-sizing: border-box;
+}
+
+.vetting-title-row {
+    display: flex;
+    align-items: center;
+    gap: 22px;
+}
+
+
+.vetting-page-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #212529;
+    margin-bottom: 5px;
+}
+
+.vetting-page-subtitle {
+    font-size: 14px;
+    color: #6c757d;
+    margin-bottom: 30px;
+}
+
+/* Age range section */
+.vetting-age-range-section {
+    margin-bottom: 30px;
+}
+
+.vetting-section-label {
+    font-size: 14px;
+    color: #6c757d;
+    margin-bottom: 10px;
+}
+
+.vetting-age-range-controls {
+    display: flex;
+    align-items: center;
+}
+
+.vetting-age-icon-container {
+    margin-right: 10px;
+}
+
+.vetting-age-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #28a745, #20c997);
+    box-shadow: 0 4px 10px rgba(32, 201, 151, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.vetting-age-select {
+    padding: 8px 12px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    background-color: white;
+    margin-right: 10px;
+}
+
+.vetting-age-connector {
+    color: #6c757d;
+    margin: 0 10px;
+}
+
+/* Criteria grid */
+.vetting-criteria-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+}
+
+.vetting-criteria-section {
+    margin-bottom: 20px;
+}
+
+.vetting-criteria-title {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 28px;
+    color: #333333;
+    letter-spacing: 0.25px;
+    margin-bottom: 1rem;
+}
+
+.vetting-checkbox-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.vetting-checkbox-label {
+    display: flex;
+    align-items: center;
+}
+
+.vetting-checkbox-input {
+    height: 16px;
+    width: 16px;
+    margin-right: 10px;
+    accent-color: #4361ee;
+}
+
+.vetting-checkbox-text {
+    font-family: 'Inter', sans-serif;
+    display: block;
+    font-size: 0.70rem;
+    color: #060606b1;
+    font-weight: 400;
+}
+
+/* SIN number grid */
+.vetting-sin-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+}
+
+/* Button container */
+.vetting-button-container {
+    margin-top: 30px;
+    display: flex;
+    margin-left: 43rem;
+}
+
+.vetting-button {
+    background-color: #3949ab;
+    color: white;
+    padding: 8px 12px 8px 16px;
+    border: none;
+    border-radius: 50px;
+    font-size: 14px;
+    font-weight: 500;
+    align-items: center;
+    cursor: pointer;
+}
+
+.vetting-button:hover {
+    background-color: #303f9f;
+}
+
+.vetting-button-badge {
+    margin-left: 10px;
+    background-color: white;
+    color: #3949ab;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.vetting-header-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.vetting-form-title {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 32px;
+    color: #42505C;
+}
+
+.vetting-cohort-tag {
+    background-color: #E8E2FC;
+    color: #0b0b0b;
+    font-weight: 400;
+    font-size: 14px;
+    padding: 8px;
+    border-radius: 9px;
+    height: 25px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 0.7rem;
+    gap: 10px;
+}
+
+.vetting-custom-select {
+    appearance: none;
+    background-image: url('data:image/svg+xml;utf8,<svg fill="gray" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 1.2rem;
+    padding-right: 2.5rem;
+    padding-left: 0.75rem;
+    color: #333333;
+    border: 1px solid #ccc;
+    border-radius: 0.5rem;
+}

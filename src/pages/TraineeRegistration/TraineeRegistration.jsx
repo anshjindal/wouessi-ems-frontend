@@ -1,170 +1,162 @@
-import React from "react";
 import { useForm } from "react-hook-form";
+import { useState } from "react";
+import student from "../../assets/icons/student.png";
+import vettingSystem from "../../assets/icons/vettingSytem.png"
+import cohorts from "../../assets/icons/cohorts.png"
+import EMS from "../../assets/icons/EMS.png"
+import wouessiVettingLogo from "../../assets/icons/wouessiVettingLogo.png"
 import "../../styles/pages/TraineeRegistration.css";
 
-const cohorts = ["Cohort 1", "Cohort 2", "Cohort 3", "Cohort 4"];
+const traineeCohorts = ["Cohort 1", "Cohort 2", "Cohort 3", "Cohort 4"];
+const citiesInOntario = ["Toronto", "Ottawa", "Hamilton", "London", "Windsor", "Mississauga"];
+const years = ["2020", "2021", "2022", "2023", "2024", "2025"];
 const ethnicities = ["Black", "White", "Asian", "Indigenous", "Other"];
 const immigrationStatuses = ["Student visa", "Permanent Resident", "Citizen", "Other"];
+const employmentStatuses = ["Employed", "Unemployed", "Self-Employed", "Student"];
 
 export default function TraineeRegistration() {
-    const {
-        register,
-        handleSubmit,
-        formState: { errors },
-    } = useForm();
+    const { register, handleSubmit, formState: { errors }, watch } = useForm();
+    const onSubmit = (data) => console.log(data);
 
-    const onSubmit = (data) => {
-        console.log(data);
-    };
+    // Watching for checkbox values
+    const watchOntarioProgram = watch("ontarioProgram", false);
+    const watchSinDeclaration = watch("sinDeclaration", false);
 
     return (
         <div className="container">
-            <form onSubmit={handleSubmit(onSubmit)} className="form">
+            <div className="trainee-sidebar">
+                <div className="trainee-sidebar-header">
+                    <img src={EMS} alt="EMS" className="trainee-tittle-nav-icon" />
+                    <p className="trainee-sidebar-subtitle">Employee Management System</p>
+                    <hr/>
+                </div>
+                <div className="vetting-sidebar-footer">
+                    <img src={wouessiVettingLogo} alt="VettingLogo" className="vetting-nav-icon" />
+                    <p className="vetting-sidebar-subtitle">EMS is a product of</p>
+                    <p className="vetting-sidebar-subtitle">WOESEI INC.</p>
+                </div>
+            </div>
+
+            <div className="trainee-main-content">
+                <form onSubmit={handleSubmit(onSubmit)} className="form">
+                {/* Header Section */}
                 <div className="header-section">
-                    <h1 className="form-title">Registration</h1>
+                    <div className="header-title">
+                        <h1 className="form-title">Registration</h1>
+                        <span className="cohort-tag">Cohort 4</span>
+                    </div>
+                    <p className="lorem-text">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                    </p>
                 </div>
 
-                <div className="section">
-                    <div className="section-header">
-                        <h2 className="section-title">Personal Information</h2>
-                        <div className="cohort-select">
-                            <select id="cohort" {...register("cohort")} className="cohort-dropdown">
-                                <option value="">Select</option>
-                                {cohorts.map((c) => <option key={c} value={c}>{c}</option>)}
+                {/* Personal Information */}
+                <h2 className="mini-title">Personal Information</h2>
+                <hr />
+
+                <div className="two-column">
+                    {/* Left side: Government ID and Names */}
+                    <div className="left-column">
+                        <h className="section-title">Gouvernement ID and Names</h>
+
+                        <div className="field-group ">
+                            <label>First Name</label>
+                            <input {...register("firstName")} className="input" placeholder="First name" />
+                        </div>
+
+                        <div className="field-group">
+                            <label>Middle Name</label>
+                            <input {...register("middleName")} className="input" placeholder="Middle name" />
+                        </div>
+
+                        <div className="field-group">
+                            <label>Last Name</label>
+                            <input {...register("lastName")} className="input" placeholder="Last name" />
+                        </div>
+
+                        <div className="field-group">
+                            <h className="section-title">Where you live in Ontario</h>
+                            <label>Select a location</label>
+                            <select {...register("city")} className="input custom-select">
+                                <option value="">Select a city</option>
+                                {citiesInOntario.map((city) => (
+                                    <option key={city} value={city}>{city}</option>
+                                ))}
                             </select>
                         </div>
                     </div>
 
-                    <div className="field-row">
+                    {/* Right side: Contact Information */}
+                    <div className="right-column">
+                        <h className="section-title">Contact Information</h>
+
                         <div className="field-group">
-                            <label htmlFor="firstName">First Name</label>
-                            <input id="firstName" {...register("firstName")} className="input" />
+                            <label>Email</label>
+                            <input type="email" {...register("email")} className="input" placeholder="email address" />
                         </div>
 
                         <div className="field-group">
-                            <label htmlFor="email">Email</label>
-                            <input id="email" type="email" {...register("email")} className="input" />
-                        </div>
-                    </div>
-
-                    <div className="field-row">
-                        <div className="field-group">
-                            <label htmlFor="middleName">Middle Name</label>
-                            <input id="middleName" {...register("middleName")} className="input" />
+                            <label>Contact Number</label>
+                            <input {...register("contactNumber")} className="input" placeholder="Tel #" />
                         </div>
 
-                        <div className="field-group">
-                            <label htmlFor="contactNumber">Contact Number</label>
-                            <input id="contactNumber" {...register("contactNumber")} className="input" />
+                        <div className="field-group last-field-group">
+                            <h className="section-title">When where you born?</h>
+                            <label>Select your date of birth</label>
+                            <input type="date" {...register("dateOfBirth")} className="input" />
                         </div>
-                    </div>
-
-                    <div className="field-row">
-                        <div className="field-group">
-                            <label htmlFor="lastName">Last Name</label>
-                            <input id="lastName" {...register("lastName")} className="input" />
-                        </div>
-
-                        <div className="field-group">
-                            <label htmlFor="dateOfBirth">Date of Birth</label>
-                            <input
-                                id="dateOfBirth"
-                                type="date"
-                                {...register("dateOfBirth")}
-                                className="input"
-                            />
-                        </div>
-                    </div>
-
-                    <div className="field-row">
-                        <div className="field-group location-field-group">
-                            <label htmlFor="location">Where you live in Ontario</label>
-                            <input id="location" {...register("location")} className="input" />
-                        </div>
-                        <div className="field-group location-spacer"></div>
                     </div>
                 </div>
 
-                <div className="section">
-                    <h2 className="section-title">Identity and Demographics</h2>
+                {/* Social Medias*/}
+                <h className="mini-title">Social Media</h>
+                <hr />
 
-                    <div className="field-group">
-                        <label
-                            className="identity-label"
-                            style={{ fontWeight: 'bold' }}
-                        >
-                            What do you identify as
-                        </label>
-                        <div className="radio-options">
-                            <label className="radio-label">
-                                <input type="radio" value="Man" {...register("gender")} />
-                                <span className="radio-text">Man</span>
-                            </label>
-                            <label className="radio-label">
-                                <input type="radio" value="Woman" {...register("gender")} />
-                                <span className="radio-text">Woman</span>
-                            </label>
-                            <label className="radio-label">
-                                <input type="radio" value="Two spirit" {...register("gender")} />
-                                <span className="radio-text">Two spirit</span>
-                            </label>
-                            <label className="radio-label">
-                                <input type="radio" value="Other" {...register("gender")} />
-                                <span className="radio-text">Other</span>
-                            </label>
+                <div className="two-column">
+                    <div className="left-column">
+                        <div className="field-group">
+                            <label>LinkedIn</label>
+                            <input {...register("LinkedIn")} className="input" placeholder="url..." />
+                        </div>
+
+                        <div className="field-group">
+                            <label>Instagram</label>
+                            <input {...register("Instagram")} className="input" placeholder="url" />
                         </div>
                     </div>
+                    <div className="right-column">
+                        <div className="field-group">
+                            <label>Facebook</label>
+                            <input {...register("LinkedIn")} className="input" placeholder="url..." />
+                        </div>
 
-                    <div className="field-group">
-                        <label className="disability-label"
-                            style={{ fontWeight: 'bold' }}>Are you a person of disability</label>
-                        <div className="radio-options">
-                            <label className="radio-label">
-                                <input type="radio" value="Yes" {...register("disability")} />
-                                <span className="radio-text">Yes</span>
-                            </label>
-                            <label className="radio-label">
-                                <input type="radio" value="No" {...register("disability")} />
-                                <span className="radio-text">No</span>
-                            </label>
+                        <div className="field-group">
+                            <label>TikTok</label>
+                            <input {...register("Instagram")} className="input" placeholder="url" />
                         </div>
                     </div>
+                </div>
 
-                    <div className="field-group">
-                        <label htmlFor="ethnicity" className="ethnicity-label"
-                            style={{ fontWeight: 'bold' }}>What is your ethnicity</label>
-                        <div className="select-wrapper">
-                            <select id="ethnicity" {...register("ethnicity")} className="input">
+                {/* Identity and Demographics */}
+                <h className="mini-title">Identity and Demographics</h>
+                <hr />
+
+                <div className="two-column">
+                    <div className="left-column">
+                        <div className="field-group">
+                            <label>What is your gender?</label>
+                            <select {...register("gender")} className="input custom-select">
                                 <option value="">Select</option>
-                                {ethnicities.map((e) => <option key={e} value={e}>{e}</option>)}
+                                <option value="Man">Man</option>
+                                <option value="Woman">Woman</option>
+                                <option value="Two spirit">Two Spirit</option>
+                                <option value="Other">Other</option>
                             </select>
                         </div>
-                    </div>
 
-                    <div className="field-group">
-                        <label className="consider-label"
-                            style={{ fontWeight: 'bold' }}>Do you consider yourself an</label>
-                        <div className="checkbox-options">
-                            <label className="checkbox-label">
-                                <input type="checkbox" value="Immigrant" {...register("selfIdentity")} />
-                                <span className="checkbox-text">Immigrant</span>
-                            </label>
-                            <label className="checkbox-label">
-                                <input type="checkbox" value="New comer" {...register("selfIdentity")} />
-                                <span className="checkbox-text">New comer</span>
-                            </label>
-                            <label className="checkbox-label">
-                                <input type="checkbox" value="Other" {...register("selfIdentity")} />
-                                <span className="checkbox-text">Other</span>
-                            </label>
-                        </div>
-                    </div>
-
-                    <div className="field-group">
-                        <label htmlFor="immigrationStatus" className="immigration-label"
-                            style={{ fontWeight: 'bold' }}>What is your immigration status in Canada</label>
-                        <div className="select-wrapper">
-                            <select id="immigrationStatus" {...register("immigrationStatus")} className="input">
+                        <div className="field-group">
+                            <label>What is your immigration status?</label>
+                            <select {...register("immigrationStatus")} className="input custom-select">
                                 <option value="">Select</option>
                                 {immigrationStatuses.map((status) => (
                                     <option key={status} value={status}>{status}</option>
@@ -172,10 +164,99 @@ export default function TraineeRegistration() {
                             </select>
                         </div>
                     </div>
+
+                    <div className="right-column">
+                        <div className="field-group">
+                            <label>What is your ethnicity?</label>
+                            <select {...register("ethnicity")} className="input custom-select">
+                                <option value="">Select</option>
+                                {ethnicities.map((ethnicity) => (
+                                    <option key={ethnicity} value={ethnicity}>{ethnicity}</option>
+                                ))}
+                            </select>
+                        </div>
+                    </div>
                 </div>
 
+                {/* Justice System and Program History */}
+                <h className="mini-title">Justice System & Program History</h>
+                <hr />
+
+                <div className="two-column">
+                    <div className="left-column">
+                        <h className="section-title">Ontario Programs</h>
+                        <label className="checkbox-label">
+                            <input type="checkbox" {...register("ontarioProgram")} />
+                            <span className="check-text">I have been attending a program funded by the Government of Ontario</span>
+                        </label>
+
+                        {watchOntarioProgram && (
+                            <div className="field-group">
+                                <label>Select Year</label>
+                                <select {...register("ontarioYear")} className="input">
+                                    <option value="">Select Year</option>
+                                    {years.map((year) => (
+                                        <option key={year} value={year}>{year}</option>
+                                    ))}
+                                </select>
+                            </div>
+                        )}
+                    </div>
+
+                    <div className="right-column">
+                        <h className="next-line">Justice System</h>
+                        <div className="checkbox-wrapper">
+                            <input type="checkbox" {...register("justiceSystem")} />
+                            <label className="justice-label">
+                                I have been involved with the justice system
+                            </label>
+                        </div>
+
+                    </div>
+                </div>
+
+                {/* Financial and Employment Information */}
+                <h className="mini-title">Financial and Employment Information</h>
+                <hr />
+
+                <div className="two-column">
+
+
+                    <div className="left-column">
+                        <label className="label-status">Employment Status</label>
+                        <div className="field-group">
+                            <select {...register("employmentStatus")} className="input custom-select">
+                                <option value="">Select</option>
+                                {employmentStatuses.map((status) => (
+                                    <option key={status} value={status}>{status}</option>
+                                ))}
+                            </select>
+                        </div>
+                    </div>
+
+                    <div className="right-column">
+                        <h className="section-title">SIN Declaration</h>
+                        <div className="checkbox-wrapper">
+                            <input type="checkbox" {...register("sinDeclaration")} />
+                            <label className="justice-label">
+                                I have a social insurance number
+                            </label>
+                        </div>
+
+                        {watchSinDeclaration && (
+                            <div className="field-group">
+                                <label>Enter your SIN</label>
+                                <input placeholder="Social Insurance Number" {...register("sinNumber")} className="input" />
+                            </div>
+                        )}
+                    </div>
+                </div>
+
+                <hr />
                 <button type="submit" className="submit-btn">Submit</button>
-            </form>
-        </div>
+
+                </form>
+            </div>
+        </div >
     );
 }

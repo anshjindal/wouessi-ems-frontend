@@ -13,6 +13,10 @@ import TraineeLogin from './pages/TraineeLogin/TraineeLogin';
 import DtsDashboardLayout from './pages/DtsDashboard/DtsDashboardLayout';
 import DashboardHome from './pages/DtsDashboard/Home';
 import Vetting from './pages/DtsDashboard/Vetting/Vetting';
+import VettingProcess from './pages/VettingProcess/VettingProcess';
+import StudentList from "./pages/StudentList/StudentList";
+import CohortManagement from "./pages/CohortManagement/CohortManagement"
+
 
 const AppRouter = () => {
     return (
@@ -27,12 +31,15 @@ const AppRouter = () => {
                 <Route path="/about" element={<AboutUs />} />
                 <Route path="/employee-management" element={<EmployeeManagement />} />
                 <Route path="/onboarding" element={<Onboarding />} />
-                <Route path="/trainee_registration" element={<TraineeRegistration />} />
-                <Route path="/trainee_login" element={<TraineeLogin />} />
-                <Route path="/dts_dashboard" element={<DtsDashboardLayout />}>
+                <Route path="/trainee-registration" element={<TraineeRegistration />} />
+                <Route path="/trainee-login" element={<TraineeLogin />} />
+                <Route path="/dts-dashboard" element={<DtsDashboardLayout />}>
                     <Route index element={<DashboardHome />} />
                     <Route path="vetting" element={<Vetting />} />
                 </Route>
+                <Route path="/vetting-process" element={<VettingProcess/>} />
+                <Route path="/student-list" element={<StudentList/>} />
+                <Route path="/cohort-management" element={<CohortManagement/>} />
             </Routes>
         </Router>
     );
