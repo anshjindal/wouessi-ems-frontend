@@ -1,0 +1,150 @@
+.onboard-container {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 20px;
+    background: #f8f9fa;
+}
+
+.container h3 {
+    padding-top: 20px;
+    font-size: 24px;
+}
+
+.onboard-title {
+    font-size: 24px;
+    color: #2b03a2;
+    text-align: center;
+    margin-bottom: 40px;
+    font-weight: 700;
+}
+
+
+.card {
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease-in-out;
+}
+
+.card:hover {
+    transform: scale(1.01);
+}
+
+
+.card-title {
+    font-size: 20px;
+    font-weight: bold;
+    color: #2b03a2;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+
+.form-label {
+    font-weight: 600;
+    color: #343a40;
+}
+
+
+input[type="file"] {
+    padding: 10px;
+    font-size: 14px;
+    border-radius: 6px;
+    border: 1px solid #ced4da;
+    background-color: #ffffff;
+}
+
+
+.upload-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 5px;
+}
+
+
+.badge {
+    font-size: 13px;
+    padding: 6px 10px;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.badge.bg-warning {
+    background-color: #ffc107 !important;
+    color: #212529 !important;
+}
+
+.badge.bg-success {
+    background-color: #198754 !important;
+}
+
+
+.preview-btn,
+.remove-btn {
+    border: none;
+    background: none;
+    cursor: pointer;
+    padding: 6px;
+    font-size: 16px;
+}
+
+.preview-btn {
+    color: #0d6efd;
+}
+
+.preview-btn:hover {
+    color: #084298;
+}
+
+.remove-btn {
+    color: #dc3545;
+}
+
+.remove-btn:hover {
+    color: #a71d2a;
+}
+
+
+.progress {
+    height: 20px;
+    border-radius: 12px;
+    background-color: #e9ecef;
+}
+
+.progress-bar {
+    font-weight: bold;
+    transition: width 0.4s ease-in-out;
+}
+
+
+.onboard-submit-btn {
+    padding: 14px;
+    background-color: #2b03a2;
+    color: #fff;
+    font-weight: bold;
+    font-size: 16px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 40px;
+    transition: background-color 0.3s ease;
+}
+
+.onboard-submit-btn:hover {
+    background-color: #380063;
+}
+
+
+@media (max-width: 768px) {
+    .onboard-container {
+        padding: 10px;
+    }
+
+    .card-title {
+        font-size: 18px;
+    }
+}

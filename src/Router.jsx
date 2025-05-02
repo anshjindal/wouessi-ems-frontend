@@ -1,3 +1,4 @@
+
 import React from "react";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import AboutUs from "./pages/AboutUs/AboutUs";
@@ -7,6 +8,7 @@ import EmployeeManagement from "./pages/EmployeeManagement/EmployeeManagement";
 import ForgotPassword from "./pages/ForgotPassword/ForgotPassword";
 import Login from "./pages/Login/Login";
 import Leaves from "./pages/Leaves/Leaves";
+import Onboarding from "./pages/Onboarding/Onboarding";
 import Profile from "./pages/Profile/Profile";
 
 const AppRouter = () => {
@@ -18,6 +20,7 @@ const AppRouter = () => {
                 <Route path="/forgot-password" element={<ForgotPassword />} />
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/leaves" element={<Leaves />} />
+                <Route path="/onboarding" element={<Onboarding />} />
                 <Route path="/profile" element={<Profile />} />
                 <Route path="/contact" element={<ContactUs />} />
                 <Route path="/about" element={<AboutUs />} />
