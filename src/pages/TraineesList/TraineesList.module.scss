@@ -1,0 +1,335 @@
+.trainee-app-container {
+    display: flex;
+    height: 100vh;
+    background-color: #f8f9fa;
+    margin-left: 15rem;
+}
+
+.trainee-main-content {
+    flex: 1;
+    padding: 40px;
+    width: calc(100% - 220px);
+    overflow-y: auto;
+}
+
+/* Sidebar Styles */
+.trainee-sidebar {
+    width: 220px;
+    padding: 40px 20px;
+    background-color: white;
+    border-right: 1px solid #e9ecef;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+}
+
+.trainee-sidebar-header {
+    padding: 0 0 20px 0;
+    border-bottom: 1px solid #e9ecef;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.trainee-title-nav-icon {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+}
+
+.trainee-sidebar-subtitle {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+    font-size: 11px;
+    line-height: 110%;
+    color: #6c757d;
+    margin: 0;
+}
+
+.trainee-sidebar-nav {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    flex-grow: 1;
+}
+
+.trainee-nav-item {
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    color: #495057;
+    cursor: pointer;
+    border-radius: 10px;
+    transition: background-color 0.2s;
+}
+
+.trainee-nav-item:hover {
+    background-color: #f0f0f0;
+}
+
+.trainee-nav-text {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 20px;
+    color: rgba(0, 0, 0, 0.8);
+    margin-left: 10px;
+}
+
+.trainee-nav-icon {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+}
+
+.trainee-sidebar-footer {
+    padding-top: 20px;
+    border-top: 1px solid #e9ecef;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    margin-top: auto;
+}
+
+.trainee-nav-item.active {
+    background-color: #DEDEDE;
+}
+
+/* Title Styles */
+.trainee-title-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 24px;
+    gap: 12px;
+}
+
+.trainee-form-title {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 32px;
+    color: #42505C;
+    margin: 0;
+}
+
+.trainee-cohort-tag {
+    background-color: #E8E2FC;
+    color: #0b0b0b;
+    font-weight: 400;
+    font-size: 14px;
+    padding: 6px 12px;
+    border-radius: 9px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 25px;
+}
+
+.highlight-no {
+    background-color: #F2F2F2;
+    display: inline-block;
+    padding: 2px 6px;
+    border-radius: 10px;
+}
+
+.highlight-inactive {
+    background-color: #F2F2F2;
+    display: inline-block;
+    padding: 2px 6px;
+    border-radius: 10px;
+}
+
+/* Stats Banner Styles */
+.trainee-stats-banner {
+    background-color: #D4E4EF;
+    border-radius: 15px;
+    padding: 16px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.trainee-stats-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.trainee-stats-indicator {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background-color: #333;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.trainee-stats-info p {
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    color: #333;
+    margin: 0;
+}
+
+.trainee-vetting-btn {
+    background-color: #2B03A2;
+    color: white;
+    border: none;
+    border-radius: 50px;
+    padding: 8px 16px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.trainee-lock-icon {
+    font-size: 12px;
+}
+
+/* Controls Styles */
+.trainee-controls {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-bottom: 16px;
+    gap: 8px;
+}
+
+.trainee-filters-btn {
+    background-color: transparent;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 6px 12px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    color: #333;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.trainee-download-btn {
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 6px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Table Styles */
+.trainee-table-container {
+    background-color: #FFFFFF;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px #E2E8F0;
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+
+.trainee-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.trainee-table th {
+    padding: 12px 16px;
+    border-bottom: 1px solid #E2E8F0;
+    text-align: left;
+    font-weight: 500;
+    color: #555;
+    background-color: #ECECEC;
+    ;
+}
+
+.trainee-table td {
+    padding: 12px 16px;
+    border-bottom: 1px solid #E2E8F0;
+    color: #333;
+    font-size: 14px;
+}
+
+.trainee-table-header {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.trainee-sort-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    color: #aaa;
+}
+
+.trainee-sort-button:hover {
+    color: #333;
+}
+
+/* Pagination Styles */
+.trainee-pagination {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    justify-content: center;
+    margin-top: 20px;
+    margin-right: 23rem;
+    padding: 10px;
+}
+
+.trainee-pagination-btn {
+    padding: 6px 12px;
+    background-color: transparent;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    color: #333;
+    cursor: pointer;
+    border: none;
+    border-radius: 4px;
+    text-decoration: none;
+}
+
+.trainee-pagination-btn.active {
+    color: #333;
+    text-decoration: underline;
+    background-color: transparent;
+}
+
+.trainee-pagination-btn:disabled {
+    color: #ccc;
+    cursor: not-allowed;
+}
+
+.trainee-pagination-btn-circle {
+    color: #ccc;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.trainee-pagination-info {
+    margin-left: 16px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    color: #777;
+}

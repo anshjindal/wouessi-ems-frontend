@@ -1,0 +1,356 @@
+.cohorts-management-app-container {
+    display: flex;
+    height: 100vh;
+    background-color: #f8f9fa;
+    margin-left: 15rem;
+}
+
+.cohorts-management-main-content {
+    flex: 1;
+    padding: 40px 60px;
+    overflow-y: auto;
+}
+
+.cohorts-management-header {
+    margin-bottom: 40px;
+}
+
+.cohorts-management-title {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 32px;
+    color: #42505C;
+    margin-bottom: 10px;
+}
+
+.cohorts-management-subtitle {
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    color: #666;
+    line-height: 1.5;
+    max-width: 600px;
+}
+
+.cohorts-management-sidebar {
+    width: 220px;
+    padding: 40px 20px;
+    background-color: white;
+    border-right: 1px solid #e9ecef;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    box-sizing: border-box;
+}
+
+.cohorts-management-sidebar-header {
+    padding: 0 0 20px 0;
+    border-bottom: 1px solid #e9ecef;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.cohorts-management-sidebar-title {
+    font-size: 20px;
+    font-weight: bold;
+    color: #6c757d;
+    margin-top: 0;
+}
+
+.cohorts-management-sidebar-subtitle {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+    font-size: 11px;
+    line-height: 110%;
+    letter-spacing: 0;
+    vertical-align: middle;
+    color: #6c757d;
+}
+
+.cohorts-management-sidebar-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    flex-grow: 1;
+}
+
+.cohorts-management-nav-item {
+    padding: 10px 15px;
+    display: flex;
+    align-items: center;
+    color: #495057;
+    cursor: pointer;
+    border-radius: 10px;
+    transition: background-color 0.2s;
+}
+
+.cohorts-management-nav-item:hover {
+    background-color: #f0f0f0;
+}
+
+.cohorts-management-nav-text {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 20px;
+    color: rgba(0, 0, 0, 0.8);
+    margin-left: 10px;
+}
+
+.cohorts-management-nav-icon {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+}
+
+.cohorts-management-sidebar-footer {
+    padding-top: 20px;
+    border-top: 1px solid #e9ecef;
+    font-size: 12px;
+    color: #6c757d;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+}
+
+.cohorts-management-nav-item.active {
+    background-color: #DEDEDE;
+}
+
+/* Process Timeline Styles */
+.process-timeline {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    margin-top: 20px;
+}
+
+.process-timeline::before {
+    content: '';
+    position: absolute;
+    left: 10px;
+    top: 10px;
+    bottom: 10px;
+    width: 2px;
+    height: 70rem;
+    background-color: #e0e0e0;
+    z-index: 0;
+}
+
+.process-step {
+    display: flex;
+    position: relative;
+    margin-bottom: 40px;
+}
+
+.step-indicator {
+    position: relative;
+    width: 20px;
+    height: 20px;
+    z-index: 1;
+    margin-right: 20px;
+}
+
+.step-circle {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: #e0e0e0;
+}
+
+.step-indicator.active .step-circle {
+    background-color: #b4b1c9;
+}
+
+.process-step-content {
+    flex: 1;
+    margin-left: 10px;
+}
+
+.process-step-title {
+    font-family: 'Poppins', sans-serif;
+    font-size: 18px;
+    font-weight: 500;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.process-step-body {
+    background-color: white;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+/* Active Cohort Selector */
+.active-cohort-selector {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.selector-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.selector-label {
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    color: #333333;
+    width: 97px;
+    height: 23px;
+}
+
+.cohort-select {
+    padding: 8px 30px 8px 15px;
+    border: 1px solid #ddd;
+    color: #333333;
+    border-radius: 4px;
+    background-color: white;
+    font-size: 14px;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23999999' d='M6 8.825L1.175 4 2.05 3.125 6 7.075 9.95 3.125 10.825 4 6 8.825z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    width: 70px;
+}
+
+.activate-btn {
+    background-color: #b6a6f9;
+    color: white;
+    border: none;
+    border-radius: 50px;
+    padding: 8px 8px 16px 12px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    width: 183px;
+    height: 40px;
+}
+
+.activate-btn:hover {
+    background-color: #9d8df7;
+}
+
+/* Stats Container */
+.stats-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 20px;
+    background-color: #F0F0F0;
+    width: 829px;
+    height: 70px;
+    border-radius: 8px;
+    padding-left: 10px;
+    margin-right: 30px;
+}
+
+
+
+.stats-label {
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    color: #333333;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.stats-count {
+    background-color: #D4E4EF;
+    color: #333;
+    padding: 2px 8px;
+    border-radius: 50px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.vetting-btn {
+    background-color: #b6a6f9;
+    color: white;
+    border: none;
+    border-radius: 50px;
+    padding: 8px 44px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    gap: 8px;
+    margin-left: 125px;
+    width: 251px;
+    height: 40px;
+}
+
+.lock-icon {
+    font-size: 12px;
+}
+
+/* Notes Section */
+.notes-section {
+    margin-top: 20px;
+}
+
+.notes-label {
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 10px;
+}
+
+.notes-textarea {
+    width: 527px;
+    height: 139px;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    resize: none;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.note-btn {
+    background-color: white;
+    color: #2B03AB;
+    border: 1px solid #2B03AB;
+    border-radius: 50px;
+    padding: 6px 16px ;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    width: 168px;
+    height: 40px;
+    margin-left: 22.5rem;
+}
+
+.note-btn:hover {
+    background-color: #f8f9fa;
+}
+
+.active-cohort-content {
+    background-color: #F0F0F0;
+    padding: 20px;
+    border-radius: 8px;
+    width: 829px;
+    height: 78px;
+}
+
+.registration-body {
+    background-color: transparent;
+    box-shadow: none;
+    padding: 0;
+}
+
+.information-body {
+    background-color: transparent;
+    box-shadow: none;
+    padding: 0;
+}
+
