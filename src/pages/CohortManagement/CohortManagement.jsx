@@ -1,9 +1,4 @@
-import React, { useState } from 'react';
-import EMSIcon from '../../assets/icons/EMS.png';
-import studentIcon from '../../assets/icons/student.png';
-import studentSystemIcon from '../../assets/icons/vettingSytem.png';
-import cohortsIcon from '../../assets/icons/cohorts.png';
-import wouessiLogo from '../../assets/icons/wouessiVettingLogo.png';
+import { useState } from 'react';
 import styles from "./CohortManagement.module.scss";
 import SideBar from "../../components/Sidebar"
 
@@ -11,6 +6,7 @@ import SideBar from "../../components/Sidebar"
 
 
 // Step indicator component
+// @ts-ignore
 const StepIndicator = ({ active }) => (
     <div className={`${styles["step-indicator"]} ${active ? styles.active : ''}`}>
         <div className={styles["step-circle"]}></div>
@@ -18,6 +14,7 @@ const StepIndicator = ({ active }) => (
 );
 
 // Stats Badge component
+// @ts-ignore
 const StatsBadge = ({ label, count }) => (
     <div className={styles["stats-badge"]}>
         <span className={styles["stats-label"]}>{label}</span>
@@ -26,6 +23,7 @@ const StatsBadge = ({ label, count }) => (
 );
 
 // Process step component 
+// @ts-ignore
 const ProcessStep = ({ title, children, isActive, showStepIndicator = true, contentClass = '' }) => (
     <div className={styles["process-step"]}>
         {showStepIndicator && <StepIndicator active={isActive} />}
@@ -47,6 +45,7 @@ const CohortManagement = () => {
         financial: ''
     });
 
+    // @ts-ignore
     const handleNoteChange = (section, value) => {
         setNotes(prev => ({
             ...prev,
@@ -56,7 +55,9 @@ const CohortManagement = () => {
 
     return (
         <div className={styles["cohorts-management-app-container"]}>
-            <SideBar activeItem="cohorts" />
+            <SideBar 
+// @ts-ignore
+            activeItem="cohorts" />
             <div className={styles["cohorts-management-main-content"]}>
                 <div className={styles["cohorts-management-header"]}>
                     <h1 className={styles["cohorts-management-title"]}>Cohorts management</h1>
