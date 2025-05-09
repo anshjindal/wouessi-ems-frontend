@@ -3,7 +3,7 @@ import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import TraineeRegistration from "./pages/TraineeRegistration/TraineeRegistration";
 import TraineeLogin from './pages/TraineeLogin/TraineeLogin';
 import VettingProcess from './pages/VettingProcess/VettingProcess';
-import StudentList from "./pages/StudentList/StudentList";
+import StudentList from "./pages/TraineesList/TraineesList";
 import CohortManagement from "./pages/CohortManagement/CohortManagement"
 import GlobalWrapper from "./layouts/GlobalWrapper";
 

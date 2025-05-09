@@ -1,56 +1,128 @@
-import React, { useState } from 'react';
-import EMSIcon from '../../assets/icons/EMS.png';
-import studentIcon from '../../assets/icons/student.png';
-import studentSystemIcon from '../../assets/icons/vettingSytem.png';
-import cohortsIcon from '../../assets/icons/cohorts.png';
-import wouessiLogo from '../../assets/icons/wouessiVettingLogo.png';
-import '../../styles/pages/CohortManagement.css'; // 🔄 updated CSS filename
+import { useState } from 'react';
+import styles from "./CohortManagement.module.scss";
+import SideBar from "../../components/Sidebar"
 
 // Sidebar component
-const Sidebar = ({ activeItem }) => (
-    <div className="cohorts-management-sidebar">
-        <div className="cohorts-management-sidebar-header">
-            <img src={EMSIcon} alt="EMS" className="cohorts-management-title-nav-icon" />
-            <p className="cohorts-management-sidebar-subtitle">Employee Management System</p>
-        </div>
-        <hr />
-        <nav className="cohorts-management-sidebar-nav">
-            <div className={`cohorts-management-nav-item ${activeItem === 'students' ? '' : ''}`}>
-                <img src={studentIcon} alt="Students" className="cohorts-management-nav-icon" />
-                <span className="cohorts-management-nav-text">Students</span>
+
+
+// Step indicator component
+// @ts-ignore
+const StepIndicator = ({ active }) => (
+    <div className={`${styles["step-indicator"]} ${active ? styles.active : ''}`}>
+        <div className={styles["step-circle"]}></div>
+    </div>
+);
+
+// Stats Badge component
+// @ts-ignore
+const StatsBadge = ({ label, count }) => (
+    <div className={styles["stats-badge"]}>
+        <span className={styles["stats-label"]}>{label}</span>
+        <span className={styles["stats-count"]}>{count}</span>
+    </div>
+);
+
+// Process step component 
+// @ts-ignore
+const ProcessStep = ({ title, children, isActive, showStepIndicator = true, contentClass = '' }) => (
+    <div className={styles["process-step"]}>
+        {showStepIndicator && <StepIndicator active={isActive} />}
+        <div className={styles["process-step-content"]}>
+            <h3 className={styles["process-step-title"]}>{title}</h3>
+            <hr />
+            <div className={`${styles["process-step-body"]} ${contentClass}`}>
+                {children}
             </div>
-            <div className={`cohorts-management-nav-item ${activeItem === 'system' ? '' : ''}`}>
-                <img src={studentSystemIcon} alt="System" className="cohorts-management-nav-icon" />
-                <span className="cohorts-management-nav-text">Vetting System</span>
-            </div>
-            <div className={`cohorts-management-nav-item ${activeItem === 'cohorts' ? 'cohorts-management-active' : ''}`}>
-                <img src={cohortsIcon} alt="Cohorts" className="cohorts-management-nav-icon" />
-                <span className="cohorts-management-nav-text">Cohorts</span>
-            </div>
-        </nav>
-        <div className="cohorts-management-sidebar-footer">
-            <img src={wouessiLogo} alt="Logo" className="cohorts-management-nav-icon" />
-            <p className="cohorts-management-sidebar-subtitle">EMS is a product of</p>
-            <p className="cohorts-management-sidebar-subtitle">Wouessi Inc.</p>
         </div>
     </div>
 );
 
-const TitleWithCohort = ({ cohort }) => (
-    <div className="cohorts-management-title-row">
-        <h1 className="cohorts-management-form-title">Cohort Management</h1>
-        <span className="cohorts-management-cohort-tag">{cohort}</span>
-    </div>
-);
-
+// Main component
 const CohortManagement = () => {
-    const [cohort] = useState('Cohort 4');
+    const [activeCohort, setActiveCohort] = useState('4');
+    const [notes, setNotes] = useState({
+        registration: '',
+        financial: ''
+    });
+
+    // @ts-ignore
+    const handleNoteChange = (section, value) => {
+        setNotes(prev => ({
+            ...prev,
+            [section]: value
+        }));
+    };
 
     return (
-        <div className="cohorts-management-app-container">
-            <Sidebar activeItem="cohorts" />
-            <div className="cohorts-management-main-content">
-                <TitleWithCohort cohort={cohort} />
+        <div className={styles["cohorts-management-app-container"]}>
+            <div className={styles["cohorts-management-main-content"]}>
+                <div className={styles["cohorts-management-header"]}>
+                    <h1 className={styles["cohorts-management-title"]}>Cohorts management</h1>
+                    <p className={styles["cohorts-management-subtitle"]}>
+                        Create, activate or change the currently active cohort. Every step of an active
+                        cohort can be monitored and managed.
+                    </p>
+                </div>
+
+                <div className={styles["process-timeline"]}>
+                    {/* Active Cohort Section */}
+                    <ProcessStep title="Active cohort" isActive={true} contentClass={styles["active-cohort-content"]}>
+                        <div className={styles["active-cohort-selector"]}>
+                            <div className={styles["selector-wrapper"]}>
+                                <span className={styles["selector-label"]}>Active cohort</span>
+                                <select
+                                    value={activeCohort}
+                                    onChange={(e) => setActiveCohort(e.target.value)}
+                                    className={styles["cohort-select"]}
+                                >
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                </select>
+                            </div>
+                            <button className={styles["activate-btn"]}>Activate</button>
+                        </div>
+                    </ProcessStep>
+
+                    {/* Registration Section */}
+                    <ProcessStep title="Registration" isActive={true} contentClass={styles["registration-body"]}>
+                        <div className={styles["stats-container"]}>
+                            <StatsBadge label="Registered" count="450" />
+                            <StatsBadge label="Qualified" count="383" />
+                            <StatsBadge label="Unqualified" count="67" />
+                            <button className={styles["vetting-btn"]}>
+                                Run vetting process
+                                <span className={styles["lock-icon"]}>🔒</span>
+                            </button>
+                        </div>
+                        <div className={styles["notes-section"]}>
+                            <p className={styles["notes-label"]}>Keep track of what happened at this stage of the process.</p>
+                            <textarea
+                                value={notes.registration}
+                                onChange={(e) => handleNoteChange('registration', e.target.value)}
+                                className={styles["notes-textarea"]}
+                            />
+                        </div>
+                        <button className={styles["note-btn"]}>Note</button>
+                    </ProcessStep>
+
+                    {/* Financial Information Section */}
+                    <ProcessStep title="Financial information" isActive={true}contentClass={styles["information-body"]}>
+                        <div className={styles["stats-container"]}>
+                            <StatsBadge label="Registered" count="450" />
+                            <StatsBadge label="Void cheque submitted" count="383" />
+                        </div>
+                        <div className={styles["notes-section"]}>
+                            <p className={styles["notes-label"]}>Keep track of what happened at this stage of the process.</p>
+                            <textarea
+                                value={notes.financial}
+                                onChange={(e) => handleNoteChange('financial', e.target.value)}
+                                className={styles["notes-textarea"]}
+                            />
+                            <button className={styles["note-btn"]}>Note</button>
+                        </div>
+                    </ProcessStep>
+                </div>
             </div>
         </div>
     );
