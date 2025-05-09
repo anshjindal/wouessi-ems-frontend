@@ -118,7 +118,7 @@ const VettingProcess = () => {
         <div className={styles["vetting-main-content"]}>
             <form onSubmit={handleSubmit(onSubmit)}>
                 <div className={styles["vetting-title-row"]}>
-                    <h1 className={styles["vetting-form-title"]}>Registration</h1>
+                    <h1 className={styles["vetting-form-title"]}>Vetting Process</h1>
                     <span className={styles["vetting-cohort-tag"]}>{cohort}</span>
                 </div>
                 <p className={styles["vetting-page-subtitle"]}>
