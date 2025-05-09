@@ -1,6 +1,5 @@
 import { useForm } from "react-hook-form";
-import "../../styles/pages/TraineeRegistration.css";
-
+import styles from "./TraineeRegistration.module.scss"
 const traineeCohorts = ["Cohort 1", "Cohort 2", "Cohort 3", "Cohort 4"];
 const citiesInOntario = [
   "Toronto",

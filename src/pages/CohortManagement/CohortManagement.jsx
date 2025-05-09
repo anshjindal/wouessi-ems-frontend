@@ -55,9 +55,6 @@ const CohortManagement = () => {
 
     return (
         <div className={styles["cohorts-management-app-container"]}>
-            <SideBar 
-// @ts-ignore
-            activeItem="cohorts" />
             <div className={styles["cohorts-management-main-content"]}>
                 <div className={styles["cohorts-management-header"]}>
                     <h1 className={styles["cohorts-management-title"]}>Cohorts management</h1>

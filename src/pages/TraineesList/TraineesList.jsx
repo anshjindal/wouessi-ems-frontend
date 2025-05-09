@@ -1,6 +1,6 @@
 import { useState } from "react";
 import styles from "./TraineesList.module.scss";
-import SideBar from "../../components/Sidebar"
+
 
 // Title Component 
 // @ts-ignore
@@ -94,10 +94,6 @@ const TraineesList = () => {
 
   return (
     <div className={styles["trainee-app-container"]}>
-      <SideBar
-        // @ts-ignore
-        activeItem="trainees" />
-
       <div className={styles["trainee-main-content"]}>
         <TitleWithCohort title="Trainees list" cohort={cohort} />
 

@@ -1,14 +1,11 @@
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
-import student from "../../assets/icons/student.png";
-import vettingSystem from "../../assets/icons/vettingSytem.png";
-import cohorts from "../../assets/icons/cohorts.png";
-import EMS from "../../assets/icons/EMS.png";
-import wouessiVettingLogo from "../../assets/icons/wouessiVettingLogo.png";
-import "../../styles/pages/VettingProcess.css";
+import styles from "./VettingProcess.module.scss";
 
 const VettingProcess = () => {
+    // @ts-ignore
     const [cohort, setCohort] = useState("Cohort 4");
+    // @ts-ignore
     const [registeredStudents, setRegisteredStudents] = useState(450);
     const [selectedCriteriaCount, setSelectedCriteriaCount] = useState(0);
 
@@ -86,6 +83,7 @@ const VettingProcess = () => {
     useEffect(() => {
         let count = 0;
 
+        // @ts-ignore
         const countCheckboxes = (obj) => {
             if (!obj) return 0;
             return Object.values(obj).filter((value) => value === true).length;
@@ -110,37 +108,38 @@ const VettingProcess = () => {
         setSelectedCriteriaCount(count);
     }, [watchAllFields]);
 
+    // @ts-ignore
     const onSubmit = (data) => {
         console.log("Form submitted with:", data);
         alert(`Vetting process started with ${selectedCriteriaCount} criteria`);
     };
 
     return (
-        <div className="vetting-main-content">
+        <div className={styles["vetting-main-content"]}>
             <form onSubmit={handleSubmit(onSubmit)}>
-                <div className="vetting-title-row">
-                    <h1 className="vetting-form-title">Registration</h1>
-                    <span className="vetting-cohort-tag">{cohort}</span>
+                <div className={styles["vetting-title-row"]}>
+                    <h1 className={styles["vetting-form-title"]}>Registration</h1>
+                    <span className={styles["vetting-cohort-tag"]}>{cohort}</span>
                 </div>
-                <p className="vetting-page-subtitle">
+                <p className={styles["vetting-page-subtitle"]}>
                     Select the eligibility requirements for this cohort's{" "}
                     <strong>{registeredStudents} registered students</strong>.
                 </p>
 
                 {/* Age Range */}
-                <div className="vetting-age-range-section">
-                    <p className="vetting-section-label">Aged between:</p>
-                    <div className="vetting-age-range-controls">
+                <div className={styles["vetting-age-range-section"]}>
+                    <p className={styles["vetting-section-label"]}>Aged between:</p>
+                    <div className={styles["vetting-age-range-controls"]}>
                         <select
-                            className="vetting-age-select vetting-custom-select"
+                            className={`${styles["vetting-age-select"]} ${styles["vetting-custom-select"]}`}
                             {...register("ageMin", { required: true })}
                         >
                             <option value="18">18</option>
                             <option value="20">20</option>
                         </select>
-                        <span className="vetting-age-connector">and</span>
+                        <span className={styles["vetting-age-connector"]}>and</span>
                         <select
-                            className="vetting-age-select vetting-custom-select"
+                            className={`${styles["vetting-age-select"]} ${styles["vetting-custom-select"]}`}
                             {...register("ageMax", { required: true })}
                         >
                             <option value="28">28</option>
@@ -149,104 +148,104 @@ const VettingProcess = () => {
                         </select>
                     </div>
                     {errors.ageMin && (
-                        <span className="error-message">Minimum age is required</span>
+                        <span className={styles["error-message"]}>Minimum age is required</span>
                     )}
                     {errors.ageMax && (
-                        <span className="error-message">Maximum age is required</span>
+                        <span className={styles["error-message"]}>Maximum age is required</span>
                     )}
                 </div>
 
                 {/* Categories Grid */}
-                <div className="vetting-criteria-grid">
+                <div className={styles["vetting-criteria-grid"]}>
                     {/* Gender */}
-                    <div className="vetting-criteria-section">
-                        <h3 className="vetting-criteria-title">Gender/ Identify</h3>
-                        <div className="vetting-checkbox-group">
-                            <label className="vetting-checkbox-label">
+                    <div className={styles["vetting-criteria-section"]}>
+                        <h3 className={styles["vetting-criteria-title"]}>Gender/ Identify</h3>
+                        <div className={styles["vetting-checkbox-group"]}>
+                            <label className={styles["vetting-checkbox-label"]}>
                                 <input
                                     type="checkbox"
-                                    className="vetting-checkbox-input"
+                                    className={styles["vetting-checkbox-input"]}
                                     {...register("gender.men")}
                                 />
-                                <span className="vetting-checkbox-text">Men</span>
+                                <span className={styles["vetting-checkbox-text"]}>Men</span>
                             </label>
-                            <label className="vetting-checkbox-label">
+                            <label className={styles["vetting-checkbox-label"]}>
                                 <input
                                     type="checkbox"
-                                    className="vetting-checkbox-input"
+                                    className={styles["vetting-checkbox-input"]}
                                     {...register("gender.woman")}
                                 />
-                                <span className="vetting-checkbox-text">Woman</span>
+                                <span className={styles["vetting-checkbox-text"]}>Woman</span>
                             </label>
-                            <label className="vetting-checkbox-label">
+                            <label className={styles["vetting-checkbox-label"]}>
                                 <input
                                     type="checkbox"
-                                    className="vetting-checkbox-input"
+                                    className={styles["vetting-checkbox-input"]}
                                     {...register("gender.twoSpirit")}
                                 />
-                                <span className="vetting-checkbox-text">Two spirit</span>
+                                <span className={styles["vetting-checkbox-text"]}>Two spirit</span>
                             </label>
                         </div>
                     </div>
 
                     {/* Ethnicity */}
-                    <div className="vetting-criteria-section">
-                        <h3 className="vetting-criteria-title">Ethnicity</h3>
-                        <div className="vetting-checkbox-group">
-                            <label className="vetting-checkbox-label">
+                    <div className={styles["vetting-criteria-section"]}>
+                        <h3 className={styles["vetting-criteria-title"]}>Ethnicity</h3>
+                        <div className={styles["vetting-checkbox-group"]}>
+                            <label className={styles["vetting-checkbox-label"]}>
                                 <input
                                     type="checkbox"
-                                    className="vetting-checkbox-input"
+                                    className={styles["vetting-checkbox-input"]}
                                     {...register("ethnicity.black")}
                                 />
-                                <span className="vetting-checkbox-text">Black</span>
+                                <span className={styles["vetting-checkbox-text"]}>Black</span>
                             </label>
-                            <label className="vetting-checkbox-label">
+                            <label className={styles["vetting-checkbox-label"]}>
                                 <input
                                     type="checkbox"
-                                    className="vetting-checkbox-input"
+                                    className={styles["vetting-checkbox-input"]}
                                     {...register("ethnicity.white")}
                                 />
-                                <span className="vetting-checkbox-text">White</span>
+                                <span className={styles["vetting-checkbox-text"]}>White</span>
                             </label>
-                            <label className="vetting-checkbox-label">
+                            <label className={styles["vetting-checkbox-label"]}>
                                 <input
                                     type="checkbox"
-                                    className="vetting-checkbox-input"
+                                    className={styles["vetting-checkbox-input"]}
                                     {...register("ethnicity.indigenous")}
                                 />
-                                <span className="vetting-checkbox-text">Indigenous</span>
+                                <span className={styles["vetting-checkbox-text"]}>Indigenous</span>
                             </label>
                         </div>
                     </div>
 
                     {/* Demographics */}
-                    <div className="vetting-criteria-section">
-                        <h3 className="vetting-criteria-title">Demographics</h3>
-                        <div className="vetting-checkbox-group">
-                            <label className="vetting-checkbox-label">
+                    <div className={styles["vetting-criteria-section"]}>
+                        <h3 className={styles["vetting-criteria-title"]}>Demographics</h3>
+                        <div className={styles["vetting-checkbox-group"]}>
+                            <label className={styles["vetting-checkbox-label"]}>
                                 <input
                                     type="checkbox"
-                                    className="vetting-checkbox-input"
+                                    className={styles["vetting-checkbox-input"]}
                                     {...register("demographics.immigrant")}
                                 />
-                                <span className="vetting-checkbox-text">Immigrant</span>
+                                <span className={styles["vetting-checkbox-text"]}>Immigrant</span>
                             </label>
-                            <label className="vetting-checkbox-label">
+                            <label className={styles["vetting-checkbox-label"]}>
                                 <input
                                     type="checkbox"
-                                    className="vetting-checkbox-input"
+                                    className={styles["vetting-checkbox-input"]}
                                     {...register("demographics.newComer")}
                                 />
-                                <span className="vetting-checkbox-text">New comer</span>
+                                <span className={styles["vetting-checkbox-text"]}>New comer</span>
                             </label>
-                            <label className="vetting-checkbox-label">
+                            <label className={styles["vetting-checkbox-label"]}>
                                 <input
                                     type="checkbox"
-                                    className="vetting-checkbox-input"
+                                    className={styles["vetting-checkbox-input"]}
                                     {...register("demographics.peopleWithDisability")}
                                 />
-                                <span className="vetting-checkbox-text">
+                                <span className={styles["vetting-checkbox-text"]}>
                                     People with disability
                                 </span>
                             </label>
@@ -254,303 +253,303 @@ const VettingProcess = () => {
                     </div>
 
                     {/* Training */}
-                    <div className="vetting-criteria-section">
-                        <h3 className="vetting-criteria-title">Completed training</h3>
-                        <div className="vetting-checkbox-group">
-                            <label className="vetting-checkbox-label">
+                    <div className={styles["vetting-criteria-section"]}>
+                        <h3 className={styles["vetting-criteria-title"]}>Completed training</h3>
+                        <div className={styles["vetting-checkbox-group"]}>
+                            <label className={styles["vetting-checkbox-label"]}>
                                 <input
                                     type="checkbox"
-                                    className="vetting-checkbox-input"
+                                    className={styles["vetting-checkbox-input"]}
                                     {...register("training.mobileDevelopment")}
                                 />
-                                <span className="vetting-checkbox-text">
+                                <span className={styles["vetting-checkbox-text"]}>
                                     Mobile and software development
                                 </span>
                             </label>
-                            <label className="vetting-checkbox-label">
+                            <label className={styles["vetting-checkbox-label"]}>
                                 <input
                                     type="checkbox"
-                                    className="vetting-checkbox-input"
+                                    className={styles["vetting-checkbox-input"]}
                                     {...register("training.dataScience")}
                                 />
-                                <span className="vetting-checkbox-text">Data science</span>
+                                <span className={styles["vetting-checkbox-text"]}>Data science</span>
                             </label>
-                            <label className="vetting-checkbox-label">
+                            <label className={styles["vetting-checkbox-label"]}>
                                 <input
                                     type="vetting-checkbox"
-                                    className="vetting-checkbox-input"
+                                    className={styles["vetting-checkbox-input"]}
                                 />
-                                <span className="vetting-checkbox-text">...</span>
+                                <span className={styles["vetting-checkbox-text"]}>...</span>
                             </label>
-                            <label className="vetting-checkbox-label">
-                                <input type="checkbox" className="vetting-checkbox-input" />
-                                <span className="vetting-checkbox-text">...</span>
+                            <label className={styles["vetting-checkbox-label"]}>
+                                <input type="checkbox" className={styles["vetting-checkbox-input"]} />
+                                <span className={styles["vetting-checkbox-text"]}>...</span>
                             </label>
                         </div>
                     </div>
 
                     {/* Location */}
-                    <div className="vetting-criteria-section">
-                        <h3 className="vetting-criteria-title">Location in Ontario</h3>
-                        <div className="vetting-checkbox-group">
-                            <label className="vetting-checkbox-label">
+                    <div className={styles["vetting-criteria-section"]}>
+                        <h3 className={styles["vetting-criteria-title"]}>Location in Ontario</h3>
+                        <div className={styles["vetting-checkbox-group"]}>
+                            <label className={styles["vetting-checkbox-label"]}>
                                 <input
                                     type="checkbox"
-                                    className="vetting-checkbox-input"
+                                    className={styles["vetting-checkbox-input"]}
                                     {...register("location.southern")}
                                 />
-                                <span className="vetting-checkbox-text">Southern Ontario</span>
+                                <span className={styles["vetting-checkbox-text"]}>Southern Ontario</span>
                             </label>
-                            <label className="vetting-checkbox-label">
-                                <input type="checkbox" className="vetting-checkbox-input" />
-                                <span className="vetting-checkbox-text">Northern Ontario</span>
+                            <label className={styles["vetting-checkbox-label"]}>
+                                <input type="checkbox" className={styles["vetting-checkbox-input"]} />
+                                <span className={styles["vetting-checkbox-text"]}>Northern Ontario</span>
                             </label>
-                            <label className="vetting-checkbox-label">
+                            <label className={styles["vetting-checkbox-label"]}>
                                 <input
                                     type="checkbox"
-                                    className="vetting-checkbox-input"
+                                    className={styles["vetting-checkbox-input"]}
                                     {...register("location.northern")}
                                 />
-                                <span className="vetting-checkbox-text">Northern Ontario</span>
+                                <span className={styles["vetting-checkbox-text"]}>Northern Ontario</span>
                             </label>
-                            <label className="vetting-checkbox-label">
-                                <input type="checkbox" className="vetting-checkbox-input" />
-                                <span className="vetting-checkbox-text">...</span>
+                            <label className={styles["vetting-checkbox-label"]}>
+                                <input type="checkbox" className={styles["vetting-checkbox-input"]} />
+                                <span className={styles["vetting-checkbox-text"]}>...</span>
                             </label>
                         </div>
                     </div>
 
                     {/* Immigration Status */}
-                    <div className="vetting-criteria-section">
-                        <h3 className="vetting-criteria-title">Immigration status</h3>
-                        <div className="vetting-checkbox-group">
-                            <label className="vetting-checkbox-label">
+                    <div className={styles["vetting-criteria-section"]}>
+                        <h3 className={styles["vetting-criteria-title"]}>Immigration status</h3>
+                        <div className={styles["vetting-checkbox-group"]}>
+                            <label className={styles["vetting-checkbox-label"]}>
                                 <input
                                     type="checkbox"
-                                    className="vetting-checkbox-input"
+                                    className={styles["vetting-checkbox-input"]}
                                     {...register("immigrationStatus.canadianCitizen")}
                                 />
-                                <span className="vetting-checkbox-text">Canadian Citizen</span>
+                                <span className={styles["vetting-checkbox-text"]}>Canadian Citizen</span>
                             </label>
-                            <label className="vetting-checkbox-label">
+                            <label className={styles["vetting-checkbox-label"]}>
                                 <input
                                     type="checkbox"
-                                    className="vetting-checkbox-input"
+                                    className={styles["vetting-checkbox-input"]}
                                     {...register("immigrationStatus.permanentStudent")}
                                 />
-                                <span className="vetting-checkbox-text">Permanent Student</span>
+                                <span className={styles["vetting-checkbox-text"]}>Permanent Student</span>
                             </label>
-                            <label className="vetting-checkbox-label">
+                            <label className={styles["vetting-checkbox-label"]}>
                                 <input
                                     type="checkbox"
-                                    className="vetting-checkbox-input"
+                                    className={styles["vetting-checkbox-input"]}
                                     {...register("immigrationStatus.internationalStudent")}
                                 />
-                                <span className="vetting-checkbox-text">
+                                <span className={styles["vetting-checkbox-text"]}>
                                     International student
                                 </span>
                             </label>
-                            <label className="vetting-checkbox-label">
-                                <input type="checkbox" className="vetting-checkbox-input" />
-                                <span className="vetting-checkbox-text">...</span>
+                            <label className={styles["vetting-checkbox-label"]}>
+                                <input type="checkbox" className={styles["vetting-checkbox-input"]} />
+                                <span className={styles["vetting-checkbox-text"]}>...</span>
                             </label>
                         </div>
                     </div>
 
                     {/* Justice System */}
-                    <div className="vetting-criteria-section">
-                        <h3 className="vetting-criteria-title">Justice system</h3>
-                        <div className="vetting-checkbox-group">
-                            <label className="vetting-checkbox-label">
+                    <div className={styles["vetting-criteria-section"]}>
+                        <h3 className={styles["vetting-criteria-title"]}>Justice system</h3>
+                        <div className={styles["vetting-checkbox-group"]}>
+                            <label className={styles["vetting-checkbox-label"]}>
                                 <input
                                     type="checkbox"
-                                    className="vetting-checkbox-input"
+                                    className={styles["vetting-checkbox-input"]}
                                     {...register("justiceSystem.one")}
                                 />
-                                <span className="vetting-checkbox-text">1</span>
+                                <span className={styles["vetting-checkbox-text"]}>1</span>
                             </label>
-                            <label className="vetting-checkbox-label">
+                            <label className={styles["vetting-checkbox-label"]}>
                                 <input
                                     type="checkbox"
-                                    className="vetting-checkbox-input"
+                                    className={styles["vetting-checkbox-input"]}
                                     {...register("justiceSystem.two")}
                                 />
-                                <span className="vetting-checkbox-text">2</span>
+                                <span className={styles["vetting-checkbox-text"]}>2</span>
                             </label>
-                            <label className="vetting-checkbox-label">
+                            <label className={styles["vetting-checkbox-label"]}>
                                 <input
                                     type="checkbox"
-                                    className="vetting-checkbox-input"
+                                    className={styles["vetting-checkbox-input"]}
                                     {...register("justiceSystem.three")}
                                 />
-                                <span className="vetting-checkbox-text">3</span>
+                                <span className={styles["vetting-checkbox-text"]}>3</span>
                             </label>
                         </div>
                     </div>
 
                     {/* Employment Status */}
-                    <div className="vetting-criteria-section">
-                        <h3 className="vetting-criteria-title">Employment status</h3>
-                        <div className="vetting-checkbox-group">
-                            <label className="vetting-checkbox-label">
+                    <div className={styles["vetting-criteria-section"]}>
+                        <h3 className={styles["vetting-criteria-title"]}>Employment status</h3>
+                        <div className={styles["vetting-checkbox-group"]}>
+                            <label className={styles["vetting-checkbox-label"]}>
                                 <input
                                     type="checkbox"
-                                    className="vetting-checkbox-input"
+                                    className={styles["vetting-checkbox-input"]}
                                     {...register("employmentStatus.openWorkPermit")}
                                 />
-                                <span className="vetting-checkbox-text">Open work permit</span>
+                                <span className={styles["vetting-checkbox-text"]}>Open work permit</span>
                             </label>
-                            <label className="vetting-checkbox-label">
+                            <label className={styles["vetting-checkbox-label"]}>
                                 <input
                                     type="checkbox"
-                                    className="vetting-checkbox-input"
+                                    className={styles["vetting-checkbox-input"]}
                                     {...register("employmentStatus.onEI")}
                                 />
-                                <span className="vetting-checkbox-text">On EI</span>
+                                <span className={styles["vetting-checkbox-text"]}>On EI</span>
                             </label>
-                            <label className="vetting-checkbox-label">
-                                <input type="checkbox" className="vetting-checkbox-input" />
-                                <span className="vetting-checkbox-text">...</span>
+                            <label className={styles["vetting-checkbox-label"]}>
+                                <input type="checkbox" className={styles["vetting-checkbox-input"]} />
+                                <span className={styles["vetting-checkbox-text"]}>...</span>
                             </label>
                         </div>
                     </div>
 
                     {/* SIN Number Series */}
-                    <div className="vetting-criteria-section">
-                        <h3 className="vetting-criteria-title">SIN Number series</h3>
-                        <div className="vetting-sin-grid">
-                            <label className="vetting-checkbox-label">
+                    <div className={styles["vetting-criteria-section"]}>
+                        <h3 className={styles["vetting-criteria-title"]}>SIN Number series</h3>
+                        <div className={styles["vetting-sin-grid"]}>
+                            <label className={styles["vetting-checkbox-label"]}>
                                 <input
                                     type="checkbox"
-                                    className="vetting-checkbox-input"
+                                    className={styles["vetting-checkbox-input"]}
                                     {...register("sinSeries.s500")}
                                 />
-                                <span className="vetting-checkbox-text">500</span>
+                                <span className={styles["vetting-checkbox-text"]}>500</span>
                             </label>
-                            <label className="vetting-checkbox-label">
+                            <label className={styles["vetting-checkbox-label"]}>
                                 <input
                                     type="checkbox"
-                                    className="vetting-checkbox-input"
+                                    className={styles["vetting-checkbox-input"]}
                                     {...register("sinSeries.s800")}
                                 />
-                                <span className="vetting-checkbox-text">800</span>
+                                <span className={styles["vetting-checkbox-text"]}>800</span>
                             </label>
-                            <label className="vetting-checkbox-label">
+                            <label className={styles["vetting-checkbox-label"]}>
                                 <input
                                     type="checkbox"
-                                    className="vetting-checkbox-input"
+                                    className={styles["vetting-checkbox-input"]}
                                     {...register("sinSeries.s600")}
                                 />
-                                <span className="vetting-checkbox-text">600</span>
+                                <span className={styles["vetting-checkbox-text"]}>600</span>
                             </label>
-                            <label className="vetting-checkbox-label">
+                            <label className={styles["vetting-checkbox-label"]}>
                                 <input
                                     type="checkbox"
-                                    className="vetting-checkbox-input"
+                                    className={styles["vetting-checkbox-input"]}
                                     {...register("sinSeries.s900")}
                                 />
-                                <span className="vetting-checkbox-text">900</span>
+                                <span className={styles["vetting-checkbox-text"]}>900</span>
                             </label>
-                            <label className="vetting-checkbox-label">
+                            <label className={styles["vetting-checkbox-label"]}>
                                 <input
                                     type="checkbox"
-                                    className="vetting-checkbox-input"
+                                    className={styles["vetting-checkbox-input"]}
                                     {...register("sinSeries.s700")}
                                 />
-                                <span className="vetting-checkbox-text">700</span>
+                                <span className={styles["vetting-checkbox-text"]}>700</span>
                             </label>
                         </div>
                     </div>
 
                     {/* Not Participated */}
-                    <div className="vetting-criteria-section">
-                        <h3 className="vetting-criteria-title">
+                    <div className={styles["vetting-criteria-section"]}>
+                        <h3 className={styles["vetting-criteria-title"]}>
                             Have NOT participated in another Ontario Skill Development program
                             in
                         </h3>
-                        <div className="vetting-checkbox-group">
-                            <label className="vetting-checkbox-label">
+                        <div className={styles["vetting-checkbox-group"]}>
+                            <label className={styles["vetting-checkbox-label"]}>
                                 <input
                                     type="checkbox"
-                                    className="vetting-checkbox-input"
+                                    className={styles["vetting-checkbox-input"]}
                                     {...register("notParticipated.y2022")}
                                 />
-                                <span className="vetting-checkbox-text">2022</span>
+                                <span className={styles["vetting-checkbox-text"]}>2022</span>
                             </label>
-                            <label className="vetting-checkbox-label">
+                            <label className={styles["vetting-checkbox-label"]}>
                                 <input
                                     type="checkbox"
-                                    className="vetting-checkbox-input"
+                                    className={styles["vetting-checkbox-input"]}
                                     {...register("notParticipated.y2023")}
                                 />
-                                <span className="vetting-checkbox-text">2023</span>
+                                <span className={styles["vetting-checkbox-text"]}>2023</span>
                             </label>
-                            <label className="vetting-checkbox-label">
+                            <label className={styles["vetting-checkbox-label"]}>
                                 <input
                                     type="checkbox"
-                                    className="vetting-checkbox-input"
+                                    className={styles["vetting-checkbox-input"]}
                                     {...register("notParticipated.y2024")}
                                 />
-                                <span className="vetting-checkbox-text">2024</span>
+                                <span className={styles["vetting-checkbox-text"]}>2024</span>
                             </label>
-                            <label className="vetting-checkbox-label">
+                            <label className={styles["vetting-checkbox-label"]}>
                                 <input
                                     type="checkbox"
-                                    className="vetting-checkbox-input"
+                                    className={styles["vetting-checkbox-input"]}
                                     {...register("notParticipated.y2025")}
                                 />
-                                <span className="vetting-checkbox-text">2025</span>
+                                <span className={styles["vetting-checkbox-text"]}>2025</span>
                             </label>
                         </div>
                     </div>
 
                     {/* Participated */}
-                    <div className="vetting-criteria-section">
-                        <h3 className="vetting-criteria-title">
+                    <div className={styles["vetting-criteria-section"]}>
+                        <h3 className={styles["vetting-criteria-title"]}>
                             Have participated in another Ontario Skill Development program in
                         </h3>
-                        <div className="vetting-checkbox-group">
-                            <label className="vetting-checkbox-label">
+                        <div className={styles["vetting-checkbox-group"]}>
+                            <label className={styles["vetting-checkbox-label"]}>
                                 <input
                                     type="checkbox"
-                                    className="vetting-checkbox-input"
+                                    className={styles["vetting-checkbox-input"]}
                                     {...register("participated.y2022")}
                                 />
-                                <span className="vetting-checkbox-text">2022</span>
+                                <span className={styles["vetting-checkbox-text"]}>2022</span>
                             </label>
-                            <label className="vetting-checkbox-label">
+                            <label className={styles["vetting-checkbox-label"]}>
                                 <input
                                     type="checkbox"
-                                    className="vetting-checkbox-input"
+                                    className={styles["vetting-checkbox-input"]}
                                     {...register("participated.y2023")}
                                 />
-                                <span className="vetting-checkbox-text">2023</span>
+                                <span className={styles["vetting-checkbox-text"]}>2023</span>
                             </label>
-                            <label className="vetting-checkbox-label">
+                            <label className={styles["vetting-checkbox-label"]}>
                                 <input
                                     type="checkbox"
-                                    className="vetting-checkbox-input"
+                                    className={styles["vetting-checkbox-input"]}
                                     {...register("participated.y2024")}
                                 />
-                                <span className="vetting-checkbox-text">2024</span>
+                                <span className={styles["vetting-checkbox-text"]}>2024</span>
                             </label>
-                            <label className="vetting-checkbox-label">
+                            <label className={styles["vetting-checkbox-label"]}>
                                 <input
                                     type="checkbox"
-                                    className="vetting-checkbox-input"
+                                    className={styles["vetting-checkbox-input"]}
                                     {...register("participated.y2025")}
                                 />
-                                <span className="vetting-checkbox-text">2025</span>
+                                <span className={styles["vetting-checkbox-text"]}>2025</span>
                             </label>
                         </div>
                     </div>
                 </div>
 
                 {/* Run vetting process button */}
-                <div className="vetting-button-container">
-                    <button type="submit" className="vetting-button">
+                <div className={styles["vetting-button-container"]}>
+                    <button type="submit" className={styles["vetting-button"]}>
                         Run vetting process
-                        <span className="vetting-button-badge">
+                        <span className={styles["vetting-button-badge"]}>
                             {selectedCriteriaCount}
                         </span>
                     </button>

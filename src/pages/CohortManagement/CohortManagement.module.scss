@@ -1,7 +1,6 @@
 .cohorts-management-app-container {
     display: flex;
     height: 100vh;
-    background-color: #f8f9fa;
     margin-left: 15rem;
 }
 
@@ -31,92 +30,6 @@
     max-width: 600px;
 }
 
-.cohorts-management-sidebar {
-    width: 220px;
-    padding: 40px 20px;
-    background-color: white;
-    border-right: 1px solid #e9ecef;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    box-sizing: border-box;
-}
-
-.cohorts-management-sidebar-header {
-    padding: 0 0 20px 0;
-    border-bottom: 1px solid #e9ecef;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.cohorts-management-sidebar-title {
-    font-size: 20px;
-    font-weight: bold;
-    color: #6c757d;
-    margin-top: 0;
-}
-
-.cohorts-management-sidebar-subtitle {
-    font-family: 'Poppins', sans-serif;
-    font-weight: 400;
-    font-size: 11px;
-    line-height: 110%;
-    letter-spacing: 0;
-    vertical-align: middle;
-    color: #6c757d;
-}
-
-.cohorts-management-sidebar-nav {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    flex-grow: 1;
-}
-
-.cohorts-management-nav-item {
-    padding: 10px 15px;
-    display: flex;
-    align-items: center;
-    color: #495057;
-    cursor: pointer;
-    border-radius: 10px;
-    transition: background-color 0.2s;
-}
-
-.cohorts-management-nav-item:hover {
-    background-color: #f0f0f0;
-}
-
-.cohorts-management-nav-text {
-    font-family: 'Poppins', sans-serif;
-    font-weight: 500;
-    font-size: 14px;
-    line-height: 20px;
-    color: rgba(0, 0, 0, 0.8);
-    margin-left: 10px;
-}
-
-.cohorts-management-nav-icon {
-    width: 24px;
-    height: 24px;
-    object-fit: contain;
-}
-
-.cohorts-management-sidebar-footer {
-    padding-top: 20px;
-    border-top: 1px solid #e9ecef;
-    font-size: 12px;
-    color: #6c757d;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 5px;
-}
-
-.cohorts-management-nav-item.active {
-    background-color: #DEDEDE;
-}
 
 /* Process Timeline Styles */
 .process-timeline {
